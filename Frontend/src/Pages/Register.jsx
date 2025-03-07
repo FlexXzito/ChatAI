@@ -87,8 +87,7 @@ export function Register() {
 
   const navigate = useNavigate();
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
+  const handleSubmit = async () => {
     try {
       const res = await axios.post(
         "http://localhost:3000/psicologia/RegistroUser",
@@ -99,7 +98,6 @@ export function Register() {
       setResponse("Error al enviar datos");
       console.log(error);
     }
-    // Redirecciona después de un registro exitoso
     navigate("/");
   };
 
@@ -235,7 +233,8 @@ export function Register() {
                 </button>
               ) : (
                 <button
-                  type="submit"
+                  type="button"
+                  onClick={handleSubmit}
                   className="px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 shadow-md"
                 >
                   Registrar

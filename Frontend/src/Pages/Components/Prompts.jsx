@@ -110,22 +110,6 @@ export const prompt = {
       type: "text",
       comment: "Escribe tu número de documento 📄 y pulsa 'Siguiente'",
     },
-    // Credenciales
-    {
-      label: "Nombre de Usuario",
-      name: "usuario",
-      type: "text",
-      comment:
-        "Crea un nombre de usuario 🧐 (Recuerda que lo necesitarás para iniciar sesión ❗) y pulsa 'Siguiente'",
-    },
-    {
-      label: "Contraseña",
-      name: "contrasena",
-      type: "password",
-      comment:
-        "Establece tu contraseña 🙈 (Recuerda que lo necesitarás para iniciar sesión ❗) y pulsa 'Siguiente'",
-    },
-  
     // Información personal adicional
     {
       label: "Edad",
@@ -692,6 +676,21 @@ export const prompt = {
         { label: "Sí", value: "Si" },
         { label: "No", value: "No" },
       ],
+    },
+    // Credenciales
+    {
+      label: "Nombre de Usuario",
+      name: "usuario",
+      type: "text",
+      comment:
+        "Crea un nombre de usuario 🧐 (Recuerda que lo necesitarás para iniciar sesión ❗) y pulsa 'Siguiente'",
+    },
+    {
+      label: "Contraseña",
+      name: "contrasena",
+      type: "password",
+      comment:
+        "Establece tu contraseña 🙈 (Recuerda que lo necesitarás para iniciar sesión ❗) y pulsa 'Siguiente'",
     },
     {
       label: "Formulario terminado",
