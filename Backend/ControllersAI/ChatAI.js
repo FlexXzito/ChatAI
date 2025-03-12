@@ -64,8 +64,7 @@ export const ChatAI = async (req, res) => {
 
         const assistantMessage = response.choices[0].message.content;
         const toolCalls = response.choices[0].message.tool_calls;
-        console.log('Respuesta de OpenAI:', toolCalls);
-
+        
         if (toolCalls && toolCalls.length > 0) {
             for (const call of toolCalls) {
                 if (call.type === 'function' && call.function.name === 'llamartest') {

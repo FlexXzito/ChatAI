@@ -6,6 +6,7 @@ dist/
 
 # Prisma files
 .prisma/
+bun.lock
 
 # Local env files
 .env

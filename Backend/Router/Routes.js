@@ -7,6 +7,7 @@ import CargarChatRute from './CargarChatRouter.js';
 import DeleteChatRute from './DeleteChatRouter.js';
 import AdminConsultasUserRute from './AdminConsultasUserRouter.js';
 import UpdateUserRute from './UpdateUserRouter.js';
+import StringTomp3 from './StringToMp3Router.js';
 
 export {
     RegistroUserRute,
@@ -18,4 +19,5 @@ export {
     DeleteChatRute,
     AdminConsultasUserRute,
     UpdateUserRute,
+    StringTomp3,
 };

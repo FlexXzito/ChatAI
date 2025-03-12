@@ -10,7 +10,8 @@ import {
     CargarChatRute, 
     DeleteChatRute, 
     AdminConsultasUserRute, 
-    UpdateUserRute
+    UpdateUserRute,
+    StringTomp3
 } from "./Router/Routes.js";
 
 const app = express();
@@ -26,5 +27,6 @@ app.use('/psicologia', CargarChatRute);
 app.use('/psicologia', DeleteChatRute);
 app.use('/psicologia', AdminConsultasUserRute);
 app.use('/psicologia', UpdateUserRute);
+app.use('/psicologia', StringTomp3);
 
 export default app;
