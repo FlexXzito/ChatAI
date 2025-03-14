@@ -1,0 +1,19 @@
+services: 
+  mysqldb:
+    image: mysql
+    environment:
+      MYSQL_DATABASE: "PsicologiaWeb"
+      MYSQL_ROOT_PASSWORD: "Up6AmZ52Nxm"
+      MYSQL_USER: "DavidFelipeVasquezPardo"
+      MYSQL_PASSWORD: "Sup3rG4m3r05054545"
+    ports:
+      - "3307:3306"
+
+  app:
+    build: .
+    depends_on:
+      - mysqldb
+    links:
+      - mysqldb
+    ports:
+      - "5000:3000"
