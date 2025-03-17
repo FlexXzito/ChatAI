@@ -22,7 +22,7 @@ export function EditDatos() {
     
     const fetchData = async () => {
         try {
-            const response = await axios.get('http://localhost:3000/psicologia/ConsultaUser', { params: { idUsuario } });
+            const response = await axios.get(`${import.meta.env.VITE_URL}/psicologia/ConsultaUser`, { params: { idUsuario } });
             setData(response.data.user);
         } catch (error) {
             console.error('Error fetching data:', error);
@@ -179,7 +179,7 @@ export function EditDatos() {
             const dataToSend = { idUsuario, ...formData };
     
             const res = await axios.put(
-                "http://localhost:3000/psicologia/updateUser",
+                `${import.meta.env.VITE_URL}/psicologia/updateUser`,
                 dataToSend
             );
             setResponse(res.data.message || "Datos enviados");

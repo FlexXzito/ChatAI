@@ -10,7 +10,7 @@ export default function Chatcontainer({ onChatLoaded }) {
 
   const ConsulChats = async () => {
     try {
-      const res = await axios.post("http://localhost:3000/psicologia/AllChats", {
+      const res = await axios.post(`${import.meta.env.VITE_URL}/psicologia/AllChats`, {
         idUsuario: Cookies.get("idUsuario"),
       });
       setData(res.data.Allchats);
@@ -36,7 +36,7 @@ export default function Chatcontainer({ onChatLoaded }) {
 
   const CargarChat = async (idchat) => {
     try {
-      const res = await axios.post("http://localhost:3000/psicologia/CargarChat", {
+      const res = await axios.post(`${import.meta.env.VITE_URL}/psicologia/CargarChat`, {
         idchat: idchat,
       });
         localStorage.setItem("conversacion", res.data.Cargar.conversacion);
@@ -49,7 +49,7 @@ export default function Chatcontainer({ onChatLoaded }) {
 
   const EliminarChat = async (idchat) => {
     try {
-      const res= await axios.delete("http://localhost:3000/psicologia/delete-chat", {
+      const res= await axios.delete(`${import.meta.env.VITE_URL}/psicologia/delete-chat`, {
         data: { chatId: idchat },
       });
       if(res.data.idchat === localStorage.getItem("idchat")) {

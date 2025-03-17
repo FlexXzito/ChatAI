@@ -9,6 +9,7 @@ import { prompt } from "./Components/Prompts";
 import BotIcon from "/BotIcon.png";
 
 export function Start() {
+  
   const [usuario, setUsuario] = useState("");
   const [contrasena, setContrasena] = useState("");
 
@@ -23,7 +24,7 @@ export function Start() {
     }
 
     try {
-      const res = await axios.post("http://localhost:3000/psicologia/Login", {
+      const res = await axios.post(`${import.meta.env.VITE_URL}/psicologia/Login`, {
         usuario,
         contrasena,
       });

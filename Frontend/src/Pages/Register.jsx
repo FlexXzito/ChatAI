@@ -92,7 +92,7 @@ export function Register() {
   const handleSubmit = async () => {
     try {
       const res = await axios.post(
-        "http://localhost:3000/psicologia/RegistroUser",
+        `${import.meta.env.VITE_URL}/psicologia/RegistroUser`,
         formData
       );
       setResponse(res.data.message || "Datos enviados");

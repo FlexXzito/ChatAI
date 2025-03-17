@@ -80,7 +80,7 @@ export function Chat() {
       const idUser = Cookies.get("idUsuario");
 
       const response = await axios.post(
-        "http://localhost:3000/psicologia/ChatAI",
+        `${import.meta.env.VITE_URL}/psicologia/ChatAI`,
         { enviarhistorial, idUser }
       );
       const assistantMessage = response.data.message;
@@ -95,7 +95,7 @@ export function Chat() {
       }
       
       try {
-        const responseMp3 = await axios.post("http://localhost:3000/psicologia/StrToMp3", {
+        const responseMp3 = await axios.post(`${import.meta.env.VITE_URL}/psicologia/StrToMp3`, {
           text: assistantMessage,
         }, { responseType: "blob" });
         
@@ -132,7 +132,7 @@ export function Chat() {
       const conversacion = localStorage.getItem("conversacion");
 
       const responsesave = await axios.post(
-        "http://localhost:3000/psicologia/ChatSave",
+        `${import.meta.env.VITE_URL}/psicologia/ChatSave`,
         {
           idchat: idchat,
           idUsuario: Cookies.get("idUsuario"),

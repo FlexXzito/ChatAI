@@ -27,7 +27,7 @@ export function Admin() {
         }
 
         try {
-            const response = await axios.get(`http://localhost:3000/psicologia/ConsultaUser`, { params });
+          const response = await axios.get(`${import.meta.env.VITE_URL}/psicologia/ConsultaUser`, { params });
             setData(response.data.user);
         } catch (error) {
             console.error('Error fetching data:', error);
