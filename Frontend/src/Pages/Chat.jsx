@@ -93,20 +93,20 @@ export function Chat() {
         audio.currentTime = 0;
         URL.revokeObjectURL(previusAudioUrl);
       }
-      
+
       try {
         const responseMp3 = await axios.post(`${import.meta.env.VITE_URL}/psicologia/StrToMp3`, {
           text: assistantMessage,
         }, { responseType: "blob" });
-        
+
         const audioUrl = URL.createObjectURL(responseMp3.data);
         setPreviusAudioUrl(audioUrl);
-        
+
         const newAudio = new Audio(audioUrl);
         newAudio.onerror = (e) => {
           console.error("Error al reproducir audio:", e);
         };
-        
+
         setAudio(newAudio);
         newAudio.play().catch(err => {
           console.error("Error iniciando reproducción:", err);
@@ -116,7 +116,7 @@ export function Chat() {
       }
 
       const conversacionAddmsgIa = JSON.parse(
-        localStorage.getItem("conversacion")  
+        localStorage.getItem("conversacion")
       );
       const addmessageIa = { role: "assistant", content: assistantMessage };
       conversacionAddmsgIa.push(addmessageIa);
@@ -184,13 +184,13 @@ export function Chat() {
     <div className="bg-blue-50 w-full h-screen flex">
       {/* Sidebar */}
       <div
-        className={`bg-gradient-to-b from-blue-500 to-blue-700 duration-300 flex flex-col justify-around ${isSidebarOpen ? "w-80" : "w-0"
-          } h-screen space-y-6 text-white shadow-xl`}
+        className={`bg-gradient-to-b from-blue-500 to-blue-700 duration-300 flex flex-col justify-around ${isSidebarOpen ? "lg:w-80 w-screen" : "lg:w-0 w-0"
+          } h-full space-y-6 text-white shadow-xl`}
       >
-        <div className="h-20 flex flex-row items-start">
+        <div className="h-20 flex flex-row items-start relative">
           <button
             onClick={handleToggleSidebar}
-            className={`transform duration-300 ${isSidebarOpen ? "ml-4 mt-4 absolute" : "ml-4 mt-4 absolute"
+            className={`transform duration-300 fixed z-50 ${isSidebarOpen ? "lg:left-4 left-4 top-4" : "lg:left-4 left-4 top-4"
               }`}
           >
             <img
@@ -201,10 +201,14 @@ export function Chat() {
           </button>
           <button
             onClick={NewChat}
-            className={`transform duration-300 ${isSidebarOpen ? "ml-64 mt-3 absolute" : "ml-14 mt-3 absolute"
+            className={`transform duration-300 fixed z-50 ${isSidebarOpen ? "left-14 top-3" : "left-14 top-3"
               }`}
           >
-            <img src={isSidebarOpen ? NuevoChat : NuecoChatAzul} className="h-10" />
+            <img
+              src={isSidebarOpen ? NuevoChat : NuecoChatAzul}
+              className="h-10"
+              alt="Nuevo Chat"
+            />
           </button>
         </div>
 
@@ -234,7 +238,7 @@ export function Chat() {
         <div
           ref={scrollDiv}
           id="chatContainer"
-          className="flex-1 overflow-y-auto space-y-6 p-8 scrollbar-thin scrollbar-thumb-blue-300 scrollbar-track-blue-100 ml-24 mr-24 scroll-hidden"
+          className="flex-1 overflow-y-auto space-y-6 p-8 scrollbar-thin scrollbar-thumb-blue-300 scrollbar-track-blue-100 lg:ml-24 lg:mr-24 scroll-hidden"
         >
           {Cookies.get("rol") && conversacion.slice(1).map((message, index) => (
             <div
@@ -250,7 +254,7 @@ export function Chat() {
           ))}
         </div>
 
-        <div className="flex items-center bg-white bg-opacity-90 p-6 border-t border-blue-100 shadow-inner ml-24 mr-24 rounded-3xl mb-4">
+        <div className="flex items-center bg-white bg-opacity-90 p-6 border-t border-blue-100 shadow-inner lg:ml-24 lg:mr-24 rounded-3xl mb-4">
           <input
             type="text"
             value={newMessage}

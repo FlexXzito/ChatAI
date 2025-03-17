@@ -75,7 +75,7 @@ export default function Chatcontainer({ onChatLoaded }) {
   };
 
   return (
-    <div className="flex flex-col w-full" key={refreshKey}>
+    <div className="flex flex-col lg:w-full w-screen h-screen" key={refreshKey}>
       {
         ordenarChatsPorFecha(data).map((values, index) => {
           const { year, mes, dia, weekday, hora } = formatFechaHora(values.fechaHora);
@@ -84,7 +84,7 @@ export default function Chatcontainer({ onChatLoaded }) {
           return (
             <div
               key={index}
-              className="flex w-full p-4 bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 mb-2"
+              className="flex lg:w-full w-80 p-4 bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 mb-2"
             >
               <button
                 onClick={() => CargarChat(idchat)}
