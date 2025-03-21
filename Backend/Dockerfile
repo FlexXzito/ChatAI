@@ -1,6 +1,12 @@
-FROM node
-WORKDIR /PsicologiaBackend
-COPY package.json .
+FROM node:18
+
+WORKDIR /app
+
+COPY package.json package-lock.json ./
 RUN npm install
+
 COPY . .
-CMD ["npx prisma generate", "npx prisma migrate deploy", "npm start"]
+
+EXPOSE 5000
+
+CMD ["npm", "start"]

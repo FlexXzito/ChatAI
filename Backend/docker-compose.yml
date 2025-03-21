@@ -1,6 +1,9 @@
+version: '3.8'
+
 services: 
   mysqldb:
-    image: mysql
+    image: mysql:latest
+    restart: always
     environment:
       MYSQL_DATABASE: "PsicologiaWeb"
       MYSQL_ROOT_PASSWORD: "Up6AmZ52Nxm"
@@ -8,12 +11,21 @@ services:
       MYSQL_PASSWORD: "Sup3rG4m3r05054545"
     ports:
       - "3307:3306"
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      retries: 5
 
   app:
+    container_name: BackendPsicologia
     build: .
     depends_on:
-      - mysqldb
-    links:
-      - mysqldb
+      mysqldb:
+        condition: service_healthy
     ports:
-      - "5000:3000"
+      - "5000:5000"
+    environment:
+      DATABASE_URL: ""
+      OPENAI_API_KEY: ""
+    volumes:
+      - .:/app
