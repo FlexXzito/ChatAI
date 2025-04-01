@@ -823,9 +823,18 @@ export const prompt = {
       comment:
         "Selecciona el estado de tu carrera (por ejemplo, en curso, finalizada) y pulsa 'Siguiente'.",
       options: [
-        { label: "En curso", value: "en_curso" },
-        { label: "Finalizada", value: "finalizada" },
-        { label: "Suspendida", value: "suspendida" },
+        { label: "1er semestre", value: "1erSemestre" },
+        { label: "2do semestre", value: "2doSemestre" },
+        { label: "3er semestre", value: "3erSemestre" },
+        { label: "4to semestre", value: "4toSemestre" },
+        { label: "5to semestre", value: "5toSemestre" },
+        { label: "6to semestre", value: "6toSemestre" },
+        { label: "7mo semestre", value: "7moSemestre" },
+        { label: "8vo semestre", value: "8voSemestre" },
+        { label: "9no semestre", value: "9noSemestre" },
+        { label: "10mo semestre", value: "10moSemestre" },
+        { label: "Finalizada", value: "Finalizada" },
+        { label: "Suspendida", value: "Suspendida" },
         { label: "NA", value: "NA" },
       ],
     },
@@ -881,14 +890,11 @@ export const prompt = {
       name: "ingresos",
       type: "select",
       comment:
-        "Selecciona el rango de tus ingresos mensuales y pulsa 'Siguiente'.",
+        "Tus ingresos mensuales son suficientes para cubrir tus necesidades basicas? selecciona y pulsa 'Siguiente'.",
       options: [
-        { label: "Menos de $1,000,000", value: "Menos de $1,000,000" },
-        { label: "$1,000,000 - $2,000,000", value: "$1,000,000 - $2,000,000" },
-        { label: "$2,000,000 - $3,000,000", value: "$2,000,000 - $3,000,000" },
-        { label: "$3,000,000 - $5,000,000", value: "$3,000,000 - $5,000,000" },
-        { label: "Más de $5,000,000", value: "Más de $5,000,000" },
-        { label: "NA", value: "NA" },
+        { label: "Si", value: "Si" },
+        { label: "En ocasiones no", value: "En ocasiones no" },
+        { label: "No, depende de apoyo externo", value: "No, depende de apoyo externo" },
       ],
     },
     {
@@ -908,9 +914,16 @@ export const prompt = {
     {
       label: "Con quién Vives",
       name: "pesonashogar",
-      type: "text",
+      type: "select",
       comment:
-        "Indica con quién vives actualmente (por ejemplo, solo, con familia, con compañeros) y pulsa 'Siguiente'.",
+        "Indica con quién vives actualmente y pulsa 'Siguiente'.",
+      options: [
+        { label: "Solo/a", value: "Solo/@" },
+        { label: "Con familia", value: "Con familia" },
+        { label: "Con amigos", value: "Con amigos" },
+        { label: "Con pareja", value: "Con pareja" },
+        { label: "Otro", value: "Otro" },
+      ]
     },
   
     // Salud y bienestar (salud)
@@ -928,9 +941,15 @@ export const prompt = {
     {
       label: "Diagnóstico de Salud Mental",
       name: "diagnostico",
-      type: "text",
+      type: "select",
       comment:
-        "Si has sido diagnosticado con alguna condición (por ejemplo, ansiedad, depresión), escríbelo y pulsa 'Siguiente'.",
+        "Si has sido diagnosticado con alguna condición, pulsa 'Siguiente'.",
+      options: [
+        { label: "Sí, ansiedad", value: "Sí, ansiedad" },
+        { label: "Sí, depresion", value: "Sí, depresion" },
+        { label: "Sí, otro", value: "Otro" },
+        { label: "No", value: "No" },
+      ]  
     },
     {
       label: "Atención Psicológica Recibida",
@@ -946,9 +965,21 @@ export const prompt = {
     {
       label: "Nivel de Estrés (1-10)",
       name: "nivelestres",
-      type: "number",
+      type: "select",
       comment:
         "Califica tu nivel actual de estrés en una escala del 1 al 10 y pulsa 'Siguiente'.",
+      options: [
+        { label: "1", value: "1" },
+        { label: "2", value: "2" },
+        { label: "3", value: "3" },
+        { label: "4", value: "4" },
+        { label: "5", value: "5" },
+        { label: "6", value: "6" },
+        { label: "7", value: "7" },
+        { label: "8", value: "8" },
+        { label: "9", value: "9" },
+        { label: "10", value: "10" },
+      ]
     },
     {
       label: "Pensamientos Suicidas",
