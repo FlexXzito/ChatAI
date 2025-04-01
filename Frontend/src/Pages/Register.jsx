@@ -1,5 +1,3 @@
-
-
 import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
@@ -10,59 +8,132 @@ import steps from "./Components/Prompts.jsx"
 
 export function Register() {
   const [step, setStep] = useState(0);
+  const [emailError, setEmailError] = useState('');
+
+  // const [formData, setFormData] = useState({
+  //   nombre: "",
+  //   apellido: "",
+  //   correo: "",
+  //   telefonoPersonal: "",
+  //   telefonoFamiliar: "",
+  //   tipoDocumento: "",
+  //   documento: "",
+  //   usuario: "",
+  //   contrasena: "",
+  //   edad: 0,
+  //   sexo: "",
+  //   genero: "",
+  //   estadocivil: "",
+  //   hijosnum: 0,
+  //   personascargo: 0,
+  //   vivienda: "",
+  //   localidad: "",
+  //   tipovivienda: "",
+  //   familiaresnum: 0,
+  //   estrato: 0,
+  //   etnico: "",
+  //   hacinamiento: "",
+  //   violencia: "",
+  //   servicios: "",
+  //   problemas: "",
+  //   tipozona: "",
+  //   tipocolegio: "",
+  //   nivelescolaridad: "",
+  //   carrera: "",
+  //   periodo: "",
+  //   motivo: "",
+  //   matedificulta: "",
+  //   nivelingles: "",
+  //   situacion: "",
+  //   ingresos: "",
+  //   sector: "",
+  //   jornada: "",
+  //   ascenso: "",
+  //   enfermecronica: "",
+  //   discapacidad: "",
+  //   suspsicoactivas: "",
+  //   alcohol: "",
+  //   Internet: "",
+  //   nicotina: "",
+  //   eps: "",
+  //   asispsicologo: "",
+  // });
+
   const [formData, setFormData] = useState({
+    // Información del usuario (informacionUsuario)
     nombre: "",
     apellido: "",
     correo: "",
     telefonoPersonal: "",
-    telefonoFamiliar: "",
-    tipoDocumento: "",
     documento: "",
+    tipoDocumento: "CC", // Valor por defecto
+
+    // Credencial (credencial)
     usuario: "",
     contrasena: "",
+
+    // Datos sociodemográficos (informacionPersonal)
     edad: 0,
     sexo: "",
-    genero: "",
     estadocivil: "",
     hijosnum: 0,
-    personascargo: 0,
-    vivienda: "",
-    localidad: "",
-    tipovivienda: "",
-    familiaresnum: 0,
-    estrato: 0,
-    etnico: "",
-    hacinamiento: "",
-    violencia: "",
-    servicios: "",
-    problemas: "",
-    tipozona: "",
-    tipocolegio: "",
-    nivelescolaridad: "",
+
+    // Información académica (educacion)
     carrera: "",
     periodo: "",
-    motivo: "",
-    matedificulta: "",
-    nivelingles: "",
+    relacionamiento: "",
+    jornada: "",    // Jornada de estudio
+    apoyos: "",    // Beca o apoyo financiero
+
+    // Situación económica/laboral (situacionlaboral)
     situacion: "",
     ingresos: "",
-    sector: "",
-    jornada: "",
-    ascenso: "",
-    enfermecronica: "",
-    discapacidad: "",
-    suspsicoactivas: "",
-    alcohol: "",
-    Internet: "",
-    nicotina: "",
-    eps: "",
+    jornadaLaboral: "", // Jornada laboral, diferenciada de la académica
+    pesonashogar: "",
+
+    // Salud y bienestar (salud)
+    accesosalud: "",
+    diagnostico: "",
     asispsicologo: "",
+    nivelestres: "",
+    pensamientosuicidas: ""
   });
 
   const [response, setResponse] = useState("");
 
+  const validateEmail = (email) => {
+    // Expresión regular para validar formato de correo
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+
+    // Lista de correos no válidos
+    const invalidEmails = [
+      'a', 'a@a', 'ya', 'test@test', 'email@',
+      'example@example', 'user@domain',
+      'test@email', 'mail@mail'
+    ];
+
+    if (!email) {
+      return 'El correo electrónico es obligatorio';
+    }
+
+    if (!emailRegex.test(email)) {
+      return 'Por favor, ingrese un correo electrónico válido';
+    }
+
+    if (invalidEmails.includes(email)) {
+      return 'Por favor, ingrese un correo electrónico válido';
+    }
+
+    return ''; // Sin errores
+  };
+
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
+
+    // Limpiar error de correo al escribir
+    if (name === 'correo') {
+      setEmailError('');
+    }
 
     if (type === "checkbox") {
       setFormData((prevData) => {
@@ -105,6 +176,16 @@ export function Register() {
 
   const nextStep = () => {
     const currentStep = steps[step];
+
+    // Validación específica para correo electrónico
+    if (currentStep.name === 'correo') {
+      const error = validateEmail(formData.correo);
+      if (error) {
+        setEmailError(error);
+        return;
+      }
+    }
+
     const currentValue = formData[currentStep?.name];
 
     // Asegurarse de que currentValue sea una cadena
@@ -162,13 +243,11 @@ export function Register() {
               <label htmlFor={currentStep.name} className="font-medium text-blue-700">
                 {currentStep.label}
               </label>
-              {(currentStep.type === "text" ||
-                currentStep.type === "email" ||
-                currentStep.type === "tel" ||
-                currentStep.type === "password" ||
-                currentStep.type === "number") && (
+
+              {currentStep.type === "text" && (
+                <>
                   <input
-                    type={currentStep.type}
+                    type="text"
                     id={currentStep.name}
                     name={currentStep.name}
                     value={formData[currentStep.name]}
@@ -177,22 +256,104 @@ export function Register() {
                     className="p-3 rounded-md border border-blue-300 focus:outline-none focus:ring-2 focus:ring-blue-500 bg-blue-50 placeholder-gray-400"
                     placeholder={`Ingresa tu ${currentStep.label?.toLowerCase()}`}
                   />
-                )}
-              {currentStep.type === "select" && (
-                <select
-                  name={currentStep.name}
-                  value={formData[currentStep.name] || ""}
-                  onChange={handleChange}
-                  className="p-3 rounded-md border border-blue-300 focus:outline-none focus:ring-2 focus:ring-blue-500 bg-blue-50 placeholder-gray-400"
-                >
-                  <option value="">Selecciona una opción</option>
-                  {currentStep.options?.map((option, index) => (
-                    <option key={index} value={option.value}>
-                      {option.label}
-                    </option>
-                  ))}
-                </select>
+                </>
               )}
+
+              {currentStep.type === "email" && (
+                <div>
+                  <input
+                    type="email"
+                    id={currentStep.name}
+                    name={currentStep.name}
+                    value={formData[currentStep.name]}
+                    onChange={handleChange}
+                    required
+                    className="w-full p-3 rounded-md border border-blue-300 focus:outline-none focus:ring-2 focus:ring-blue-500 bg-blue-50 placeholder-gray-400"
+                    placeholder={`Ingresa tu ${currentStep.label?.toLowerCase()}`}
+                  />
+                  {emailError && (
+                    <p className="text-red-500 text-sm mt-1">{emailError}</p>
+                  )}
+                </div>
+              )}
+
+              {currentStep.type === "tel" && (
+                <input
+                  type="tel"
+                  id={currentStep.name}
+                  name={currentStep.name}
+                  value={formData[currentStep.name]}
+                  onChange={handleChange}
+                  required
+                  className="p-3 rounded-md border border-blue-300 focus:outline-none focus:ring-2 focus:ring-blue-500 bg-blue-50 placeholder-gray-400"
+                  placeholder={`Ingresa tu ${currentStep.label?.toLowerCase()}`}
+                />
+              )}
+
+              {currentStep.type === "password" && (
+                <input
+                  type="password"
+                  id={currentStep.name}
+                  name={currentStep.name}
+                  value={formData[currentStep.name]}
+                  onChange={handleChange}
+                  required
+                  className="p-3 rounded-md border border-blue-300 focus:outline-none focus:ring-2 focus:ring-blue-500 bg-blue-50 placeholder-gray-400"
+                  placeholder={`Ingresa tu ${currentStep.label?.toLowerCase()}`}
+                />
+              )}
+
+              {currentStep.type === "number" && (
+                <input
+                  type="number"
+                  id={currentStep.name}
+                  name={currentStep.name}
+                  value={formData[currentStep.name]}
+                  onChange={handleChange}
+                  required
+                  className="p-3 rounded-md border border-blue-300 focus:outline-none focus:ring-2 focus:ring-blue-500 bg-blue-50 placeholder-gray-400"
+                  placeholder=""
+                />
+              )}
+
+              {currentStep.type === "select" && (
+                <>
+                  <select
+                    name={currentStep.name}
+                    value={formData[currentStep.name] || ""}
+                    onChange={(e) => {
+                      handleChange(e);
+                      if (e.target.value !== "Otro") {
+                        setFormData((prevData) => ({
+                          ...prevData,
+                          [`${currentStep.name}Otro`]: "",
+                        }));
+                      }
+                    }}
+                    required
+                    className="p-3 rounded-md border border-blue-300 focus:outline-none focus:ring-2 focus:ring-blue-500 bg-blue-50 placeholder-gray-400"
+                  >
+                    <option value="">Selecciona una opción</option>
+                    {currentStep.options?.map((option, index) => (
+                      <option key={index} value={option.value}>
+                        {option.label}
+                      </option>
+                    ))}
+                  </select>
+
+                  {formData[currentStep.name] === "Otro" && (
+                    <input
+                      type="text"
+                      name={`${currentStep.name}Otro`}
+                      value={formData[`${currentStep.name}Otro`] || ""}
+                      onChange={handleChange}
+                      placeholder={`Especifica tu ${currentStep.label?.toLowerCase()}`}
+                      className="mt-3 p-3 rounded-md border border-blue-300 focus:outline-none focus:ring-2 focus:ring-blue-500 bg-blue-50 placeholder-gray-400"
+                    />
+                  )}
+                </>
+              )}
+
               {currentStep.type === "checkbox" && (
                 <div className="flex flex-col space-y-2">
                   {currentStep.options?.map((option, index) => (
@@ -263,5 +424,4 @@ export function Register() {
       </div>
     </div>
   );
-
 }
