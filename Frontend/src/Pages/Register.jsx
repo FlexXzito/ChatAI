@@ -10,94 +10,94 @@ export function Register() {
   const [step, setStep] = useState(0);
   const [emailError, setEmailError] = useState('');
 
-  // const [formData, setFormData] = useState({
-  //   nombre: "",
-  //   apellido: "",
-  //   correo: "",
-  //   telefonoPersonal: "",
-  //   telefonoFamiliar: "",
-  //   tipoDocumento: "",
-  //   documento: "",
-  //   usuario: "",
-  //   contrasena: "",
-  //   edad: 0,
-  //   sexo: "",
-  //   genero: "",
-  //   estadocivil: "",
-  //   hijosnum: 0,
-  //   personascargo: 0,
-  //   vivienda: "",
-  //   localidad: "",
-  //   tipovivienda: "",
-  //   familiaresnum: 0,
-  //   estrato: 0,
-  //   etnico: "",
-  //   hacinamiento: "",
-  //   violencia: "",
-  //   servicios: "",
-  //   problemas: "",
-  //   tipozona: "",
-  //   tipocolegio: "",
-  //   nivelescolaridad: "",
-  //   carrera: "",
-  //   periodo: "",
-  //   motivo: "",
-  //   matedificulta: "",
-  //   nivelingles: "",
-  //   situacion: "",
-  //   ingresos: "",
-  //   sector: "",
-  //   jornada: "",
-  //   ascenso: "",
-  //   enfermecronica: "",
-  //   discapacidad: "",
-  //   suspsicoactivas: "",
-  //   alcohol: "",
-  //   Internet: "",
-  //   nicotina: "",
-  //   eps: "",
-  //   asispsicologo: "",
-  // });
-
   const [formData, setFormData] = useState({
-    // Información del usuario (informacionUsuario)
     nombre: "",
     apellido: "",
     correo: "",
     telefonoPersonal: "",
+    telefonoFamiliar: "",
+    tipoDocumento: "",
     documento: "",
-    tipoDocumento: "CC", // Valor por defecto
-
-    // Credencial (credencial)
     usuario: "",
     contrasena: "",
-
-    // Datos sociodemográficos (informacionPersonal)
     edad: 0,
     sexo: "",
+    genero: "",
     estadocivil: "",
     hijosnum: 0,
-
-    // Información académica (educacion)
+    personascargo: 0,
+    vivienda: "",
+    localidad: "",
+    tipovivienda: "",
+    familiaresnum: 0,
+    estrato: 0,
+    etnico: "",
+    hacinamiento: "",
+    violencia: "",
+    servicios: "",
+    problemas: "",
+    tipozona: "",
+    tipocolegio: "",
+    nivelescolaridad: "",
     carrera: "",
     periodo: "",
-    relacionamiento: "",
-    jornada: "",    // Jornada de estudio
-    apoyos: "",    // Beca o apoyo financiero
-
-    // Situación económica/laboral (situacionlaboral)
+    motivo: "",
+    matedificulta: "",
+    nivelingles: "",
     situacion: "",
     ingresos: "",
-    jornadaLaboral: "", // Jornada laboral, diferenciada de la académica
-    pesonashogar: "",
-
-    // Salud y bienestar (salud)
-    accesosalud: "",
-    diagnostico: "",
+    sector: "",
+    jornada: "",
+    ascenso: "",
+    enfermecronica: "",
+    discapacidad: "",
+    suspsicoactivas: "",
+    alcohol: "",
+    Internet: "",
+    nicotina: "",
+    eps: "",
     asispsicologo: "",
-    nivelestres: "",
-    pensamientosuicidas: ""
   });
+
+  // const [formData, setFormData] = useState({
+  //   // Información del usuario (informacionUsuario)
+  //   nombre: "",
+  //   apellido: "",
+  //   correo: "",
+  //   telefonoPersonal: "",
+  //   documento: "",
+  //   tipoDocumento: "CC", // Valor por defecto
+
+  //   // Credencial (credencial)
+  //   usuario: "",
+  //   contrasena: "",
+
+  //   // Datos sociodemográficos (informacionPersonal)
+  //   edad: 0,
+  //   sexo: "",
+  //   estadocivil: "",
+  //   hijosnum: 0,
+
+  //   // Información académica (educacion)
+  //   carrera: "",
+  //   periodo: "",
+  //   relacionamiento: "",
+  //   jornada: "",    // Jornada de estudio
+  //   apoyos: "",    // Beca o apoyo financiero
+
+  //   // Situación económica/laboral (situacionlaboral)
+  //   situacion: "",
+  //   ingresos: "",
+  //   jornadaLaboral: "", // Jornada laboral, diferenciada de la académica
+  //   pesonashogar: "",
+
+  //   // Salud y bienestar (salud)
+  //   accesosalud: "",
+  //   diagnostico: "",
+  //   asispsicologo: "",
+  //   nivelestres: "",
+  //   pensamientosuicidas: ""
+  // });
 
   const [response, setResponse] = useState("");
 

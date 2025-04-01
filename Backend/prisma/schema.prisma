@@ -1,121 +1,3 @@
-generator client {
-  provider = "prisma-client-js"
-}
-
-datasource db {
-  provider = "mysql"
-  url      = env("DATABASE_URL")
-}
-
-//Creacion usuario:-----------------------------------------------------------------------------------------------------------------------------------------------------
-model informacionUsuario {
-  idUsuario        String  @id @unique @default(uuid())
-  nombre           String   //Yes!
-  apellido         String?  //Yes!
-  correo           String  @unique  //Yes!
-  telefonoPersonal String  @unique  //Yes!
-  documento        String  @unique  //Yes!
-  tipoDocumento    String  @default("CC")   //Yes!
-
-  // Relaciones
-  chats        chats[]      @relation("conexionChats")
-  credenciales credencial[] @relation("conexionCredencial")
-
-  // Sociodemográfico
-  informacionPersonal informacionPersonal[] @relation("conexionInformacionPersonal")
-  educacion           educacion[]           @relation("conexionEducacion")
-  situacionlaboral    situacionlaboral[]    @relation("conexionSituacionLaboral")
-  salud               salud[]               @relation("conexionSalud")
-
-  @@map("informacion_usuario")
-}
-
-//----------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
-//Asistente Psicologico:------------------------------------------------------------------------------------------------------------------------------------------------
-model chats {
-  idchat       String   @id @unique @default(uuid())
-  idUsuario    String   
-  fechaHora    DateTime @default(now())
-  conversacion Json
-
-  usuarioChats informacionUsuario @relation(fields: [idUsuario], references: [idUsuario], name: "conexionChats")
-
-  @@map("chats")
-}
-
-model credencial {
-  idCredencial String @id @unique @default(uuid())
-  idUsuario    String     @unique
-  usuario      String
-  contrasena   String
-  rol          String @default("user")
-
-  usuarioCredencial informacionUsuario @relation(fields: [idUsuario], references: [idUsuario], name: "conexionCredencial")
-
-  @@map("credencial")
-}
-
-//Sociodemografico:
-model informacionPersonal {
-  idinformacionPersonal String @id @unique @default(uuid())
-  idUsuario             String     @unique
-
-  edad          Int   //Yes!
-  sexo          String    //Yes!
-  estadocivil   String    //Yes!
-  hijosnum      Int     //Yes!
-
-  usuarioInformacionPersonal informacionUsuario @relation(fields: [idUsuario], references: [idUsuario], name: "conexionInformacionPersonal")
-
-  @@map("informacionPersonal")
-}
-
-model educacion {
-  ideducacion      String @id @unique @default(uuid())
-  idUsuario        String     @unique
-  carrera          String   //Yes!
-  periodo          String   //Yes!
-  relacionamiento  String   //Yes!
-  jornada          String   //Yes!
-  apoyos           String   //Yes!
-
-  usuarioeducacion informacionUsuario @relation(fields: [idUsuario], references: [idUsuario], name: "conexionEducacion")
-
-  @@map("educacion")
-}
-
-model situacionlaboral {
-  idsituacionlaboral String @id @unique @default(uuid())
-  idUsuario          String     @unique
-  situacion          String   //Yes!
-  ingresos           String   //Yes!
-  jornada            String   //Yes!
-  pesonashogar       String   //Yes!
-
-  usuariosituacionlaboral informacionUsuario @relation(fields: [idUsuario], references: [idUsuario], name: "conexionSituacionLaboral")
-
-  @@map("situacionlaboral")
-}
-
-model salud {
-  idsalud         String @id @unique @default(uuid())
-  idUsuario       String     @unique
-  accesosalud     String    //Yes!
-  diagnostico     String    //Yes!
-  asispsicologo   String    //Yes!
-  nivelestres     String    //Yes!
-  pensamientosuicidas    String    //Yes!
-
-  usuariosalud informacionUsuario @relation(fields: [idUsuario], references: [idUsuario], name: "conexionSalud")
-
-  @@map("salud")
-}
-
-
-
-
-
 // generator client {
 //   provider = "prisma-client-js"
 // }
@@ -141,7 +23,6 @@ model salud {
 
 //   // Sociodemográfico
 //   informacionPersonal informacionPersonal[] @relation("conexionInformacionPersonal")
-//   condicionesVivienda condicionesvivienda[] @relation("conexionCondicionesVivienda")
 //   educacion           educacion[]           @relation("conexionEducacion")
 //   situacionlaboral    situacionlaboral[]    @relation("conexionSituacionLaboral")
 //   salud               salud[]               @relation("conexionSalud")
@@ -182,46 +63,22 @@ model salud {
 
 //   edad          Int   //Yes!
 //   sexo          String    //Yes!
-//   genero        String
 //   estadocivil   String    //Yes!
 //   hijosnum      Int     //Yes!
-//   personascargo Int
-//   vivienda      String
-//   localidad     String
-//   tipovivienda  String
-//   familiaresnum Int
-//   estrato       Int
-//   etnico        String
 
 //   usuarioInformacionPersonal informacionUsuario @relation(fields: [idUsuario], references: [idUsuario], name: "conexionInformacionPersonal")
 
 //   @@map("informacionPersonal")
 // }
 
-// model condicionesvivienda {
-//   idcondicionesvivienda String @id @unique @default(uuid())
-//   idUsuario             String     @unique
-//   hacinamiento          String
-//   violencia             String
-//   servicios             Json
-//   problemas             Json
-//   tipozona              String
-
-//   usuarioCondicionesVivienda informacionUsuario @relation(fields: [idUsuario], references: [idUsuario], name: "conexionCondicionesVivienda")
-
-//   @@map("condicionesvivienda")
-// }
-
 // model educacion {
 //   ideducacion      String @id @unique @default(uuid())
 //   idUsuario        String     @unique
-//   tipocolegio      String
-//   nivelescolaridad String
 //   carrera          String   //Yes!
 //   periodo          String   //Yes!
-//   motivo           String
-//   matedificulta    Json
-//   nivelingles      String
+//   relacionamiento  String   //Yes!
+//   jornada          String   //Yes!
+//   apoyos           String   //Yes!
 
 //   usuarioeducacion informacionUsuario @relation(fields: [idUsuario], references: [idUsuario], name: "conexionEducacion")
 
@@ -232,10 +89,9 @@ model salud {
 //   idsituacionlaboral String @id @unique @default(uuid())
 //   idUsuario          String     @unique
 //   situacion          String   //Yes!
-//   ingresos           String
-//   sector             String
+//   ingresos           String   //Yes!
 //   jornada            String   //Yes!
-//   ascenso            String
+//   pesonashogar       String   //Yes!
 
 //   usuariosituacionlaboral informacionUsuario @relation(fields: [idUsuario], references: [idUsuario], name: "conexionSituacionLaboral")
 
@@ -245,16 +101,160 @@ model salud {
 // model salud {
 //   idsalud         String @id @unique @default(uuid())
 //   idUsuario       String     @unique
-//   enfermecronica  String
-//   discapacidad    String
-//   suspsicoactivas String
-//   alcohol         String
-//   Internet        String
-//   nicotina        String
-//   eps             String
+//   accesosalud     String    //Yes!
+//   diagnostico     String    //Yes!
 //   asispsicologo   String    //Yes!
+//   nivelestres     String    //Yes!
+//   pensamientosuicidas    String    //Yes!
 
 //   usuariosalud informacionUsuario @relation(fields: [idUsuario], references: [idUsuario], name: "conexionSalud")
 
 //   @@map("salud")
 // }
+
+
+
+
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+//Creacion usuario:-----------------------------------------------------------------------------------------------------------------------------------------------------
+model informacionUsuario {
+  idUsuario        String  @id @unique @default(uuid())
+  nombre           String   //Yes!
+  apellido         String?  //Yes!
+  correo           String  @unique  //Yes!
+  telefonoPersonal String  @unique  //Yes!
+  documento        String  @unique  //Yes!
+  tipoDocumento    String  @default("CC")   //Yes!
+
+  // Relaciones
+  chats        chats[]      @relation("conexionChats")
+  credenciales credencial[] @relation("conexionCredencial")
+
+  // Sociodemográfico
+  informacionPersonal informacionPersonal[] @relation("conexionInformacionPersonal")
+  condicionesVivienda condicionesvivienda[] @relation("conexionCondicionesVivienda")
+  educacion           educacion[]           @relation("conexionEducacion")
+  situacionlaboral    situacionlaboral[]    @relation("conexionSituacionLaboral")
+  salud               salud[]               @relation("conexionSalud")
+
+  @@map("informacion_usuario")
+}
+
+//----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+//Asistente Psicologico:------------------------------------------------------------------------------------------------------------------------------------------------
+model chats {
+  idchat       String   @id @unique @default(uuid())
+  idUsuario    String   
+  fechaHora    DateTime @default(now())
+  conversacion Json
+
+  usuarioChats informacionUsuario @relation(fields: [idUsuario], references: [idUsuario], name: "conexionChats")
+
+  @@map("chats")
+}
+
+model credencial {
+  idCredencial String @id @unique @default(uuid())
+  idUsuario    String     @unique
+  usuario      String
+  contrasena   String
+  rol          String @default("user")
+
+  usuarioCredencial informacionUsuario @relation(fields: [idUsuario], references: [idUsuario], name: "conexionCredencial")
+
+  @@map("credencial")
+}
+
+//Sociodemografico:
+model informacionPersonal {
+  idinformacionPersonal String @id @unique @default(uuid())
+  idUsuario             String     @unique
+
+  edad          Int   //Yes!
+  sexo          String    //Yes!
+  genero        String
+  estadocivil   String    //Yes!
+  hijosnum      Int     //Yes!
+  personascargo Int
+  vivienda      String
+  localidad     String
+  tipovivienda  String
+  familiaresnum Int
+  estrato       Int
+  etnico        String
+
+  usuarioInformacionPersonal informacionUsuario @relation(fields: [idUsuario], references: [idUsuario], name: "conexionInformacionPersonal")
+
+  @@map("informacionPersonal")
+}
+
+model condicionesvivienda {
+  idcondicionesvivienda String @id @unique @default(uuid())
+  idUsuario             String     @unique
+  hacinamiento          String
+  violencia             String
+  servicios             Json
+  problemas             Json
+  tipozona              String
+
+  usuarioCondicionesVivienda informacionUsuario @relation(fields: [idUsuario], references: [idUsuario], name: "conexionCondicionesVivienda")
+
+  @@map("condicionesvivienda")
+}
+
+model educacion {
+  ideducacion      String @id @unique @default(uuid())
+  idUsuario        String     @unique
+  tipocolegio      String
+  nivelescolaridad String
+  carrera          String   //Yes!
+  periodo          String   //Yes!
+  motivo           String
+  matedificulta    Json
+  nivelingles      String
+
+  usuarioeducacion informacionUsuario @relation(fields: [idUsuario], references: [idUsuario], name: "conexionEducacion")
+
+  @@map("educacion")
+}
+
+model situacionlaboral {
+  idsituacionlaboral String @id @unique @default(uuid())
+  idUsuario          String     @unique
+  situacion          String   //Yes!
+  ingresos           String
+  sector             String
+  jornada            String   //Yes!
+  ascenso            String
+
+  usuariosituacionlaboral informacionUsuario @relation(fields: [idUsuario], references: [idUsuario], name: "conexionSituacionLaboral")
+
+  @@map("situacionlaboral")
+}
+
+model salud {
+  idsalud         String @id @unique @default(uuid())
+  idUsuario       String     @unique
+  enfermecronica  String
+  discapacidad    String
+  suspsicoactivas String
+  alcohol         String
+  Internet        String
+  nicotina        String
+  eps             String
+  asispsicologo   String    //Yes!
+
+  usuariosalud informacionUsuario @relation(fields: [idUsuario], references: [idUsuario], name: "conexionSalud")
+
+  @@map("salud")
+}
