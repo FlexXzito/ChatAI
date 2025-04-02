@@ -15,7 +15,6 @@ export function Register() {
     apellido: "",
     correo: "",
     telefonoPersonal: "",
-    telefonoFamiliar: "",
     tipoDocumento: "",
     documento: "",
     usuario: "",

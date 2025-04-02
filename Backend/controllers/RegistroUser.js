@@ -159,7 +159,7 @@ const prisma = new PrismaClient();
 export const RegistroUser = async (req, res) => {
     
     const { 
-        nombre, apellido, correo, telefonoPersonal, telefonoFamiliar,tipoDocumento,documento, 
+        nombre, apellido, correo, telefonoPersonal, tipoDocumento,documento, 
         usuario, contrasena, 
         edad, sexo, genero, estadocivil, hijosnum, personascargo, vivienda, localidad, tipovivienda, familiaresnum, estrato, etnico, 
         hacinamiento, violencia, servicios, problemas, tipozona, 

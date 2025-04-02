@@ -91,13 +91,6 @@ export const prompt = {
         "Por favor, escribe tu número de teléfono 📱 y continúa con 'Siguiente'",
     },
     {
-      label: "Número de Teléfono de Contacto",
-      name: "telefonoFamiliar",
-      type: "tel",
-      comment:
-        "Escribe el número de teléfono de un familiar cercano o amigo 🤗 y pulsa 'Siguiente'",
-    },
-    {
       label: "Tipo de Documento",
       name: "tipoDocumento",
       type: "select",

@@ -16,8 +16,23 @@ import {
 
 const app = express();
 
-app.use(cors());
+// Configurar CORS
+app.use(cors({
+    origin: 'https://chatai-zp3m.onrender.com',
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization']
+}));
+
+// Responder a preflight requests
+app.options('*', (req, res) => {
+    res.header('Access-Control-Allow-Origin', 'https://chatai-zp3m.onrender.com');
+    res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+    res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+    res.sendStatus(200);
+});
+
 app.use(express.json());
+
 app.use('/psicologia', RegistroUserRute);
 app.use('/psicologia', LoginRute);
 app.use('/psicologia', ChatAIRute);
