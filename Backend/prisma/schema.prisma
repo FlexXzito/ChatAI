@@ -219,7 +219,6 @@ model educacion {
   nivelescolaridad String
   carrera          String   //Yes!
   periodo          String   //Yes!
-  motivo           String
   matedificulta    Json
   nivelingles      String
 

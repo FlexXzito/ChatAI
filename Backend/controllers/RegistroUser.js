@@ -163,7 +163,7 @@ export const RegistroUser = async (req, res) => {
         usuario, contrasena, 
         edad, sexo, genero, estadocivil, hijosnum, personascargo, vivienda, localidad, tipovivienda, familiaresnum, estrato, etnico, 
         hacinamiento, violencia, servicios, problemas, tipozona, 
-        tipocolegio, nivelescolaridad, carrera, periodo, motivo, matedificulta, nivelingles, 
+        tipocolegio, nivelescolaridad, carrera, periodo, matedificulta, nivelingles, 
         situacion, ingresos, sector, jornada, ascenso, 
         enfermecronica, discapacidad, suspsicoactivas, alcohol, Internet, nicotina, eps, asispsicologo 
     } = req.body;
@@ -191,7 +191,6 @@ export const RegistroUser = async (req, res) => {
             apellido,
             correo,
             telefonoPersonal: formatPhoneNumber(telefonoPersonal),
-            telefonoFamiliar,
             documento,
             tipoDocumento,
             }
@@ -240,7 +239,6 @@ export const RegistroUser = async (req, res) => {
                 nivelescolaridad,
                 carrera,
                 periodo,
-                motivo,
                 matedificulta,
                 nivelingles,
                 idUsuario: newUser.idUsuario,

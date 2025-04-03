@@ -1,7 +1,6 @@
 import axios from "axios";
 import basura from "/basura.png";
 import Cookies from "js-cookie";
-import { prompt } from "./Prompts";
 import { useState, useEffect } from "react";
 
 export default function Chatcontainer({ onChatLoaded }) {

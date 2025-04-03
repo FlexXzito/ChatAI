@@ -4,11 +4,12 @@ import { useNavigate } from "react-router-dom";
 
 import BotIcon from "../../public/BotIcon.png";
 import "./Components/Css.css";
-import steps from "./Components/Prompts.jsx"
+import steps from "./Components/Prompts.jsx";
 
 export function Register() {
   const [step, setStep] = useState(0);
-  const [emailError, setEmailError] = useState('');
+  const [emailError, setEmailError] = useState("");
+  const [response, setResponse] = useState("");
 
   const [formData, setFormData] = useState({
     nombre: "",
@@ -17,8 +18,6 @@ export function Register() {
     telefonoPersonal: "",
     tipoDocumento: "",
     documento: "",
-    usuario: "",
-    contrasena: "",
     edad: 0,
     sexo: "",
     genero: "",
@@ -40,7 +39,6 @@ export function Register() {
     nivelescolaridad: "",
     carrera: "",
     periodo: "",
-    motivo: "",
     matedificulta: "",
     nivelingles: "",
     situacion: "",
@@ -56,55 +54,15 @@ export function Register() {
     nicotina: "",
     eps: "",
     asispsicologo: "",
+    usuario: "",
+    contrasena: "",
+    confirmarContrasena: "",
   });
 
-  // const [formData, setFormData] = useState({
-  //   // Información del usuario (informacionUsuario)
-  //   nombre: "",
-  //   apellido: "",
-  //   correo: "",
-  //   telefonoPersonal: "",
-  //   documento: "",
-  //   tipoDocumento: "CC", // Valor por defecto
-
-  //   // Credencial (credencial)
-  //   usuario: "",
-  //   contrasena: "",
-
-  //   // Datos sociodemográficos (informacionPersonal)
-  //   edad: 0,
-  //   sexo: "",
-  //   estadocivil: "",
-  //   hijosnum: 0,
-
-  //   // Información académica (educacion)
-  //   carrera: "",
-  //   periodo: "",
-  //   relacionamiento: "",
-  //   jornada: "",    // Jornada de estudio
-  //   apoyos: "",    // Beca o apoyo financiero
-
-  //   // Situación económica/laboral (situacionlaboral)
-  //   situacion: "",
-  //   ingresos: "",
-  //   jornadaLaboral: "", // Jornada laboral, diferenciada de la académica
-  //   pesonashogar: "",
-
-  //   // Salud y bienestar (salud)
-  //   accesosalud: "",
-  //   diagnostico: "",
-  //   asispsicologo: "",
-  //   nivelestres: "",
-  //   pensamientosuicidas: ""
-  // });
-
-  const [response, setResponse] = useState("");
+  const navigate = useNavigate();
 
   const validateEmail = (email) => {
-    // Expresión regular para validar formato de correo
     const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-
-    // Lista de correos no válidos
     const invalidEmails = [
       'a', 'a@a', 'ya', 'test@test', 'email@',
       'example@example', 'user@domain',
@@ -114,36 +72,28 @@ export function Register() {
     if (!email) {
       return 'El correo electrónico es obligatorio';
     }
-
     if (!emailRegex.test(email)) {
       return 'Por favor, ingrese un correo electrónico válido';
     }
-
     if (invalidEmails.includes(email)) {
       return 'Por favor, ingrese un correo electrónico válido';
     }
-
-    return ''; // Sin errores
+    return '';
   };
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
-
-    // Limpiar error de correo al escribir
     if (name === 'correo') {
       setEmailError('');
     }
-
     if (type === "checkbox") {
       setFormData((prevData) => {
         let newValues = [...prevData[name]];
-
         if (checked) {
           newValues.push(value);
         } else {
           newValues = newValues.filter((val) => val !== value);
         }
-
         return {
           ...prevData,
           [name]: newValues,
@@ -157,9 +107,12 @@ export function Register() {
     }
   };
 
-  const navigate = useNavigate();
-
   const handleSubmit = async () => {
+    // Validar que las contraseñas sean iguales antes de enviar
+    if (formData.contrasena !== formData.confirmarContrasena) {
+      alert("Las contraseñas no coinciden");
+      return;
+    }
     try {
       const res = await axios.post(
         `${import.meta.env.VITE_URL}/psicologia/RegistroUser`,
@@ -175,8 +128,6 @@ export function Register() {
 
   const nextStep = () => {
     const currentStep = steps[step];
-
-    // Validación específica para correo electrónico
     if (currentStep.name === 'correo') {
       const error = validateEmail(formData.correo);
       if (error) {
@@ -184,30 +135,16 @@ export function Register() {
         return;
       }
     }
-
     const currentValue = formData[currentStep?.name];
-
-    // Asegurarse de que currentValue sea una cadena
     if (typeof currentValue === "string" && currentValue.trim() === "") {
-      alert(
-        `El campo "${currentStep?.label || currentStep?.name
-        }" es obligatorio. Por favor complétalo.`
-      );
+      alert(`El campo "${currentStep?.label || currentStep?.name}" es obligatorio. Por favor complétalo.`);
       return;
     }
-
-    // Si el valor es un array (como en el caso de los checkboxes), se verifica que tenga elementos seleccionados
     if (Array.isArray(currentValue) && currentValue.length === 0) {
-      alert(
-        `El campo "${currentStep?.label || currentStep?.name
-        }" es obligatorio. Por favor complétalo.`
-      );
+      alert(`El campo "${currentStep?.label || currentStep?.name}" es obligatorio. Por favor complétalo.`);
       return;
     }
-
-    if (step === 0) {
-      setStep(step + 1);
-    } else if (step < steps.length - 1) {
+    if (step < steps.length - 1) {
       setStep(step + 1);
     }
   };
@@ -232,7 +169,6 @@ export function Register() {
       <div className="flex flex-col md:flex-row items-center w-full max-w-5xl p-6 rounded-lg bg-white shadow-xl">
         <div className="flex flex-col items-center w-full max-w-md p-6 space-y-4">
           <h2 className="text-3xl font-semibold text-blue-700 mb-6">Registro de Usuario</h2>
-
           <form
             className="text-gray-700 flex flex-col space-y-4 w-full"
             onSubmit={handleSubmit}
@@ -242,22 +178,18 @@ export function Register() {
               <label htmlFor={currentStep.name} className="font-medium text-blue-700">
                 {currentStep.label}
               </label>
-
               {currentStep.type === "text" && (
-                <>
-                  <input
-                    type="text"
-                    id={currentStep.name}
-                    name={currentStep.name}
-                    value={formData[currentStep.name]}
-                    onChange={handleChange}
-                    required
-                    className="p-3 rounded-md border border-blue-300 focus:outline-none focus:ring-2 focus:ring-blue-500 bg-blue-50 placeholder-gray-400"
-                    placeholder={`Ingresa tu ${currentStep.label?.toLowerCase()}`}
-                  />
-                </>
+                <input
+                  type="text"
+                  id={currentStep.name}
+                  name={currentStep.name}
+                  value={formData[currentStep.name]}
+                  onChange={handleChange}
+                  required
+                  className="p-3 rounded-md border border-blue-300 focus:outline-none focus:ring-2 focus:ring-blue-500 bg-blue-50 placeholder-gray-400"
+                  placeholder={`Ingresa tu ${currentStep.label?.toLowerCase()}`}
+                />
               )}
-
               {currentStep.type === "email" && (
                 <div>
                   <input
@@ -275,7 +207,6 @@ export function Register() {
                   )}
                 </div>
               )}
-
               {currentStep.type === "tel" && (
                 <input
                   type="tel"
@@ -288,20 +219,30 @@ export function Register() {
                   placeholder={`Ingresa tu ${currentStep.label?.toLowerCase()}`}
                 />
               )}
-
               {currentStep.type === "password" && (
-                <input
-                  type="password"
-                  id={currentStep.name}
-                  name={currentStep.name}
-                  value={formData[currentStep.name]}
-                  onChange={handleChange}
-                  required
-                  className="p-3 rounded-md border border-blue-300 focus:outline-none focus:ring-2 focus:ring-blue-500 bg-blue-50 placeholder-gray-400"
-                  placeholder={`Ingresa tu ${currentStep.label?.toLowerCase()}`}
-                />
+                <div className="flex flex-col">
+                  <input
+                    type="password"
+                    id="contrasena"
+                    name="contrasena"
+                    value={formData.contrasena}
+                    onChange={handleChange}
+                    required
+                    className="p-3 rounded-md border border-blue-300 focus:outline-none focus:ring-2 focus:ring-blue-500 bg-blue-50 placeholder-gray-400"
+                    placeholder={`Ingresa tu ${currentStep.label?.toLowerCase()}`}
+                  />
+                  <input
+                    type="password"
+                    id="confirmarContrasena"
+                    name="confirmarContrasena"
+                    value={formData.confirmarContrasena}
+                    onChange={handleChange}
+                    required
+                    className="mt-2 p-3 rounded-md border border-blue-300 focus:outline-none focus:ring-2 focus:ring-blue-500 bg-blue-50 placeholder-gray-400"
+                    placeholder={`Confirma tu ${currentStep.label?.toLowerCase()}`}
+                  />
+                </div>
               )}
-
               {currentStep.type === "number" && (
                 <input
                   type="number"
@@ -311,10 +252,8 @@ export function Register() {
                   onChange={handleChange}
                   required
                   className="p-3 rounded-md border border-blue-300 focus:outline-none focus:ring-2 focus:ring-blue-500 bg-blue-50 placeholder-gray-400"
-                  placeholder=""
                 />
               )}
-
               {currentStep.type === "select" && (
                 <>
                   <select
@@ -339,7 +278,6 @@ export function Register() {
                       </option>
                     ))}
                   </select>
-
                   {formData[currentStep.name] === "Otro" && (
                     <input
                       type="text"
@@ -352,14 +290,10 @@ export function Register() {
                   )}
                 </>
               )}
-
               {currentStep.type === "checkbox" && (
                 <div className="flex flex-col space-y-2">
                   {currentStep.options?.map((option, index) => (
-                    <label
-                      key={index}
-                      className="flex items-center space-x-2 text-gray-700"
-                    >
+                    <label key={index} className="flex items-center space-x-2 text-gray-700">
                       <input
                         type="checkbox"
                         name={currentStep.name}
@@ -404,16 +338,13 @@ export function Register() {
               )}
             </div>
           </form>
-
           {response && <p className="text-yellow-500 mt-4">{response}</p>}
         </div>
-
         <div className="hidden md:flex flex-col w-full h-full items-center justify-center">
           <div className="relative bg-white p-2 rounded-lg shadow-lg border-4 border-blue-600 text-blue-800 font-semibold mb-10 z-10">
             <p className="px-8 py-6">{currentStep.comment}</p>
             <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 translate-y-full w-6 h-6 border-l-8 border-l-transparent border-r-8 border-r-transparent border-t-8 border-t-blue-600"></div>
           </div>
-
           <img
             src={BotIcon}
             alt="Registro"

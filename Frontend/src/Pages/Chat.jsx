@@ -14,7 +14,6 @@ import React from "react";
 import "./Components/Css.css";
 
 import Cookies from "js-cookie";
-import { prompt } from "./Components/Prompts";
 
 export function Chat() {
   const navigate = useNavigate();
@@ -63,6 +62,9 @@ export function Chat() {
       if (newMessage.trim() === "") return;
       const conversacionAddmsgUser =
         JSON.parse(localStorage.getItem("conversacion"));
+      if (!conversacionAddmsgUser) {
+        setRefreshKey((prevKey) => prevKey + 1);
+      }  
       const addmessageuser = { role: "user", content: newMessage };
       conversacionAddmsgUser.push(addmessageuser);
       localStorage.setItem(
@@ -88,7 +90,6 @@ export function Chat() {
       // Generar audio con gTTS
       // Modificar la sección de audio:
       if (audio) {
-        console.log("Deteniendo audio previo");
         audio.pause();
         audio.currentTime = 0;
         URL.revokeObjectURL(previusAudioUrl);
@@ -163,13 +164,13 @@ export function Chat() {
     localStorage.clear();
     setConversacion([]);
 
+    const prompt = getPrompt(res.data.usuario.rol);
+
     localStorage.setItem(
       "conversacion",
       JSON.stringify([prompt]));
 
     localStorage.setItem("idchat", null);
-
-    // setRefreshKey((prevKey) => prevKey + 1);
   }
 
   const username = Cookies.get("usuario");
@@ -184,8 +185,8 @@ export function Chat() {
     <div className="bg-blue-50 w-full h-screen flex">
       {/* Sidebar */}
       <div
-        className={`bg-gradient-to-b from-blue-500 to-blue-700 duration-300 flex flex-col justify-around ${isSidebarOpen ? "lg:w-80 w-screen" : "lg:w-0 w-0"
-          } h-full space-y-6 text-white shadow-xl`}
+        className={`bg-gradient-to-b from-blue-500 to-blue-700 duration-300 flex flex-col justify-around ${isSidebarOpen ? "lg:w-80 w-screen h-screen lg:relative absolute" : "lg:w-0 w-0 lg:h-screen h-0"
+          } space-y-6 text-white shadow-xl`}
       >
         <div className="h-20 flex flex-row items-start relative">
           <button
@@ -212,7 +213,7 @@ export function Chat() {
           </button>
         </div>
 
-        <div className="p-6 max-w-96 h-full overflow-y-auto scrollbar-thin scrollbar-thumb-blue-400 scrollbar-track-blue-600">
+        <div className="p-6 max-w-96 h-max overflow-y-auto no-scrollbar">
           <Chatcontainer key={refreshKey} onChatLoaded={handleChatUpdate}></Chatcontainer>
         </div>
 
@@ -224,12 +225,12 @@ export function Chat() {
           >
             Cerrar sesión
           </button>
-          <button
+          {/* <button
             onClick={() => navigate("/EditDatos")}
             className={`w-full p-3 bg-blue-400 hover:bg-blue-500 text-white rounded-lg shadow-lg transition-colors duration-200" ${isSidebarOpen ? "w-full p-3" : "w-2 h-2"}`}
           >
             Editar Datos
-          </button>
+          </button> */}
         </div>
       </div>
 

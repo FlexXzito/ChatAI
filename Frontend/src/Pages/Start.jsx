@@ -4,7 +4,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
 import Cookies from "js-cookie";
-import { prompt } from "./Components/Prompts";
+import { getPrompt } from "./Components/Prompts.jsx";
 
 import BotIcon from "/BotIcon.png";
 
@@ -50,6 +50,7 @@ export function Start() {
         path: "/",
       });
       
+      const prompt = getPrompt(res.data.usuario.rol);
       localStorage.setItem(
         "conversacion",
         JSON.stringify([prompt]));

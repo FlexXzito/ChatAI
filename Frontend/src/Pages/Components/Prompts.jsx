@@ -1,65 +1,90 @@
-export const prompt = {
-  role: "system",
-  content: `
-  Instrucciones para Acompañante Virtual Empático:
+import Cookies from "js-cookie";
 
-  📌 Rol Exclusivo:
-  - Eres un acompañante psicológico virtual y **únicamente** te especializas en brindar apoyo emocional y escucha activa.
-  - Si recibes solicitudes de programación, recetas, o cualquier otro tema que no esté relacionado con el bienestar emocional, responde que solo puedes ayudar en cuestiones relacionadas con el apoyo psicológico.
+const name = () => {
+  return Cookies.get("usuario") || "Usuario desconocido";
+};
 
-  Perfil Core:
-  - Eres un confidente cercano, como un amigo comprensivo.
-  - Comunicación directa, auténtica y sin rodeos.
-  - Lenguaje juvenil pero respetuoso.
+export const getPrompt = () => {
+  const usuario = name();
 
-  Principios de Comunicación:
-  1. Empatía Profunda
-    - Conecta con la emoción fundamental.
-    - Usa lenguaje coloquial.
-    - Muestra comprensión sin juzgar.
+  return {
+    role: "system",
+    content: `
+  🎭 **Rol Exclusivo - Acompañante Virtual Empático**  
 
-  2. Comunicación Estratégica
-    - Respuestas cortas y directas.
-    - Haz preguntas que inviten a la reflexión.
-    - Enfócate en el bienestar emocional.
-    - Evita consejos directos; en lugar de ello, guía la reflexión.
+  Eres un **acompañante psicológico virtual** de la universidad *Universitaria de Colombia*, desarrollado por el grupo *Valle del Software*. Tu propósito es **brindar apoyo emocional, escucha activa y acompañamiento psicológico** a los usuarios.  
 
-  3. Manejo de Situaciones Sensibles
-    - Normaliza sentimientos.
-    - No minimices experiencias.
-    - Ofrece perspectivas alternativas sutilmente.
-    - Prioriza la salud emocional.
+  🚫 **Límites de tu rol**:  
+  - Solo puedes ayudar en temas de apoyo psicológico y bienestar emocional.  
+  - Si el usuario pregunta sobre otros temas (recetas, programación, historia, política, etc.), debes responder con cortesía que solo puedes asistir en cuestiones emocionales.  
+  - No debes usar groserías, insultos ni lenguaje ofensivo, ya que operas en Colombia.
+  - No puedes llamar o referirte de otra manera a los usuarios, solo puedes referirte o llamarlos a ellos por su nombre: ${usuario}.  
 
-  4. Técnicas de Conversación
-    - Reformula los sentimientos expresados.
-    - Haz preguntas abiertas provocativas.
-    - Valida sin alimentar narrativas dañinas.
-    - Demuestra una escucha activa y genuina.
+  ---  
 
-  Ejemplos de Tono:
-  - "Uf, suena heavy..."
-  - "Tremenda situación, ¿no?"
-  - "Se nota que te está afectando bastante."
+  🧠 **Tu personalidad y estilo de comunicación**  
 
-  Señales Especiales:
-  - Detectar subtonos de sufrimiento.
-  - Identificar posibles riesgos emocionales.
-  - Estar alerta a señales de vulnerabilidad.
+  - Saludas de forma **cálida y amigable** (Ejemplo: Hola ${usuario}, ¿cómo te sientes hoy? ¿Algo en particular de lo que quieras hablar?).  
+  - Eres un **confidente cercano**, como un amigo comprensivo.  
+  - Te comunicas de forma **auténtica, natural y sin rodeos**.  
+  - Usas un **lenguaje juvenil, amigable y respetuoso**.  
 
-  NO Hacer:
-  - Dar consejos directos.
-  - Minimizar sentimientos.
-  - Responder con frases ensayadas o fuera de contexto.
-  - Perder la conexión emocional.
-  - Atender solicitudes que no estén relacionadas con el apoyo psicológico.
+  ---  
+
+  💬 **Principios clave de comunicación**  
+
+  1️⃣ **Empatía Profunda**  
+  - Conéctate con la emoción del usuario.  
+  - Usa un tono coloquial y accesible.  
+  - Valida sentimientos sin juzgar.  
+
+  2️⃣ **Diálogo Estratégico**  
+  - Responde con frases **cortas y directas**.  
+  - Formula **preguntas reflexivas** en lugar de dar consejos directos.  
+  - Prioriza el **bienestar emocional** en cada respuesta.  
+
+  3️⃣ **Manejo de Situaciones Sensibles**  
+  - Normaliza las emociones sin minimizar experiencias.  
+  - Ofrece perspectivas alternativas **de forma sutil**.  
+  - Enfócate en ayudar a procesar sentimientos de manera saludable.  
+
+  4️⃣ **Técnicas de Conversación**  
+  - Reformula lo que expresa el usuario para mostrar comprensión.  
+  - Usa preguntas abiertas que fomenten la introspección.  
+  - Valida emociones sin alimentar pensamientos dañinos.  
+  - Demuestra una escucha activa y genuina.  
+
+  ---  
+
+  📝 **Ejemplo de tono adecuado**  
+  - *"Parece que esto te ha afectado bastante, ¿quieres contarme más sobre cómo te sientes?"*  
+  - *"Entiendo que sea difícil, ¿qué crees que te ayudaría en este momento?"*  
+
+  ---  
+
+  🚨 **Atención a señales emocionales**  
+  - Detecta signos de sufrimiento o vulnerabilidad.  
+  - Identifica posibles riesgos emocionales en la conversación.  
+  - Mantén un enfoque en el bienestar y la seguridad del usuario.  
+
+  ---  
+
+  ❌ **Lo que NO debes hacer**  
+  - No des consejos directos ni soluciones cerradas.  
+  - No minimices los sentimientos del usuario.  
+  - No uses respuestas genéricas o fuera de contexto.  
+  - No ignores señales de vulnerabilidad.  
+  - No respondas a temas que no sean apoyo emocional.  
   `,
-}
+  };
+};
+
 
 
  export const steps = [
     {
-      label: "⚠ Tiempo estimado de 3 minutos a 5 minutos",
-      comment: "¡ Hola 🖐 ! si deseas empezar pulsa siguiente",
+      label: "Al pulzar **SIGUIENTE** autorizas el tratamiento de tus datos personales para uso educativo y de investigación. Si no esta de acuerdo no siga adelante.",
+      comment: "⚠ Leee Esto detalladamente antes de continuar. ⚠",
     },
   
     // Datos personales
@@ -135,21 +160,8 @@ export const prompt = {
         { label: "Heterosexual", value: "heterosexual" },
         { label: "Homosexual", value: "homosexual" },
         { label: "Bisexual", value: "bisexual" },
-        { label: "Pansexual", value: "pansexual" },
         { label: "Asexual", value: "asexual" },
-        { label: "Demisexual", value: "demisexual" },
-        { label: "Sapiosexual", value: "sapiosexual" },
-        { label: "Queer", value: "queer" },
-        { label: "Omnisexual", value: "omnisexual" },
-        { label: "Autosexual", value: "autosexual" },
-        { label: "Greysexual", value: "greysexual" },
-        { label: "Skoliosexual", value: "skoliosexual" },
-        { label: "Androsexual", value: "androsexual" },
-        { label: "Gynesexual", value: "gynesexual" },
-        { label: "Afluxsexual", value: "afluxsexual" },
-        { label: "Polisexual", value: "polisexual" },
-        { label: "Fluidsexual", value: "fluidsexual" },
-        { label: "Otro", value: "otro" },
+        { label: "Otro", value: "Otro" },
         { label: "Prefiero no decirlo", value: "prefiero_no_decirlo" },
       ],
     },
@@ -219,6 +231,7 @@ export const prompt = {
         { label: "Rafael Uribe Uribe", value: "Rafael Uribe Uribe" },
         { label: "Ciudad Bolívar", value: "Ciudad Bolívar" },
         { label: "Sumapaz", value: "Sumapaz" },
+        { label: "Soacha", value: "Soacha" },
       ],
     },
     {
@@ -229,11 +242,8 @@ export const prompt = {
         "¿Tu vivienda es propia, rentada u otro tipo? 🏠 y pulsa 'Siguiente'",
       options: [
         { label: "Propia", value: "Propia" },
-        { label: "Rentada", value: "Rentada" },
         { label: "Arrendada", value: "Arrendada" },
-        { label: "Hipotecada", value: "Hipotecada" },
-        { label: "Familiar", value: "Familiar" },
-        { label: "De interés social", value: "De interés social" },
+        { label: "Cedido / En comodato", value: "Cedido / En comodato" },
         { label: "Otro", value: "Otro" },
       ],
     },
@@ -270,6 +280,7 @@ export const prompt = {
         { label: "Raizal", value: "Raizal" },
         { label: "Palenquero", value: "Palenquero" },
         { label: "Rom", value: "Rom" },
+        { label: "Otro", value: "Otro" },
         { label: "Ninguna", value: "Ninguna" },
       ],
     },
@@ -316,20 +327,15 @@ export const prompt = {
       name: "servicios",
       type: "checkbox",
       comment:
-        "Describe los servicios básicos con los que cuenta tu hogar (ejemplo: agua, luz, internet) 💡  y pulsa 'Siguiente'",
+        "Describe los servicios básicos con los que cuentas (ejemplo: agua, luz, internet) 💡  y pulsa 'Siguiente'",
       options: [
         { label: "Agua", value: "agua" },
         { label: "Luz", value: "luz" },
-        { label: "Internet", value: "internet" },
         { label: "Gas", value: "gas" },
-        { label: "Teléfono fijo", value: "telefono_fijo" },
-        { label: "Televisión por cable", value: "tv_cable" },
-        { label: "Wi-Fi", value: "wifi" },
-        { label: "Calefacción", value: "calefaccion" },
-        { label: "Recolección de basura", value: "basura" },
-        { label: "Suministro de energía solar", value: "energia_solar" },
-        { label: "Agua caliente", value: "agua_caliente" },
-        { label: "Sistema de riego", value: "riego" },
+        { label: "Alcantarillado y saneamiento", value: "Alcantarillado y saneamiento" },
+        { label: "Internet", value: "Internet" },
+        { label: "Teléfonia Movil", value: "Teléfonia Movil" },
+        { label: "Ninguno de los anteriores", value: "NA" },
       ],
     },
     {
@@ -340,23 +346,18 @@ export const prompt = {
         "Especifica si has enfrentado problemas de vivienda (ejemplo: inseguridad o inundaciones) 📋  y pulsa 'Siguiente'",
       options: [
         { label: "Inseguridad", value: "inseguridad" },
-        { label: "Inundaciones", value: "inundaciones" },
         { label: "Basuras", value: "basuras" },
-        { label: "Deslizamientos de tierra", value: "deslizamientos" },
-        {
-          label: "Falta de acceso a servicios básicos",
-          value: "falta_servicios",
-        },
+        { label: "Ruidos molestos", value: "ruidos_molestos" },
+        { label: "Acceso limitado a transporte", value: "acceso_transporte" },
+        { label: "Contaminación ambiental", value: "contaminacion" },
+        {label: "Deficiencias estructurales",value: "deficiencias_estructurales"},
         { label: "Vivienda en mal estado", value: "vivienda_mal_estado" },
         { label: "Problemas de humedad", value: "problemas_humedad" },
-        {
-          label: "Deficiencias estructurales",
-          value: "deficiencias_estructurales",
-        },
-        { label: "Ruidos molestos", value: "ruidos_molestos" },
         { label: "Falta de espacio", value: "falta_espacio" },
-        { label: "Contaminación ambiental", value: "contaminacion" },
-        { label: "Acceso limitado a transporte", value: "acceso_transporte" },
+        {label: "Falta de acceso a servicios básicos",value: "falta_servicios"},
+        { label: "Inundaciones", value: "inundaciones" },      
+        { label: "Deslizamientos de tierra", value: "deslizamientos" }, 
+        { label: "Ninguno de los anteriores", value: "NA" },   
       ],
     },
     {
@@ -413,12 +414,13 @@ export const prompt = {
         { label: "Administración de Empresas", value: "AdministracionDeEmpresas" },
         { label: "Derecho", value: "Derecho" },
         { label: "Medicina", value: "Medicina" },
+        { label: "Medicina Veterinaria", value: "MedicinaVeterinaria" },  
         { label: "Contaduría Pública", value: "ContaduriaPublica" },
         { label: "Psicología", value: "Psicologia" },
         { label: "Arquitectura", value: "Arquitectura" },
         { label: "Comunicación Social", value: "ComunicacionSocial" },
         { label: "Diseño Gráfico", value: "DisenoGrafico" },
-        { label: "Educación", value: "Educacion" },
+        { label: "Comunicacion social", value: "ComunicacionSocial" },
         { label: "NA", value: "NA" },
       ],
     },
@@ -429,18 +431,22 @@ export const prompt = {
       comment:
         "¿En qué semestre estás o ya la terminaste? (escribe NA si no aplica) y pulsa 'Siguiente'",
       options: [
-        { label: "En curso", value: "en_curso" },
+        { label: "1er semestre", value: "1er semestre" },
+        { label: "2do semestre", value: "2do semestre" },
+        { label: "3er semestre", value: "3er semestre" },
+        { label: "4to semestre", value: "4to semestre" },
+        { label: "5to semestre", value: "5to semestre" },
+        { label: "6to semestre", value: "6to semestre" },
+        { label: "7mo semestre", value: "7mo semestre" },
+        { label: "8vo semestre", value: "8vo semestre" },
+        { label: "9no semestre", value: "9no semestre" },
+        { label: "10mo semestre", value: "10mo semestre" },
+        { label: "11vo semestre", value: "11vo semestre" },
+        { label: "12vo semestre", value: "12vo semestre" },
         { label: "Finalizada", value: "finalizada" },
         { label: "Suspendida", value: "suspendida" },
         { label: "NA", value: "NA" },
       ],
-    },
-    {
-      label: "Motivo de Elección",
-      name: "motivo",
-      type: "text",
-      comment:
-        "¿Por qué elegiste esta carrera? (escribe NA si no aplica) 📖 y pulsa 'Siguiente'",
     },
     {
       label: "Materias con Dificultades",
@@ -460,6 +466,7 @@ export const prompt = {
         { label: "Arte", value: "arte" },
         { label: "Química", value: "quimica" },
         { label: "Física", value: "fisica" },
+        { label: "Ninguno de los anteriores", value: "NA" },
       ],
     },
     {
@@ -557,32 +564,30 @@ export const prompt = {
       type: "select",
       comment:
         "Especifica si tienes alguna enfermedad crónica (escribe NA si no aplica) 🩺 y pulsa 'Siguiente'",
-      options: [
-        { label: "Mal de Alzheimer y demencia", value: "alzheimer_demenecia" },
-        { label: "Artritis", value: "artritis" },
-        { label: "Asma", value: "asma" },
-        { label: "Cáncer", value: "cancer" },
-        { label: "EPOC", value: "epoc" },
-        { label: "Enfermedad de Crohn", value: "crohn" },
-        { label: "Fibrosis quística", value: "fibrosis_quistica" },
-        { label: "Diabetes", value: "diabetes" },
-        { label: "Endometriosis", value: "endometriosis" },
-        { label: "Epilepsia", value: "epilepsia" },
-        { label: "Fibromialgia", value: "fibromialgia" },
-        { label: "Enfermedad del corazón", value: "enfermedad_corazon" },
-        { label: "Presión arterial alta (hipertensión)", value: "hipertension" },
-        { label: "VIH/sida", value: "vih_sida" },
-        { label: "Migraña", value: "migraña" },
-        {
-          label: "Trastornos del humor (bipolar, ciclotímico y depresión)",
-          value: "trastornos_humor",
-        },
-        { label: "Esclerosis múltiple", value: "esclerosis_multiple" },
-        { label: "Narcolepsia", value: "narcolepsia" },
-        { label: "Mal de Parkinson", value: "parkinson" },
-        { label: "Otra", value: "otra" },
-        { label: "NA", value: "NA" },
-      ],
+        options: [
+          { label: "Mal de Alzheimer y demencia", value: "alzheimer_demenecia" },
+          { label: "Artritis", value: "artritis" },
+          { label: "Asma", value: "asma" },
+          { label: "Cáncer", value: "cancer" },
+          { label: "EPOC", value: "epoc" },
+          { label: "Enfermedad de Crohn", value: "crohn" },
+          { label: "Fibrosis quística", value: "fibrosis_quistica" },
+          { label: "Diabetes", value: "diabetes" },
+          { label: "Endometriosis", value: "endometriosis" },
+          { label: "Epilepsia", value: "epilepsia" },
+          { label: "Fibromialgia", value: "fibromialgia" },
+          { label: "Enfermedad del corazón", value: "enfermedad_corazon" },
+          { label: "Presión arterial alta (hipertensión)", value: "hipertension" },
+          { label: "VIH/sida", value: "vih_sida" },
+          { label: "Migraña", value: "migrana" },
+          { label: "Trastornos del humor (bipolar, ciclotímico y depresión)", value: "trastornos_humor" },
+          { label: "Esclerosis múltiple", value: "esclerosis_multiple" },
+          { label: "Narcolepsia", value: "narcolepsia" },
+          { label: "Mal de Parkinson", value: "parkinson" },
+          { label: "Otro", value: "Otro" },
+          { label: "NA", value: "na" },
+        ]
+        
     },
     {
       label: "Condiciones de Discapacidad",
@@ -605,9 +610,9 @@ export const prompt = {
       type: "select",
       comment: "¿Consumes sustancias psicoactivas? 🚭 y pulsa 'Siguiente'",
       options: [
-        { label: "Sí", value: "Sí" },
+        { label: "Sí, regularmente", value: "Sí, regularmente" },
+        { label: "Sí, ocasionalmente", value: "Sí, ocasionalmente" },
         { label: "No", value: "No" },
-        { label: "Ocasionalmente", value: "Ocasionalmente" },
       ],
     },
     {
@@ -651,18 +656,18 @@ export const prompt = {
       type: "select",
       comment: "Indica a qué EPS estás afiliado 🏥 y pulsa 'Siguiente'",
       options: [
-        { label: "Nueva EPS", value: "NuevaEPS" },
-        { label: "Sura EPS", value: "SuraEPS" },
-        { label: "Sanitas EPS", value: "SanitasEPS" },
-        { label: "Compensar EPS", value: "CompensarEPS" },
-        { label: "Coomeva EPS", value: "CoomevaEPS" },
-        { label: "Famisanar EPS", value: "FamisanarEPS" },
-        { label: "Salud Total EPS", value: "SaludTotalEPS" },
-        { label: "Cafesalud EPS", value: "CafesaludEPS" },
-        { label: "Medimás EPS", value: "MedimasEPS" },
-        { label: "Mutual SER EPS", value: "MutualSER" },
-        { label: "Ambuq EPS", value: "AmbuqEPS" },
-        { label: "NA", value: "NA" },
+        { label: "Nueva EPS", value: "nueva_eps" },
+  { label: "Sura EPS", value: "sura_eps" },
+  { label: "Sanitas EPS", value: "sanitas_eps" },
+  { label: "Compensar EPS", value: "compensar_eps" },
+  { label: "Coomeva EPS", value: "coomeva_eps" },
+  { label: "Famisanar EPS", value: "famisanar_eps" },
+  { label: "Colsubsidio EPS", value: "colsubsidio_eps" },
+  { label: "Salud Total EPS", value: "salud_total_eps" },
+  { label: "Confenalco EPS", value: "confenalco_eps" },
+  { label: "Capital Salud EPS", value: "capital_salud_eps" },
+  { label: "Otro", value: "Otro" },
+  { label: "NA", value: "na" },
       ],
     },
     {
@@ -690,10 +695,6 @@ export const prompt = {
       type: "password",
       comment:
         "Establece tu contraseña 🙈 (Recuerda que lo necesitarás para iniciar sesión ❗) y pulsa 'Siguiente'",
-    },
-    {
-      label: "Formulario terminado",
-      comment: "Pulsa Registrar para guardar tus datos 😊",
     },
   ];
 
