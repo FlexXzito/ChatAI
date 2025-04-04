@@ -1,30 +1,51 @@
 import OpenAI from 'openai';
 import { PrismaClient } from "@prisma/client";
-const Prisma = new PrismaClient();
+const prisma = new PrismaClient();
 
 import { cuestionariosData } from './tests.js';
 
+
 const ghq12Preguntas = cuestionariosData.ghq12.preguntas;
 let contadorGhq12 = 0;
+let awsGhq12 = [];
+let processGhq12 = false;
 
 const depPreguntas = cuestionariosData.dep.preguntas;
 let contadorDep = 0;
+let awsDep = [];
+let processDep = false;
 
 const ansPreguntas = cuestionariosData.ans.preguntas;
 let contadorAns = 0;
+let awsAns = [];
+let processAns = false;
 
 const estrPreguntas = cuestionariosData.estr.preguntas;
 let contadorEstr = 0;
+let awsEstr = [];
+let processEstr = false;
 
 const suicPreguntas = cuestionariosData.suic.preguntas;
 let contadorSuic = 0;
+let awsSuic = [];
+let processSuic = false;
 
 const calvidaPreguntas = cuestionariosData.calvida.preguntas;
 let contadorCalvida = 0;
+let awsCalvida = [];
+let processCalvida = false;
 
-async function usarGhq12() {
+async function usarGhq12(idUser) {
 
     if (contadorGhq12 >= ghq12Preguntas.length) {
+
+        const newGhq12 = await prisma.ghq12.create({
+            data: {
+                idUsuario: idUser,
+                respuestas: awsGhq12.join(','),
+            }
+        });
+
         return {
             mensaje: "¡Has terminado el cuestionario GHQ-12! Gracias por tu participación. 🧠💚",
         };
@@ -39,8 +60,15 @@ async function usarGhq12() {
     
 }
 
-async function usarDep() {
+async function usarDep(idUser) {
     if (contadorDep >= depPreguntas.length) {
+
+        const newDep = await prisma.dep.create({
+            data: {
+                idUsuario: idUser,
+                respuestas: awsDep.join(','),
+            }
+        });
         return {
             mensaje: "¡Has terminado el cuestionario de depresión! Gracias por tu participación. 🧠💚",
         };
@@ -55,8 +83,14 @@ async function usarDep() {
     
 }
 
-async function usarAns() {
+async function usarAns(idUser) {
     if (contadorAns >= ansPreguntas.length) {
+        const newAns = await prisma.ans.create({
+            data: {
+                idUsuario: idUser,
+                respuestas: awsAns.join(','),
+            }
+        });
         return {
             mensaje: "¡Has terminado el cuestionario de ansiedad! Gracias por tu participación. 🧠💚",
         };
@@ -70,8 +104,14 @@ async function usarAns() {
     };
 }
 
-async function usarEstr() {
+async function usarEstr(idUser) {
     if (contadorEstr >= estrPreguntas.length) {
+        const newEstr = await prisma.estr.create({
+            data: {
+                idUsuario: idUser,
+                respuestas: awsEstr.join(','),
+            }
+        });
         return {
             mensaje: "¡Has terminado el cuestionario de estrés! Gracias por tu participación. 🧠💚",
         };
@@ -85,8 +125,14 @@ async function usarEstr() {
     };
 }
 
-async function usarSuic() {
+async function usarSuic(idUser) {
     if (contadorSuic >= suicPreguntas.length) {
+        const newSuic = await prisma.suic.create({
+            data: {
+                idUsuario: idUser,
+                respuestas: awsSuic.join(','),
+            }
+        });
         return {
             mensaje: "¡Has terminado el cuestionario de suicidio! Gracias por tu participación. 🧠💚",
         };
@@ -100,8 +146,14 @@ async function usarSuic() {
     };
 }
 
-async function usarCalvida() {
+async function usarCalvida(idUser) {
     if (contadorCalvida >= calvidaPreguntas.length) {
+        const newCalvida = await prisma.calvida.create({
+            data: {
+                idUsuario: idUser,
+                respuestas: awsCalvida.join(','),
+            }
+        });
         return {
             mensaje: "¡Has terminado el cuestionario de calidad de vida! Gracias por tu participación. 🧠💚",
         };
@@ -218,6 +270,76 @@ export const ChatAI = async (req, res) => {
             messages: enviarhistorial,
             tools: tools
         });
+
+        const usermsg = enviarhistorial[enviarhistorial.length - 1].content;
+        const iamsg = response.choices[0]?.message?.content || "No hay respuesta";
+        const statustool = response.choices[0].message.tool_calls?.[0]?.function?.name;
+        if(statustool === "usarGhq12" || processGhq12 == true) {
+            processGhq12 = true;
+            if(usermsg == "a" || usermsg == "b" || usermsg == "c" || usermsg == "d" || usermsg == "e" || usermsg == "A" || usermsg == "B" || usermsg == "C" || usermsg == "D" || usermsg == "E") {
+                awsGhq12.push(usermsg);
+            }
+            else if(iamsg.includes("Has terminado el cuestionario")) {
+                processGhq12 = false;
+                awsGhq12 = [];
+                contadorGhq12 = 0;
+            }
+        }
+        else if(statustool === "usarDep") {       
+            processDep = true;
+            if(usermsg == "a" || usermsg == "b" || usermsg == "c" || usermsg == "d" || usermsg == "e" || usermsg == "A" || usermsg == "B" || usermsg == "C" || usermsg == "D" || usermsg == "E") {
+                awsDep.push(usermsg);
+            }
+            else if(iamsg.includes("Has terminado el cuestionario")) {
+                processDep = false;
+                awsDep = [];
+                contadorDep = 0;
+            }
+        }
+        else if(statustool === "usarAns") {
+            processAns = true;
+            if(usermsg == "a" || usermsg == "b" || usermsg == "c" || usermsg == "d" || usermsg == "e" || usermsg == "A" || usermsg == "B" || usermsg == "C" || usermsg == "D" || usermsg == "E") {
+                awsAns.push(usermsg);
+            }
+            else if(iamsg.includes("Has terminado el cuestionario")) {
+                processAns = false;
+                awsAns = [];
+                contadorAns = 0;
+            }          
+        }
+        else if(statustool === "usarEstr") {
+            processEstr = true;
+            if(usermsg == "a" || usermsg == "b" || usermsg == "c" || usermsg == "d" || usermsg == "e" || usermsg == "A" || usermsg == "B" || usermsg == "C" || usermsg == "D" || usermsg == "E") {
+                awsEstr.push(usermsg);
+            }
+            else if(iamsg.includes("Has terminado el cuestionario")) {
+                processEstr = false;
+                awsEstr = [];
+                contadorEstr = 0;
+            }          
+        }
+        else if(statustool === "usarSuic") {
+            processSuic = true;
+            if(usermsg == "a" || usermsg == "b" || usermsg == "c" || usermsg == "d" || usermsg == "e" || usermsg == "A" || usermsg == "B" || usermsg == "C" || usermsg == "D" || usermsg == "E") {
+                awsSuic.push(usermsg);
+            }
+            else if(iamsg.includes("Has terminado el cuestionario")) {
+                processSuic = false;
+                awsSuic = [];
+                contadorSuic = 0;
+            }           
+        }
+        else if(statustool === "usarCalvida") {
+            processCalvida = true;
+            if(usermsg == "a" || usermsg == "b" || usermsg == "c" || usermsg == "d" || usermsg == "e" || usermsg == "A" || usermsg == "B" || usermsg == "C" || usermsg == "D" || usermsg == "E") {
+                awsCalvida.push(usermsg);
+            }
+            else if(iamsg.includes("Has terminado el cuestionario")) {
+                processCalvida = false;
+                awsCalvida = [];
+                contadorCalvida = 0;
+            }          
+        }
         
         const assistantMessage = response.choices[0].message.content;
         const toolCalls = response.choices[0].message.tool_calls;
@@ -227,7 +349,7 @@ export const ChatAI = async (req, res) => {
             for (const call of toolCalls) {
                 if (call.type === 'function' && call.function.name === 'usarGhq12') {
                     // Obtener la pregunta actual
-                    const result = await usarGhq12(contadorGhq12);
+                    const result = await usarGhq12(idUser);
                     // Si es una pregunta (no es el mensaje final)
                     if (!result.mensaje.includes("Has terminado el cuestionario")) {
                         res.json({ 
@@ -253,7 +375,7 @@ export const ChatAI = async (req, res) => {
                 }
                 else if (call.type === 'function' && call.function.name === 'usarDep') {
                     // Obtener la pregunta actual
-                    const result = await usarDep(contadorDep);
+                    const result = await usarDep(idUser);
                     // Si es una pregunta (no es el mensaje final)
                     if (!result.mensaje.includes("Has terminado el cuestionario")) {
                         res.json({ 
@@ -278,7 +400,7 @@ export const ChatAI = async (req, res) => {
                 }
                 else if (call.type === 'function' && call.function.name === 'usarAns') {
                     // Obtener la pregunta actual
-                    const result = await usarAns(contadorAns);
+                    const result = await usarAns(idUser);
                     // Si es una pregunta (no es el mensaje final)
                     if (!result.mensaje.includes("Has terminado el cuestionario")) {
                         res.json({ 
@@ -303,7 +425,7 @@ export const ChatAI = async (req, res) => {
                 }
                 else if (call.type === 'function' && call.function.name === 'usarEstr') {
                     // Obtener la pregunta actual
-                    const result = await usarEstr(contadorEstr);
+                    const result = await usarEstr(idUser);
                     // Si es una pregunta (no es el mensaje final)
                     if (!result.mensaje.includes("Has terminado el cuestionario")) {
                         res.json({ 
@@ -328,7 +450,7 @@ export const ChatAI = async (req, res) => {
                 }
                 else if (call.type === 'function' && call.function.name === 'usarSuic') {
                     // Obtener la pregunta actual
-                    const result = await usarSuic(contadorSuic);
+                    const result = await usarSuic(idUser);
                     // Si es una pregunta (no es el mensaje final)
                     if (!result.mensaje.includes("Has terminado el cuestionario")) {
                         res.json({ 
@@ -353,7 +475,7 @@ export const ChatAI = async (req, res) => {
                 }
                 else if (call.type === 'function' && call.function.name === 'usarCalvida') {
                     // Obtener la pregunta actual
-                    const result = await usarCalvida(contadorCalvida);
+                    const result = await usarCalvida(idUser);
                     // Si es una pregunta (no es el mensaje final)
                     if (!result.mensaje.includes("Has terminado el cuestionario")) {
                         res.json({ 

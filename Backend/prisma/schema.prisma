@@ -146,6 +146,14 @@ model informacionUsuario {
   situacionlaboral    situacionlaboral[]    @relation("conexionSituacionLaboral")
   salud               salud[]               @relation("conexionSalud")
 
+  // Test psicologicos
+  ghq12               ghq12[]               @relation("conexionGHQ12")
+  dep                 dep[]                 @relation("conexionDep")
+  ans                 ans[]                 @relation("conexionAns")
+  estr                estr[]                @relation("conexionEstr")
+  suic                suic[]                @relation("conexionSuic")
+  calvida             calvida[]             @relation("conexionCalvida")
+
   @@map("informacion_usuario")
 }
 
@@ -256,4 +264,59 @@ model salud {
   usuariosalud informacionUsuario @relation(fields: [idUsuario], references: [idUsuario], name: "conexionSalud")
 
   @@map("salud")
+}
+
+//test psicologicos:--------------------------------------------------------------------------------------------------------------------------------------------------
+
+model ghq12 {
+  idghq12         String @id @unique @default(uuid())
+  idUsuario       String     
+  respuestas      Json
+  @@map("ghq12")
+
+  usuarioGHQ12 informacionUsuario @relation(fields: [idUsuario], references: [idUsuario], name: "conexionGHQ12")
+}
+
+model dep {
+  iddep          String @id @unique @default(uuid())
+  idUsuario      String     
+  respuestas     Json
+  @@map("dep")
+
+  usuarioDep informacionUsuario @relation(fields: [idUsuario], references: [idUsuario], name: "conexionDep")
+}
+model ans {
+  idans          String @id @unique @default(uuid())
+  idUsuario      String     
+  respuestas     Json
+  @@map("ans")
+
+  usuarioAns informacionUsuario @relation(fields: [idUsuario], references: [idUsuario], name: "conexionAns")
+}
+
+model estr {
+  idestr         String @id @unique @default(uuid())
+  idUsuario      String     
+  respuestas     Json
+  @@map("estr")
+
+  usuarioEstr informacionUsuario @relation(fields: [idUsuario], references: [idUsuario], name: "conexionEstr")
+}
+
+model suic {
+  idsuic         String @id @unique @default(uuid())
+  idUsuario      String     
+  respuestas     Json
+  @@map("suic")
+
+  usuarioSuic informacionUsuario @relation(fields: [idUsuario], references: [idUsuario], name: "conexionSuic")
+}
+
+model calvida{
+  idcalvida         String @id @unique @default(uuid())
+  idUsuario         String     
+  respuestas        Json
+  @@map("calvida")
+
+  usuarioCalvida informacionUsuario @relation(fields: [idUsuario], references: [idUsuario], name: "conexionCalvida")
 }
