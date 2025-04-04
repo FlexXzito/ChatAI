@@ -10,6 +10,7 @@ import NuecoChatAzul from "/NuevoChatAzul.png"
 import EnviarIcon from "/iconEnviar.png";
 import axios from "axios";
 import React from "react";
+import { getPrompt } from "./Components/Prompts";
 
 import "./Components/Css.css";
 
@@ -164,11 +165,10 @@ export function Chat() {
     localStorage.clear();
     setConversacion([]);
 
-    const prompt = getPrompt(res.data.usuario.rol);
-
+    const prompt = getPrompt();
     localStorage.setItem(
       "conversacion",
-      JSON.stringify([prompt]));
+      JSON.stringify([prompt])); 
 
     localStorage.setItem("idchat", null);
   }

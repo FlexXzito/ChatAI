@@ -2,6 +2,7 @@ import axios from "axios";
 import basura from "/basura.png";
 import Cookies from "js-cookie";
 import { useState, useEffect } from "react";
+import { getPrompt } from "./Prompts";
 
 export default function Chatcontainer({ onChatLoaded }) {
   const [data, setData] = useState([]);
@@ -55,6 +56,7 @@ export default function Chatcontainer({ onChatLoaded }) {
         localStorage.removeItem("conversacion");
         localStorage.removeItem("idchat");
 
+        const prompt = getPrompt();
         localStorage.setItem(
           "conversacion",
           JSON.stringify([prompt]));
