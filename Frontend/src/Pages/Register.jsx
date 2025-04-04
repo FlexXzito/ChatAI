@@ -340,7 +340,7 @@ export function Register() {
           </form>
           {response && <p className="text-yellow-500 mt-4">{response}</p>}
         </div>
-        <div className="hidden md:flex flex-col w-full h-full items-center justify-center">
+        <div className="flex flex-col w-full h-full items-center justify-center">
           <div className="relative bg-white p-2 rounded-lg shadow-lg border-4 border-blue-600 text-blue-800 font-semibold mb-10 z-10">
             <p className="px-8 py-6">{currentStep.comment}</p>
             <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 translate-y-full w-6 h-6 border-l-8 border-l-transparent border-r-8 border-r-transparent border-t-8 border-t-blue-600"></div>
