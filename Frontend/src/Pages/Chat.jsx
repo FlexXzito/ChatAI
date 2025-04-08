@@ -349,6 +349,12 @@ export function Chat() {
     }
   };
 
+  const cleaner = () => {
+    setToken("");
+    setCounter(0);
+    setArray([]);
+  };
+
   const handleLogout = () => {
     localStorage.clear();
     Cookies.remove("idUsuario");
@@ -414,7 +420,7 @@ export function Chat() {
         </div>
 
         <div className="p-6 max-w-96 h-max overflow-y-auto no-scrollbar">
-          <Chatcontainer key={refreshKey} onChatLoaded={handleChatUpdate}></Chatcontainer>
+          <Chatcontainer key={refreshKey} onChatLoaded={handleChatUpdate} onClean={cleaner}></Chatcontainer>
         </div>
 
         <div className="flex flex-col items-center mt-auto p-6 space-y-4 h-52 bg-blue-900 bg-opacity-30">

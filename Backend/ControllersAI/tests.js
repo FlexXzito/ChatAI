@@ -1,11 +1,7 @@
 export const cuestionariosConfig = {
 	ghq12: {
 		preguntas: [
-			`1. ¿Ha podido concentrarse bien en lo que hace?\n    
-				0) Mejor que lo habitual.\n    
-				1) Igual que lo habitual.\n   
-				2) Menos que lo habitual.\n    
-				3) Mucho menos que lo habitual.\n`,
+			`1. ¿Ha podido concentrarse bien en lo que hace? \n 0) Mejor que lo habitual.\n 1) Igual que lo habitual.\n 2) Menos que lo habitual.\n 3) Mucho menos que lo habitual.\n`,
 			'2. ¿Sus preocupaciones le han hecho perder mucho el sueño?\n    0) No, en absoluto.\n    1) Igual que lo habitual.\n    2) Más que lo habitual.\n    3) Mucho más que lo habitual.',
 			'3. ¿Ha sentido que está desempeñando un papel útil en la vida?\n    0) Más que lo habitual.\n    1) Igual que lo habitual.\n    2) Menos que lo habitual.\n    3) Mucho menos que lo habitual.',
 			'4. ¿Se ha sentido capaz de tomar decisiones?\n    0) Más capaz que lo habitual.\n    1) Igual que lo habitual.\n    2) Menos capaz que lo habitual.\n    3) Mucho menos capaz que lo habitual.',

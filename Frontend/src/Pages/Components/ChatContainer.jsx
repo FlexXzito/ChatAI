@@ -4,7 +4,7 @@ import Cookies from "js-cookie";
 import { useState, useEffect } from "react";
 import { getPrompt } from "./Prompts";
 
-export default function Chatcontainer({ onChatLoaded }) {
+export default function Chatcontainer({ onChatLoaded, onClean}) {
   const [data, setData] = useState([]);
   const [refreshKey, setRefreshKey] = useState(0);
 
@@ -89,7 +89,7 @@ export default function Chatcontainer({ onChatLoaded }) {
               className="flex lg:w-full w-80 p-4 bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 mb-2"
             >
               <button
-                onClick={() => CargarChat(idchat)}
+                onClick={() => {CargarChat(idchat); onClean();} }
                 className="flex-1 text-left"
               >
                 <p className="text-sm font-medium text-blue-700">{`${weekday} ${dia} de ${mes} / ${year}`}</p>
@@ -97,7 +97,10 @@ export default function Chatcontainer({ onChatLoaded }) {
               </button>
               <button
                 className="flex items-center justify-center bg-blue-600 hover:bg-blue-700 text-white w-10 h-10 rounded-lg transition-colors duration-300"
-                onClick={() => EliminarChat(idchat)}
+                onClick={() => {
+                  EliminarChat(idchat);
+                  onClean();
+                }}
               >
                 <img
                   src={basura}
