@@ -63,6 +63,7 @@ export default function Chatcontainer({ onChatLoaded }) {
     
         localStorage.setItem("idchat", null);
       }
+      
       setData(data.filter(chat => chat.idchat !== idchat));
       onChatLoaded();
       setRefreshKey((prevKey) => prevKey + 1);

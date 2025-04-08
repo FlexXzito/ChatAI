@@ -57,58 +57,253 @@ export function Chat() {
     }
   };
 
+  const [token, setToken] = useState("");
+  const [counter, setCounter] = useState(0);
+  const [array, setArray] = useState([]);
+
   const handleSendMessage = async () => {
     try {
       if (isCooldown) return;
       if (newMessage.trim() === "") return;
-      const conversacionAddmsgUser =
-        JSON.parse(localStorage.getItem("conversacion"));
+  
+      // Guarda el mensaje actual en una constante
+      const msgguardar = newMessage;
+  
+      // Actualiza la conversación en localStorage
+      const conversacionAddmsgUser = JSON.parse(localStorage.getItem("conversacion"));
       if (!conversacionAddmsgUser) {
         setRefreshKey((prevKey) => prevKey + 1);
-      }  
-      const addmessageuser = { role: "user", content: newMessage };
+      }
+      const addmessageuser = { role: "user", content: msgguardar };
       conversacionAddmsgUser.push(addmessageuser);
-      localStorage.setItem(
-        "conversacion",
-        JSON.stringify(conversacionAddmsgUser)
-      );
+      localStorage.setItem("conversacion", JSON.stringify(conversacionAddmsgUser));
       setConversacion([...conversacionAddmsgUser]);
-
+  
+      // Limpia el input y establece cooldown
       setNewMessage("");
       setIsCooldown(true);
       setTimeout(() => setIsCooldown(false), 3000);
-
+  
       let enviarhistorial = JSON.parse(localStorage.getItem("conversacion"));
-
       const idUser = Cookies.get("idUsuario");
-
+  
+      // Variables para la petición
+      let requestCounter = counter;
+      let requestArray = [...array];
+      let requestToken = token;
+  
+      // Si estamos en el test GHQ12, verificamos si la respuesta es válida
+      if (token === "tokenGHQ12responses") {
+        const validOptions = ['0', '1', '2', '3'];
+        
+        if (validOptions.includes(msgguardar)) {
+          // Solo actualizamos los valores para la petición si la respuesta es válida
+          requestArray = [...array, msgguardar];
+          requestCounter = counter + 1;
+        } else {
+          // Si la respuesta no es válida, agregamos un mensaje de error a la conversación
+          const errorMessage = "Por favor, ingresa solo un número del 0 al 3 correspondiente a tu respuesta.";
+          
+          // Actualizar la conversación con el mensaje de error
+          const conversacionAddError = JSON.parse(localStorage.getItem("conversacion"));
+          const addErrorMsg = { role: "assistant", content: errorMessage };
+          conversacionAddError.push(addErrorMsg);
+          localStorage.setItem("conversacion", JSON.stringify(conversacionAddError));
+          setConversacion([...conversacionAddError]);
+          setRefreshKey((prevKey) => prevKey + 1);
+          
+          // No hacemos la petición al servidor
+          setIsCooldown(false);
+          return;
+        }
+      }
+      if (token == "tokenDEPresponses"){
+        const validOptions = ['0', '1', '2', '3'];
+        if (validOptions.includes(msgguardar)) {
+          requestArray = [...array, msgguardar];
+          requestCounter = counter + 1;
+        } else {
+          const errorMessage = "Por favor, ingresa solo un número del 0 al 3 correspondiente a tu respuesta.";
+          const conversacionAddError = JSON.parse(localStorage.getItem("conversacion"));
+          const addErrorMsg = { role: "assistant", content: errorMessage };
+          conversacionAddError.push(addErrorMsg);
+          localStorage.setItem("conversacion", JSON.stringify(conversacionAddError));
+          setConversacion([...conversacionAddError]);
+          setRefreshKey((prevKey) => prevKey + 1);
+          setIsCooldown(false);
+          return;
+        }
+      }
+      if (token == "tokenANSresponses"){
+        const validOptions = ['0', '1', '2', '3'];
+        if (validOptions.includes(msgguardar)) {
+          requestArray = [...array, msgguardar];
+          requestCounter = counter + 1;
+        } else {
+          const errorMessage = "Por favor, ingresa solo un número del 0 al 3 correspondiente a tu respuesta.";
+          const conversacionAddError = JSON.parse(localStorage.getItem("conversacion"));
+          const addErrorMsg = { role: "assistant", content: errorMessage };
+          conversacionAddError.push(addErrorMsg);
+          localStorage.setItem("conversacion", JSON.stringify(conversacionAddError));
+          setConversacion([...conversacionAddError]);
+          setRefreshKey((prevKey) => prevKey + 1);
+          setIsCooldown(false);
+          return;
+        }
+      }
+      if (token == "tokenESTRresponses"){
+        const validOptions = ['0', '1', '2', '3', '4'];
+        if (validOptions.includes(msgguardar)) {
+          requestArray = [...array, msgguardar];
+          requestCounter = counter + 1;
+        } else {
+          const errorMessage = "Por favor, ingresa solo un número del 0 al 3 correspondiente a tu respuesta.";
+          const conversacionAddError = JSON.parse(localStorage.getItem("conversacion"));
+          const addErrorMsg = { role: "assistant", content: errorMessage };
+          conversacionAddError.push(addErrorMsg);
+          localStorage.setItem("conversacion", JSON.stringify(conversacionAddError));
+          setConversacion([...conversacionAddError]);
+          setRefreshKey((prevKey) => prevKey + 1);
+          setIsCooldown(false);
+          return;
+        }
+      }
+      if (token == "tokenSUICresponses"){
+        const validOptions = ['0', '1', '2'];
+        if (validOptions.includes(msgguardar)) {
+          requestArray = [...array, msgguardar];
+          requestCounter = counter + 1;
+        } else {
+          const errorMessage = "Por favor, ingresa solo un número del 0 al 3 correspondiente a tu respuesta.";
+          const conversacionAddError = JSON.parse(localStorage.getItem("conversacion"));
+          const addErrorMsg = { role: "assistant", content: errorMessage };
+          conversacionAddError.push(addErrorMsg);
+          localStorage.setItem("conversacion", JSON.stringify(conversacionAddError));
+          setConversacion([...conversacionAddError]);
+          setRefreshKey((prevKey) => prevKey + 1);
+          setIsCooldown(false);
+          return;
+        }
+      }
+      if (token == "tokenCALVIDAresponses"){
+        const validOptions = ['1', '2', '3', '4', '5'];
+        if (validOptions.includes(msgguardar)) {
+          requestArray = [...array, msgguardar];
+          requestCounter = counter + 1;
+        } else {
+          const errorMessage = "Por favor, ingresa solo un número del 0 al 3 correspondiente a tu respuesta.";
+          const conversacionAddError = JSON.parse(localStorage.getItem("conversacion"));
+          const addErrorMsg = { role: "assistant", content: errorMessage };
+          conversacionAddError.push(addErrorMsg);
+          localStorage.setItem("conversacion", JSON.stringify(conversacionAddError));
+          setConversacion([...conversacionAddError]);
+          setRefreshKey((prevKey) => prevKey + 1);
+          setIsCooldown(false);
+          return;
+        }
+      }
+  
+      // Envía la petición al servidor con los valores actualizados
       const response = await axios.post(
         `${import.meta.env.VITE_URL}/psicologia/ChatAI`,
-        { enviarhistorial, idUser }
+        { enviarhistorial, idUser, counter: requestCounter, token: requestToken, array: requestArray }
       );
-      const assistantMessage = response.data.message;
-
+  
+      let assistantMessage;
+      const logInfo = response.data.logInfo;
+      
+      if (logInfo !== undefined) {
+        const nameFunction = logInfo[0].function.name;
+        if (nameFunction === "tokenGHQ12responses") {
+          assistantMessage = response.data.assistantMessage;
+          setToken("tokenGHQ12responses");
+          
+          // Solo actualizamos el estado si la respuesta fue válida
+          if (token === "tokenGHQ12responses" && requestCounter > counter) {
+            setArray(requestArray);
+            setCounter(requestCounter);
+          }
+        }
+        if (nameFunction === "tokenDEPresponses") {
+          assistantMessage = response.data.assistantMessage;
+          setToken("tokenDEPresponses");
+          
+          // Solo actualizamos el estado si la respuesta fue válida
+          if (token === "tokenDEPresponses" && requestCounter > counter) {
+            setArray(requestArray);
+            setCounter(requestCounter);
+          }
+        }
+        if (nameFunction === "tokenANSresponses") {
+          assistantMessage = response.data.assistantMessage;
+          setToken("tokenANSresponses");
+          
+          // Solo actualizamos el estado si la respuesta fue válida
+          if (token === "tokenANSresponses" && requestCounter > counter) {
+            setArray(requestArray);
+            setCounter(requestCounter);
+          }
+        }
+        if (nameFunction === "tokenESTRresponses") {
+          assistantMessage = response.data.assistantMessage;
+          setToken("tokenESTRresponses");
+          
+          // Solo actualizamos el estado si la respuesta fue válida
+          if (token === "tokenESTRresponses" && requestCounter > counter) {
+            setArray(requestArray);
+            setCounter(requestCounter);
+          }
+        }
+        if (nameFunction === "tokenSUICresponses") {
+          assistantMessage = response.data.assistantMessage;
+          setToken("tokenSUICresponses");
+          
+          // Solo actualizamos el estado si la respuesta fue válida
+          if (token === "tokenSUICresponses" && requestCounter > counter) {
+            setArray(requestArray);
+            setCounter(requestCounter);
+          }
+        }
+        if (nameFunction === "tokenCALVIDAresponses") {
+          assistantMessage = response.data.assistantMessage;
+          setToken("tokenCALVIDAresponses");
+          
+          // Solo actualizamos el estado si la respuesta fue válida
+          if (token === "tokenCALVIDAresponses" && requestCounter > counter) {
+            setArray(requestArray);
+            setCounter(requestCounter);
+          }
+        }
+        if (nameFunction === "liberartoken") {
+          assistantMessage = response.data.assistantMessage;
+          setToken("");
+          setCounter(0);
+          setArray([]);
+        }
+      } else {
+        assistantMessage = response.data.assistantMessage;
+      }
+  
       // Generar audio con gTTS
-      // Modificar la sección de audio:
       if (audio) {
         audio.pause();
         audio.currentTime = 0;
         URL.revokeObjectURL(previusAudioUrl);
       }
-
+  
       try {
         const responseMp3 = await axios.post(`${import.meta.env.VITE_URL}/psicologia/StrToMp3`, {
           text: assistantMessage,
         }, { responseType: "blob" });
-
+  
         const audioUrl = URL.createObjectURL(responseMp3.data);
         setPreviusAudioUrl(audioUrl);
-
+  
         const newAudio = new Audio(audioUrl);
         newAudio.onerror = (e) => {
           console.error("Error al reproducir audio:", e);
         };
-
+  
         setAudio(newAudio);
         newAudio.play().catch(err => {
           console.error("Error iniciando reproducción:", err);
@@ -116,7 +311,7 @@ export function Chat() {
       } catch (audioError) {
         console.error("Error al generar o reproducir audio:", audioError);
       }
-
+  
       const conversacionAddmsgIa = JSON.parse(
         localStorage.getItem("conversacion")
       );
@@ -126,13 +321,13 @@ export function Chat() {
         "conversacion",
         JSON.stringify(conversacionAddmsgIa)
       );
-
+  
       const idchat =
         localStorage.getItem("idchat") === "null"
           ? null
           : localStorage.getItem("idchat");
       const conversacion = localStorage.getItem("conversacion");
-
+  
       const responsesave = await axios.post(
         `${import.meta.env.VITE_URL}/psicologia/ChatSave`,
         {
@@ -141,13 +336,14 @@ export function Chat() {
           conversacion,
         }
       );
-
+  
       const idchatRes = responsesave.data.chat.idchat;
-
+  
       localStorage.setItem("idchat", idchatRes);
-
+  
       setConversacion([...conversacionAddmsgIa]);
       setRefreshKey((prevKey) => prevKey + 1);
+  
     } catch (error) {
       console.error("Error al enviar el mensaje:", error);
     }
@@ -168,9 +364,13 @@ export function Chat() {
     const prompt = getPrompt();
     localStorage.setItem(
       "conversacion",
-      JSON.stringify([prompt])); 
+      JSON.stringify([prompt]));
 
     localStorage.setItem("idchat", null);
+
+    setToken("")
+    setCounter(0)
+    setArray([])
   }
 
   const username = Cookies.get("usuario");
