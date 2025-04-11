@@ -59,107 +59,180 @@ export const ChatAI = async (req, res) => {
         let assistantMessage
         let nameFunction;
         console.log(token)
-        if(!token){
+        if (!token) {
             response = await openai.chat.completions.create({
                 model: 'gpt-4o-mini',
                 messages: enviarhistorial,
                 tools: tools,
             });
             logInfo = response.choices[0].message.tool_calls;
-            assistantMessage = response.choices[0].message.content; 
+            assistantMessage = response.choices[0].message.content;
         }
-        if(logInfo != undefined || token != ""){
-            if(logInfo != undefined){
+        if (logInfo != undefined || token != "") {
+            if (logInfo != undefined) {
                 nameFunction = logInfo[0].function.name;
             }
-            if(nameFunction == "tokenGHQ12responses" || token == "tokenGHQ12responses"){
-                if(counter == cuestionariosConfig.ghq12.preguntas.length){
-                    console.log(array)
+            if (nameFunction == "tokenGHQ12responses" || token == "tokenGHQ12responses") {
+                if (counter == cuestionariosConfig.ghq12.preguntas.length) {
+                    let scorecount = 0;
+                    let resultadoenv = "";
+                    for (let i = 0; i < array.length; i++) {
+                        scorecount += parseInt(array[i], 10);
+                    }
+                    if (scorecount <= 10) {
+                        resultadoenv = "No hay presencia de síntomas significativos de malestar psicológico 🟢";
+                    } else if (scorecount >= 11 && scorecount <= 17) {
+                        resultadoenv = "Hay cierto grado de preocupación emocional 🟡";
+                    } else {
+                        resultadoenv = "Hay un indicador de malestar psicológico significativo 🔴";
+                    }
                     await prisma.ghq12.create({
                         data: {
                             idUsuario: idUser,
                             respuestas: JSON.stringify(array),
+                            resultado: resultadoenv,
                         }
                     });
-                    return res.json({assistantMessage: "Gracias por responder el Test GHQ12 sus datos seran guardados y tratados para uso educativo y de investigación", logInfo: [{function:{name:"liberartoken"}}]})
+                    return res.json({ assistantMessage: "Gracias por responder el Test GHQ12 sus datos seran guardados y tratados para uso educativo y de investigación" + resultadoenv, logInfo: [{ function: { name: "liberartoken" } }] })
                 }
                 const assistantPregunta = cuestionariosConfig.ghq12.preguntas[counter]
-                return res.json({assistantMessage: assistantPregunta,logInfo: logInfo || [{ function: { name: token } }]});
+                return res.json({ assistantMessage: assistantPregunta, logInfo: logInfo || [{ function: { name: token } }] });
             }
-            else if(nameFunction == "tokenDEPresponses" || token == "tokenDEPresponses"){
-                if(counter == cuestionariosConfig.dep.preguntas.length){
-                    console.log(array)
+            else if (nameFunction == "tokenDEPresponses" || token == "tokenDEPresponses") {
+                if (counter == cuestionariosConfig.dep.preguntas.length) {
+                    let scorecount = 0;
+                    let resultadoenv = "";
+                    for (let i = 0; i < array.length; i++) {
+                        scorecount += parseInt(array[i], 10);
+                    }
+                    if (scorecount <= 4) {
+                        resultadoenv = "Estado emocional saludable 🟢";
+                    } else if (scorecount >= 5 && scorecount <= 9) {
+                        resultadoenv = "Posible depresión leve 🟡";
+                    } else {
+                        resultadoenv = "Posible depresión grave 🔴";
+                    }
+                    
                     await prisma.dep.create({
                         data: {
                             idUsuario: idUser,
                             respuestas: JSON.stringify(array),
+                            resultado: resultadoenv,
                         }
                     });
-                    return res.json({assistantMessage: "Gracias por responder el Test de depresion sus datos seran guardados y tratados para uso educativo y de investigación", logInfo: [{function:{name:"liberartoken"}}]})
+                    return res.json({ assistantMessage: "Gracias por responder el Test de depresion sus datos seran guardados y tratados para uso educativo y de investigación"+resultadoenv, logInfo: [{ function: { name: "liberartoken" } }] })
                 }
                 const assistantPregunta = cuestionariosConfig.dep.preguntas[counter]
-                return res.json({assistantMessage: assistantPregunta,logInfo: logInfo || [{ function: { name: token } }]});
+                return res.json({ assistantMessage: assistantPregunta, logInfo: logInfo || [{ function: { name: token } }] });
             }
-            else if(nameFunction == "tokenANSresponses" || token == "tokenANSresponses"){
-                if(counter == cuestionariosConfig.ans.preguntas.length){
-                    console.log(array)
+            else if (nameFunction == "tokenANSresponses" || token == "tokenANSresponses") {
+                if (counter == cuestionariosConfig.ans.preguntas.length) {
+                    let scorecount = 0;
+                    let resultadoenv = "";
+                    for (let i = 0; i < array.length; i++) {
+                        scorecount += parseInt(array[i], 10);
+                    }
+                    if (scorecount <= 20) {
+                        resultadoenv = "Ansiedad saludable 🟢";
+                    } else if (scorecount >= 21 && scorecount <= 34) {
+                        resultadoenv = "Ansiedad moderada  🟡";
+                    } else {
+                        resultadoenv = "Ansiedad severa 🔴";
+                    }
                     await prisma.ans.create({
                         data: {
                             idUsuario: idUser,
                             respuestas: JSON.stringify(array),
+                            resultado: resultadoenv,
                         }
                     });
-                    return res.json({assistantMessage: "Gracias por responder el Test de ansiedad sus datos seran guardados y tratados para uso educativo y de investigación", logInfo: [{function:{name:"liberartoken"}}]})
+                    return res.json({ assistantMessage: "Gracias por responder el Test de ansiedad sus datos seran guardados y tratados para uso educativo y de investigación"+resultadoenv, logInfo: [{ function: { name: "liberartoken" } }] })
                 }
                 const assistantPregunta = cuestionariosConfig.ans.preguntas[counter]
-                return res.json({assistantMessage: assistantPregunta,logInfo: logInfo || [{ function: { name: token } }]});
+                return res.json({ assistantMessage: assistantPregunta, logInfo: logInfo || [{ function: { name: token } }] });
             }
-            else if(nameFunction == "tokenESTRresponses" || token == "tokenESTRresponses"){
-                if(counter == cuestionariosConfig.estr.preguntas.length){
-                    console.log(array)
+            else if (nameFunction == "tokenESTRresponses" || token == "tokenESTRresponses") {
+                if (counter == cuestionariosConfig.estr.preguntas.length) {
+                    let scorecount = 0;
+                    let resultadoenv = "";
+                    for (let i = 0; i < array.length; i++) {
+                        scorecount += parseInt(array[i], 10);
+                    }
+                    if (scorecount <= 18) {
+                        resultadoenv = "Estres saludable 🟢";
+                    } else if (scorecount >= 19 && scorecount <= 24) {
+                        resultadoenv = "Estres moderado 🟡";
+                    } else {
+                        resultadoenv = "Estres severo 🔴";
+                    }
                     await prisma.estr.create({
                         data: {
                             idUsuario: idUser,
                             respuestas: JSON.stringify(array),
+                            resultado: resultadoenv,
                         }
                     });
-                    return res.json({assistantMessage: "Gracias por responder el Test de estres sus datos seran guardados y tratados para uso educativo y de investigación", logInfo: [{function:{name:"liberartoken"}}]})
+                    return res.json({ assistantMessage: "Gracias por responder el Test de estres sus datos seran guardados y tratados para uso educativo y de investigación"+resultadoenv, logInfo: [{ function: { name: "liberartoken" } }] })
                 }
                 const assistantPregunta = cuestionariosConfig.estr.preguntas[counter]
-                return res.json({assistantMessage: assistantPregunta,logInfo: logInfo || [{ function: { name: token } }]});
+                return res.json({ assistantMessage: assistantPregunta, logInfo: logInfo || [{ function: { name: token } }] });
             }
-            else if(nameFunction == "tokenSUICresponses" || token == "tokenSUICresponses"){
-                if(counter == cuestionariosConfig.suic.preguntas.length){
-                    console.log(array)
+            else if (nameFunction == "tokenSUICresponses" || token == "tokenSUICresponses") {
+                if (counter == cuestionariosConfig.suic.preguntas.length) {
+                    let scorecount = 0;
+                    let resultadoenv = "";
+                    for (let i = 0; i < array.length; i++) {
+                        scorecount += parseInt(array[i], 10);
+                    }
+                    if (scorecount <= 0) {
+                        resultadoenv = "Sin indicativo de suicido 🟢";
+                    } else if (scorecount >= 1 && scorecount <= 36) {
+                        resultadoenv = "Alto riesgo de suicido 🔴";
+                    } else {
+                        resultadoenv = "Alto riesgo de suicido 🔴";
+                    }
                     await prisma.suic.create({
                         data: {
                             idUsuario: idUser,
                             respuestas: JSON.stringify(array),
+                            resultado: resultadoenv,
                         }
                     });
-                    return res.json({assistantMessage: "Gracias por responder el Test de estres sus datos seran guardados y tratados para uso educativo y de investigación", logInfo: [{function:{name:"liberartoken"}}]})
+                    return res.json({ assistantMessage: "Gracias por responder el Test de estres sus datos seran guardados y tratados para uso educativo y de investigación"+resultadoenv, logInfo: [{ function: { name: "liberartoken" } }] })
                 }
                 const assistantPregunta = cuestionariosConfig.suic.preguntas[counter]
-                return res.json({assistantMessage: assistantPregunta,logInfo: logInfo || [{ function: { name: token } }]});
+                return res.json({ assistantMessage: assistantPregunta, logInfo: logInfo || [{ function: { name: token } }] });
             }
-            else if(nameFunction == "tokenCALVIDAresponses" || token == "tokenCALVIDAresponses"){
-                if(counter == cuestionariosConfig.calvida.preguntas.length){
-                    console.log(array)
+            else if (nameFunction == "tokenCALVIDAresponses" || token == "tokenCALVIDAresponses") {
+                if (counter == cuestionariosConfig.calvida.preguntas.length) {
+                    let scorecount = 0;
+                    let resultadoenv = "";
+                    for (let i = 0; i < array.length; i++) {
+                        scorecount += parseInt(array[i], 10);
+                    }
+                    if (scorecount <= 32) {
+                        resultadoenv = "Calidad de vida excelente 🟢";
+                    } else if (scorecount >= 33 && scorecount <= 67) {
+                        resultadoenv = "Calidad de vida establel 🟡";
+                    } else {
+                        resultadoenv = "Calidad de vida baja 🔴";
+                    }
                     await prisma.calvida.create({
                         data: {
                             idUsuario: idUser,
                             respuestas: JSON.stringify(array),
+                            resultado: resultadoenv,
                         }
                     });
-                    return res.json({assistantMessage: "Gracias por responder el Test de estres sus datos seran guardados y tratados para uso educativo y de investigación", logInfo: [{function:{name:"liberartoken"}}]})
+                    return res.json({ assistantMessage: "Gracias por responder el Test de estres sus datos seran guardados y tratados para uso educativo y de investigación"+resultadoenv, logInfo: [{ function: { name: "liberartoken" } }] })
                 }
                 const assistantPregunta = cuestionariosConfig.calvida.preguntas[counter]
-                return res.json({assistantMessage: assistantPregunta,logInfo: logInfo || [{ function: { name: token } }]});
+                return res.json({ assistantMessage: assistantPregunta, logInfo: logInfo || [{ function: { name: token } }] });
             }
         }
 
-        return res.json({assistantMessage:assistantMessage, logInfo:logInfo})
-    
+        return res.json({ assistantMessage: assistantMessage, logInfo: logInfo })
+
     } catch (error) {
         console.error('Error al obtener la respuesta de OpenAI:', error);
         res.status(500).json({ error: 'Hubo un error al procesar la solicitud.' });

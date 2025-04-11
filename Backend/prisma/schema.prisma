@@ -272,6 +272,7 @@ model ghq12 {
   idghq12         String @id @unique @default(uuid())
   idUsuario       String     
   respuestas      Json
+  resultado       String
   @@map("ghq12")
 
   usuarioGHQ12 informacionUsuario @relation(fields: [idUsuario], references: [idUsuario], name: "conexionGHQ12")
@@ -281,6 +282,7 @@ model dep {
   iddep          String @id @unique @default(uuid())
   idUsuario      String     
   respuestas     Json
+  resultado       String
   @@map("dep")
 
   usuarioDep informacionUsuario @relation(fields: [idUsuario], references: [idUsuario], name: "conexionDep")
@@ -289,6 +291,7 @@ model ans {
   idans          String @id @unique @default(uuid())
   idUsuario      String     
   respuestas     Json
+  resultado       String
   @@map("ans")
 
   usuarioAns informacionUsuario @relation(fields: [idUsuario], references: [idUsuario], name: "conexionAns")
@@ -298,6 +301,7 @@ model estr {
   idestr         String @id @unique @default(uuid())
   idUsuario      String     
   respuestas     Json
+  resultado       String
   @@map("estr")
 
   usuarioEstr informacionUsuario @relation(fields: [idUsuario], references: [idUsuario], name: "conexionEstr")
@@ -307,6 +311,7 @@ model suic {
   idsuic         String @id @unique @default(uuid())
   idUsuario      String     
   respuestas     Json
+  resultado       String
   @@map("suic")
 
   usuarioSuic informacionUsuario @relation(fields: [idUsuario], references: [idUsuario], name: "conexionSuic")
@@ -316,6 +321,7 @@ model calvida{
   idcalvida         String @id @unique @default(uuid())
   idUsuario         String     
   respuestas        Json
+  resultado       String
   @@map("calvida")
 
   usuarioCalvida informacionUsuario @relation(fields: [idUsuario], references: [idUsuario], name: "conexionCalvida")
