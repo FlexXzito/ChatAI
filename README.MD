@@ -79,7 +79,17 @@ backend/
 │       └── 20250430192443_init/
 │           └── migration.sql
 ├── Router/            # Contiene las definiciones de las rutas de la API
-│   └── Routes.js
+│   ├── Routes.js
+│   ├── AdminConsultasUserRouter.js
+│   ├── AllChatsRouter.js
+│   ├── CargarChatRouter.js
+│   ├── ChatAIRouter.js
+│   ├── chatsaveRouter.js
+│   ├── DeleteChatRouter.js
+│   ├── LoginRouter.js
+│   ├── RegistroUserRouter.js
+│   ├── StringToMp3Router.js
+│   └── UpdateUserRouter.js
 ├── server.js          # Punto de entrada para iniciar el servidor
 ├── package.json       # Archivo de metadatos del proyecto y dependencias
 ├── package-lock.json  # Registro exacto de las dependencias instaladas
