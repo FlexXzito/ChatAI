@@ -2,7 +2,7 @@ import bcrypt from 'bcrypt';
 import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 
-
+/*
 // export const RegistroUser = async (req, res) => {
 //   // Desestructuramos los datos del body
 //   const {
@@ -154,48 +154,73 @@ const prisma = new PrismaClient();
 //     });
 //   }
 // };
+*/
 
-
+/**
+ * @async
+ * @function RegistroUser
+ * @description Registra un nuevo usuario en la base de datos, almacenando información en múltiples tablas relacionadas.
+ * Realiza el hash de la contraseña antes de guardar las credenciales.
+ * @param {object} req - El objeto de la solicitud HTTP. Se espera que contenga en el cuerpo (body) los siguientes datos:
+ * - Datos personales básicos: `nombre`, `apellido`, `correo`, `telefonoPersonal`, `tipoDocumento` (opcional), `documento`.
+ * - Credenciales de acceso: `usuario`, `contrasena`.
+ * - Información personal detallada: `edad`, `sexo`, `genero`, `estadocivil`, `hijosnum`, `personascargo`, `vivienda`, `localidad`,
+ * `tipovivienda`, `familiaresnum`, `estrato`, `etnico`.
+ * - Condiciones de vivienda: `hacinamiento`, `violencia`, `servicios`, `problemas`, `tipozona`.
+ * - Información educativa: `tipocolegio`, `nivelescolaridad`, `carrera`, `periodo`, `matedificulta`, `nivelingles`.
+ * - Situación laboral: `situacion`, `ingresos`, `sector`, `jornada`, `ascenso`.
+ * - Información de salud: `enfermecronica`, `discapacidad`, `suspsicoactivas`, `alcohol`, `Internet`, `nicotina`, `eps`, `asispsicologo`.
+ * @param {object} res - El objeto de la respuesta HTTP.
+ * @returns {Promise<void>} - No retorna un valor directamente, pero responde con un JSON que indica el éxito del registro (código 201)
+ * y contiene los datos del usuario creados en las diferentes tablas. En caso de error, responde con un código 400 si faltan datos requeridos
+ * o con un código 500 si ocurre un error interno del servidor durante el proceso de registro.
+ */
 export const RegistroUser = async (req, res) => {
-    
-    const { 
-        nombre, apellido, correo, telefonoPersonal, tipoDocumento,documento, 
-        usuario, contrasena, 
-        edad, sexo, genero, estadocivil, hijosnum, personascargo, vivienda, localidad, tipovivienda, familiaresnum, estrato, etnico, 
-        hacinamiento, violencia, servicios, problemas, tipozona, 
-        tipocolegio, nivelescolaridad, carrera, periodo, matedificulta, nivelingles, 
-        situacion, ingresos, sector, jornada, ascenso, 
-        enfermecronica, discapacidad, suspsicoactivas, alcohol, Internet, nicotina, eps, asispsicologo 
+
+    // Se extraen los datos del cuerpo de la solicitud.
+    const {
+        nombre, apellido, correo, telefonoPersonal, tipoDocumento,documento,
+        usuario, contrasena,
+        edad, sexo, genero, estadocivil, hijosnum, personascargo, vivienda, localidad, tipovivienda, familiaresnum, estrato, etnico,
+        hacinamiento, violencia, servicios, problemas, tipozona,
+        tipocolegio, nivelescolaridad, carrera, periodo, matedificulta, nivelingles,
+        situacion, ingresos, sector, jornada, ascenso,
+        enfermecronica, discapacidad, suspsicoactivas, alcohol, Internet, nicotina, eps, asispsicologo
     } = req.body;
-    
+
+    // Se validan los campos obligatorios para el registro.
     if (!nombre || !correo || !telefonoPersonal || !usuario || !contrasena) {
         return res.status(400).json({ message: 'Faltan datos requeridos' });
     }
 
+    // Función para convertir de forma segura un valor a entero. Si no es un número, retorna null.
     const parseIntSafe = (value) => {
         const parsed = parseInt(value);
         return isNaN(parsed) ? null : parsed;
     };
 
+    // Se realiza el hash de la contraseña utilizando bcrypt con un salt rounds de 10.
     const hashedPassword = await bcrypt.hash(contrasena,10);
 
     try {
-
+        // Función para formatear el número de teléfono añadiendo el prefijo '57' si no lo tiene.
         const formatPhoneNumber = (phoneNumber) => {
             return phoneNumber.startsWith('57') ? phoneNumber : '57' + phoneNumber;
         };
 
+        // Se crea el registro en la tabla 'informacionUsuario'.
         const newUser = await prisma.informacionUsuario.create({
             data: {
-            nombre,
-            apellido,
-            correo,
-            telefonoPersonal: formatPhoneNumber(telefonoPersonal),
-            documento,
-            tipoDocumento,
+                nombre,
+                apellido,
+                correo,
+                telefonoPersonal: formatPhoneNumber(telefonoPersonal),
+                documento,
+                tipoDocumento,
             }
         });
 
+        // Se crea el registro en la tabla 'credencial', vinculándolo al 'idUsuario' recién creado.
         const newCredential = await prisma.credencial.create({
             data: {
                 usuario,
@@ -204,6 +229,7 @@ export const RegistroUser = async (req, res) => {
             }
         });
 
+        // Se crea el registro en la tabla 'informacionPersonal', vinculándolo al 'idUsuario'.
         const newinformacionPersonal = await prisma.informacionPersonal.create({
             data: {
                 edad: parseIntSafe(edad),
@@ -222,6 +248,7 @@ export const RegistroUser = async (req, res) => {
             }
         });
 
+        // Se crea el registro en la tabla 'condicionesVivienda', vinculándolo al 'idUsuario'.
         const newcondicionesvivienda = await prisma.condicionesvivienda.create({
             data: {
                 hacinamiento: hacinamiento,
@@ -233,6 +260,7 @@ export const RegistroUser = async (req, res) => {
             }
         });
 
+        // Se crea el registro en la tabla 'educacion', vinculándolo al 'idUsuario'.
         const neweducacion = await prisma.educacion.create({
             data: {
                 tipocolegio,
@@ -245,6 +273,7 @@ export const RegistroUser = async (req, res) => {
             }
         });
 
+        // Se crea el registro en la tabla 'situacionlaboral', vinculándolo al 'idUsuario'.
         const newsituacionlaboral = await prisma.situacionlaboral.create({
             data: {
                 situacion,
@@ -256,6 +285,7 @@ export const RegistroUser = async (req, res) => {
             }
         });
 
+        // Se crea el registro en la tabla 'salud', vinculándolo al 'idUsuario'.
         const newsalud = await prisma.salud.create({
             data: {
                 enfermecronica,
@@ -270,6 +300,7 @@ export const RegistroUser = async (req, res) => {
             }
         });
 
+        // Se retorna una respuesta exitosa con los datos del usuario registrado en todas las tablas.
         return res.status(201).json({
             message: 'Usuario y credencial registrados correctamente',
             user: newUser,
@@ -282,6 +313,7 @@ export const RegistroUser = async (req, res) => {
         });
 
     } catch (error) {
+        // Se manejan los errores que puedan ocurrir durante el proceso de registro.
         console.error('Error al guardar los datos: ', error);
         return res.status(500).json({
             error: 'Error al guardar los datos',
