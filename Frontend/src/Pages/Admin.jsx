@@ -1,25 +1,42 @@
-import React, { useState } from 'react';
-import axios from 'axios';
-import { useNavigate } from "react-router-dom";
-import Cookies from "js-cookie";
+import React, { useState } from 'react'; // Importa la funcionalidad useState de la librería React para manejar el estado local del componente.
+import axios from 'axios'; // Importa la librería axios para realizar peticiones HTTP al servidor.
+import { useNavigate } from "react-router-dom"; // Importa la función useNavigate de React Router para navegar entre rutas en la aplicación.
+import Cookies from "js-cookie"; // Importa la librería js-cookie para la manipulación de cookies en el navegador.
 
+// Define el componente funcional Admin. Este componente probablemente representa la página de administración de la aplicación.
 export function Admin() {
 
+    // Inicializa la función navigate utilizando el hook useNavigate de React Router.
+    // Esto permite la navegación programática entre diferentes rutas de la aplicación.
     const navigate = useNavigate();
 
+    // Define una función asíncrona para verificar si el usuario ha iniciado sesión como administrador.
     const verificacionLogin = async () => {
+        // Comprueba si existe una cookie llamada 'rol' y si su valor es estrictamente igual a 'admin'.
+        // Las cookies se utilizan aquí para mantener la información de la sesión del usuario.
         if (!Cookies.get("rol") || Cookies.get("rol") !== "admin") {
-          navigate("/");
+            // Si la cookie 'rol' no existe o su valor no es 'admin', redirige al usuario a la página principal ('/').
+            navigate("/");
         }
       };
 
+    // Llama a la función verificacionLogin al renderizar el componente.
+    // Esto asegura que la verificación del rol se realice cada vez que se accede a la página de administración.
     verificacionLogin();
 
+    // Define un estado local 'search' utilizando el hook useState.
+    // 'search' almacena el valor del término de búsqueda ingresado por el usuario, inicializado como una cadena vacía.
     const [search, setSearch] = useState('');
+    // Define otro estado local 'data' para almacenar la información del usuario obtenida de la búsqueda.
+    // Inicialmente, no hay datos, por lo que se establece en null.
     const [data, setData] = useState(null);
 
+    // Define una función asíncrona para manejar la búsqueda de usuarios.
     const handleSearch = async () => {
+        // Inicializa un objeto vacío 'params' que se utilizará para construir los parámetros de la consulta a la API.
         const params = {};
+        // Si el estado 'search' tiene un valor (es decir, el usuario ha ingresado un término de búsqueda),
+        // añade propiedades al objeto 'params' para buscar por 'idUsuario', 'correo' o 'documento' que coincidan con el término de búsqueda.
         if (search) {
             params.idUsuario = search;
             params.correo = search;
@@ -27,18 +44,29 @@ export function Admin() {
         }
 
         try {
-          const response = await axios.get(`${import.meta.env.VITE_URL}/psicologia/ConsultaUser`, { params });
+            // Realiza una petición HTTP GET a la API utilizando axios.
+            // La URL de la API se obtiene de una variable de entorno llamada VITE_URL.
+            // Se envían los 'params' construidos como parámetros de la consulta.
+            const response = await axios.get(`${import.meta.env.VITE_URL}/psicologia/ConsultaUser`, { params });
+            // Si la petición es exitosa, la respuesta contiene los datos del usuario.
+            // Actualiza el estado 'data' con la propiedad 'user' de la respuesta.
             setData(response.data.user);
         } catch (error) {
+            // Si ocurre algún error durante la petición (por ejemplo, la API no responde o devuelve un error),
+            // se captura el error y se muestra un mensaje en la consola.
             console.error('Error fetching data:', error);
         }
     };
 
+    // Define una función para manejar el cierre de sesión del administrador.
     const handleLogout = () => {
+        // Limpia el almacenamiento local del navegador (localStorage).
         localStorage.clear();
+        // Elimina las cookies 'idUsuario', 'usuario' y 'rol' utilizando la librería js-cookie.
         Cookies.remove("idUsuario");
         Cookies.remove("usuario");
         Cookies.remove("rol");
+        // Después de limpiar el almacenamiento y las cookies, redirige al usuario a la página de inicio de sesión ('/Login').
         navigate("/Login");
       };
 

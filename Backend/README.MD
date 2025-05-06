@@ -10,38 +10,38 @@ Este repositorio contiene el backend de una aplicación de psicología diseñada
 
 ## Tabla de Contenidos
 
-* [Descripción General](#descripción-general)
-* [Tecnologías Utilizadas](#tecnologías-utilizadas)
-* [Estructura del Proyecto](#estructura-del-proyecto)
-* [Configuración del Servidor](#configuración-del-servidor)
-    * [Archivo `server.js`](#archivo-serverjs)
-    * [Archivo `app.js`](#archivo-appjs)
-* [Rutas de la API (`/psicologia/`)](#rutas-de-la-api-psicologia)
-* [Controladores](#controladores)
-    * [Controladores Principales](#controladores-principales)
-    * [Controladores de IA](#controladores-de-ia)
-* [Modelo de Datos (Esquema de Prisma)](#modelo-de-datos-esquema-de-prisma)
-    * [`informacionUsuario`](#informacionusuario)
-    * [`chats`](#chats)
-    * [`credencial`](#credencial)
-    * [`informacionPersonal`](#informacionpersonal)
-    * [`condicionesvivienda`](#condicionesvivienda)
-    * [`educacion`](#educacion)
-    * [`situacionlaboral`](#situacionlaboral)
-    * [`salud`](#salud)
-    * [`ghq12`](#ghq12)
-    * [`dep`](#dep)
-    * [`ans`](#ans)
-    * [`estr`](#estr)
-    * [`suic`](#suic)
-    * [`calvida`](#calvida)
-* [Migraciones de la Base de Datos](#migraciones-de-la-base-de-datos)
-* [Instalación y Configuración](#instalación-y-configuración)
-* [Variables de Entorno](#variables-de-entorno)
-* [Ejecución del Servidor](#ejecución-del-servidor)
-* [Próximos Pasos](#próximos-pasos)
-* [Consideraciones Adicionales](#consideraciones-adicionales)
-* [Licencia](#licencia)
+- [Descripción General](#descripción-general)
+- [Tecnologías Utilizadas](#tecnologías-utilizadas)
+- [Estructura del Proyecto](#estructura-del-proyecto)
+- [Configuración del Servidor](#configuración-del-servidor)
+  - [Archivo `server.js`](#archivo-serverjs)
+  - [Archivo `app.js`](#archivo-appjs)
+- [Rutas de la API (`/psicologia/`)](#rutas-de-la-api-psicologia)
+- [Controladores](#controladores)
+  - [Controladores Principales](#controladores-principales)
+  - [Controladores de IA](#controladores-de-ia)
+- [Modelo de Datos (Esquema de Prisma)](#modelo-de-datos-esquema-de-prisma)
+  - [`informacionUsuario`](#informacionusuario)
+  - [`chats`](#chats)
+  - [`credencial`](#credencial)
+  - [`informacionPersonal`](#informacionpersonal)
+  - [`condicionesvivienda`](#condicionesvivienda)
+  - [`educacion`](#educacion)
+  - [`situacionlaboral`](#situacionlaboral)
+  - [`salud`](#salud)
+  - [`ghq12`](#ghq12)
+  - [`dep`](#dep)
+  - [`ans`](#ans)
+  - [`estr`](#estr)
+  - [`suic`](#suic)
+  - [`calvida`](#calvida)
+- [Migraciones de la Base de Datos](#migraciones-de-la-base-de-datos)
+- [Instalación y Configuración](#instalación-y-configuración)
+- [Variables de Entorno](#variables-de-entorno)
+- [Ejecución del Servidor](#ejecución-del-servidor)
+- [Próximos Pasos](#próximos-pasos)
+- [Consideraciones Adicionales](#consideraciones-adicionales)
+- [Licencia](#licencia)
 
 ## Descripción General
 
@@ -51,11 +51,11 @@ Este backend proporciona las funcionalidades esenciales para la gestión de usua
 
 ## Tecnologías Utilizadas
 
-* **Node.js:** El entorno de ejecución del lado del servidor que permite la ejecución de código JavaScript.
-* **Express:** Un framework web minimalista y flexible para Node.js, utilizado para construir la API RESTful.
-* **CORS (Cross-Origin Resource Sharing):** Un mecanismo basado en encabezados HTTP que permite a un servidor indicar cualquier origen (dominio, esquema o puerto) distinto de su propio origen desde el que un navegador debe permitir la carga de recursos.
-* **Prisma:** Un ORM de nueva generación para Node.js y TypeScript que facilita la interacción con la base de datos de manera intuitiva y segura, ofreciendo autocompletado, seguridad de tipos y una API clara.
-* **MySQL:** Un sistema de gestión de bases de datos relacional (RDBMS) ampliamente utilizado para el almacenamiento y la gestión de los datos de la aplicación.
+- **Node.js:** El entorno de ejecución del lado del servidor que permite la ejecución de código JavaScript.
+- **Express:** Un framework web minimalista y flexible para Node.js, utilizado para construir la API RESTful.
+- **CORS (Cross-Origin Resource Sharing):** Un mecanismo basado en encabezados HTTP que permite a un servidor indicar cualquier origen (dominio, esquema o puerto) distinto de su propio origen desde el que un navegador debe permitir la carga de recursos.
+- **Prisma:** Un ORM de nueva generación para Node.js y TypeScript que facilita la interacción con la base de datos de manera intuitiva y segura, ofreciendo autocompletado, seguridad de tipos y una API clara.
+- **MySQL:** Un sistema de gestión de bases de datos relacional (RDBMS) ampliamente utilizado para el almacenamiento y la gestión de los datos de la aplicación.
 
 ## Estructura del Proyecto
 
@@ -79,7 +79,17 @@ backend/
 │       └── 20250430192443_init/
 │           └── migration.sql
 ├── Router/            # Contiene las definiciones de las rutas de la API
-│   └── Routes.js
+│   ├── Routes.js
+│   ├── AdminConsultasUserRouter.js
+│   ├── AllChatsRouter.js
+│   ├── CargarChatRouter.js
+│   ├── ChatAIRouter.js
+│   ├── chatsaveRouter.js
+│   ├── DeleteChatRouter.js
+│   ├── LoginRouter.js
+│   ├── RegistroUserRouter.js
+│   ├── StringToMp3Router.js
+│   └── UpdateUserRouter.js
 ├── server.js          # Punto de entrada para iniciar el servidor
 ├── package.json       # Archivo de metadatos del proyecto y dependencias
 ├── package-lock.json  # Registro exacto de las dependencias instaladas
@@ -93,12 +103,12 @@ backend/
 Este archivo es el punto de entrada principal para iniciar el servidor backend. Importa la aplicación Express configurada en `app.js` y la pone a escuchar en un puerto específico.
 
 ```javascript
-import app from './app.js'
+import app from "./app.js";
 const PORT = process.env.PORT || 5000;
 
-app.listen(PORT,() => {
-    console.log(`Server running on port ${PORT}`)
-})
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+});
 ```
 
 ### Archivo `app.js`
@@ -106,9 +116,9 @@ app.listen(PORT,() => {
 Este archivo configura la aplicación Express, estableciendo middlewares como CORS, parsers para JSON y datos codificados en URL, y definiendo las rutas principales de la API.
 
 ```javascript
-import express from 'express';
-import cors from 'cors';
-import routes from './Router/Routes.js';
+import express from "express";
+import cors from "cors";
+import routes from "./Router/Routes.js";
 
 const app = express();
 
@@ -118,7 +128,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // Configuración de rutas
-app.use('/psicologia', routes);
+app.use("/psicologia", routes);
 
 export default app;
 ```
@@ -127,17 +137,17 @@ export default app;
 
 Las rutas API del backend están definidas en el archivo `Router/Routes.js` y son accesibles mediante el prefijo `/psicologia/`. A continuación se detallan las principales rutas:
 
-| Método | Ruta | Descripción |
-|--------|------|-------------|
-| POST | `/login` | Autenticación de usuarios |
-| POST | `/registro` | Registro de nuevos usuarios |
-| PUT | `/updateuser` | Actualización de información de usuarios |
-| GET | `/admin/users` | Consulta de usuarios (admin) |
-| POST | `/chat/ai` | Interacción con el asistente de IA |
-| GET | `/chat/all/:userId` | Obtención de todos los chats de un usuario |
-| GET | `/chat/load/:chatId` | Carga de un chat específico |
-| DELETE | `/chat/delete/:chatId` | Eliminación de un chat |
-| POST | `/tts` | Conversión de texto a voz |
+| Método | Ruta                   | Descripción                                |
+| ------ | ---------------------- | ------------------------------------------ |
+| POST   | `/login`               | Autenticación de usuarios                  |
+| POST   | `/registro`            | Registro de nuevos usuarios                |
+| PUT    | `/updateuser`          | Actualización de información de usuarios   |
+| GET    | `/admin/users`         | Consulta de usuarios (admin)               |
+| POST   | `/chat/ai`             | Interacción con el asistente de IA         |
+| GET    | `/chat/all/:userId`    | Obtención de todos los chats de un usuario |
+| GET    | `/chat/load/:chatId`   | Carga de un chat específico                |
+| DELETE | `/chat/delete/:chatId` | Eliminación de un chat                     |
+| POST   | `/tts`                 | Conversión de texto a voz                  |
 
 ## Controladores
 
@@ -176,7 +186,7 @@ model informacionUsuario {
   email     String   @unique
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  
+
   // Relaciones
   credencial credencial?
   chats      chats[]
@@ -195,7 +205,7 @@ model chats {
   fechaCreacion DateTime @default(now())
   historial     Json     // Almacena el historial de mensajes en formato JSON
   userId        Int      // Referencia al usuario propietario del chat
-  
+
   // Relación con el usuario
   usuario       informacionUsuario @relation(fields: [userId], references: [id])
 }
@@ -211,7 +221,7 @@ model credencial {
   username String @unique
   password String // Almacenada con hash
   userId   Int    @unique
-  
+
   // Relación con el usuario
   usuario  informacionUsuario @relation(fields: [userId], references: [id])
 }
@@ -231,7 +241,7 @@ model informacionPersonal {
   hijos        Boolean
   numeroHijos  Int?
   // Otros campos de información personal
-  
+
   // Relación con el usuario
   usuario      informacionUsuario @relation(fields: [userId], references: [id])
 }
@@ -250,7 +260,7 @@ model condicionesvivienda {
   compartida      Boolean
   personasHogar   Int
   // Otros campos relacionados con la vivienda
-  
+
   // Relación con el usuario
   usuario         informacionUsuario @relation(fields: [userId], references: [id])
 }
@@ -268,7 +278,7 @@ model educacion {
   formacionCurso   Boolean
   tipoFormacion    String?
   // Otros campos educativos
-  
+
   // Relación con el usuario
   usuario          informacionUsuario @relation(fields: [userId], references: [id])
 }
@@ -287,7 +297,7 @@ model situacionlaboral {
   contrato        String?
   jornada         String?
   // Otros campos laborales
-  
+
   // Relación con el usuario
   usuario         informacionUsuario @relation(fields: [userId], references: [id])
 }
@@ -306,7 +316,7 @@ model salud {
   tratamiento        Boolean
   tipoTratamiento    String?
   // Otros campos de salud
-  
+
   // Relación con el usuario
   usuario            informacionUsuario @relation(fields: [userId], references: [id])
 }
@@ -325,7 +335,7 @@ model ghq12 {
   pregunta2    Int
   // ... más preguntas
   puntuacion   Int
-  
+
   // Relación con el usuario
   usuario      informacionUsuario @relation(fields: [userId], references: [id])
 }
@@ -344,7 +354,7 @@ model dep {
   pregunta2    Int
   // ... más preguntas
   puntuacion   Int
-  
+
   // Relación con el usuario
   usuario      informacionUsuario @relation(fields: [userId], references: [id])
 }
@@ -363,7 +373,7 @@ model ans {
   pregunta2    Int
   // ... más preguntas
   puntuacion   Int
-  
+
   // Relación con el usuario
   usuario      informacionUsuario @relation(fields: [userId], references: [id])
 }
@@ -382,7 +392,7 @@ model estr {
   pregunta2    Int
   // ... más preguntas
   puntuacion   Int
-  
+
   // Relación con el usuario
   usuario      informacionUsuario @relation(fields: [userId], references: [id])
 }
@@ -401,7 +411,7 @@ model suic {
   pregunta2    Int
   // ... más preguntas
   puntuacion   Int
-  
+
   // Relación con el usuario
   usuario      informacionUsuario @relation(fields: [userId], references: [id])
 }
@@ -420,7 +430,7 @@ model calvida {
   pregunta2    Int
   // ... más preguntas
   puntuacion   Int
-  
+
   // Relación con el usuario
   usuario      informacionUsuario @relation(fields: [userId], references: [id])
 }
@@ -433,17 +443,20 @@ Las migraciones de Prisma se encuentran en el directorio `prisma/migrations/`. L
 ## Instalación y Configuración
 
 1. Clona este repositorio:
+
    ```bash
    git clone https://your-repository-url.git
    cd backend
    ```
 
 2. Instala las dependencias:
+
    ```bash
    npm install
    ```
 
 3. Configura las variables de entorno creando un archivo `.env` con el siguiente contenido:
+
    ```
    DATABASE_URL="mysql://usuario:contraseña@localhost:3306/nombre_basedatos"
    PORT=5000
