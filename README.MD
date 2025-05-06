@@ -1,509 +1,431 @@
-# Backend de la Aplicación de Psicología
+# 🧠 PsicoVirtualAI
 
-[![Node.js](https://img.shields.io/badge/node.js-6DA55F?style=for-the-badge&logo=node.js&logoColor=white)](https://nodejs.org/)
-[![Express](https://img.shields.io/badge/express.js-%23000000.svg?style=for-the-badge&logo=express&logoColor=%23FFF)](https://expressjs.com/)
-[![Prisma](https://img.shields.io/badge/Prisma-3982CE?style=for-the-badge&logo=prisma&logoColor=white)](https://www.prisma.io/)
-[![MySQL](https://img.shields.io/badge/MySQL-005C84?style=for-the-badge&logo=mysql&logoColor=white)](https://www.mysql.com/)
-[![CORS](https://img.shields.io/badge/CORS-white?style=for-the-badge&logoColor=black)](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS)
+<div align="center">
+  
+  ![Logo](https://placehold.co/600x200?text=PsicoVirtualAI&font=montserrat)
+  
+  ### Plataforma de Acompañamiento Psicológico Virtual potenciado por IA
+  
+  [![React](https://img.shields.io/badge/React-18.2.0-61DAFB?style=for-the-badge&logo=react&logoColor=white)](https://reactjs.org/)
+  [![Tailwind CSS](https://img.shields.io/badge/Tailwind-3.3.3-38B2AC?style=for-the-badge&logo=tailwindcss&logoColor=white)](https://tailwindcss.com/)
+  [![Node.js](https://img.shields.io/badge/node.js-6DA55F?style=for-the-badge&logo=node.js&logoColor=white)](https://nodejs.org/)
+  [![Express](https://img.shields.io/badge/express.js-%23000000.svg?style=for-the-badge&logo=express&logoColor=%23FFF)](https://expressjs.com/)
+  [![Prisma](https://img.shields.io/badge/Prisma-3982CE?style=for-the-badge&logo=prisma&logoColor=white)](https://www.prisma.io/)
+  [![MySQL](https://img.shields.io/badge/MySQL-005C84?style=for-the-badge&logo=mysql&logoColor=white)](https://www.mysql.com/)
+  [![Estado](https://img.shields.io/badge/Estado-En%20Desarrollo-yellow?style=for-the-badge)](https://github.com/yourusername/psicovirtualai)
+  [![Licencia](https://img.shields.io/badge/Licencia-MIT-blue?style=for-the-badge)](LICENSE)
+  
+</div>
 
-Este repositorio contiene el backend de una aplicación de psicología diseñada para ofrecer diversas funcionalidades, incluyendo la interacción con un asistente psicológico basado en inteligencia artificial, el registro y la gestión de usuarios, el almacenamiento de historiales de chat, la recopilación de información sociodemográfica y la administración de cuestionarios psicológicos estandarizados.
+## 📋 Contenido
 
-## Tabla de Contenidos
+- [✨ Características](#-características)
+- [🔍 Vista Previa](#-vista-previa)
+- [🏗️ Arquitectura del Sistema](#️-arquitectura-del-sistema)
+- [📚 Estructura del Proyecto](#-estructura-del-proyecto)
+- [🚀 Instalación y Configuración](#-instalación-y-configuración)
+- [🛠️ Uso](#️-uso)
+- [💾 Modelo de Datos](#-modelo-de-datos)
+- [🔌 API Endpoints](#-api-endpoints)
+- [👥 Equipo](#-equipo)
+- [🔮 Próximos Pasos](#-próximos-pasos)
+- [🤝 Contribución](#-contribución)
+- [📝 Licencia](#-licencia)
 
-- [Descripción General](#descripción-general)
-- [Tecnologías Utilizadas](#tecnologías-utilizadas)
-- [Estructura del Proyecto](#estructura-del-proyecto)
-- [Configuración del Servidor](#configuración-del-servidor)
-  - [Archivo `server.js`](#archivo-serverjs)
-  - [Archivo `app.js`](#archivo-appjs)
-- [Rutas de la API (`/psicologia/`)](#rutas-de-la-api-psicologia)
-- [Controladores](#controladores)
-  - [Controladores Principales](#controladores-principales)
-  - [Controladores de IA](#controladores-de-ia)
-- [Modelo de Datos (Esquema de Prisma)](#modelo-de-datos-esquema-de-prisma)
-  - [`informacionUsuario`](#informacionusuario)
-  - [`chats`](#chats)
-  - [`credencial`](#credencial)
-  - [`informacionPersonal`](#informacionpersonal)
-  - [`condicionesvivienda`](#condicionesvivienda)
-  - [`educacion`](#educacion)
-  - [`situacionlaboral`](#situacionlaboral)
-  - [`salud`](#salud)
-  - [`ghq12`](#ghq12)
-  - [`dep`](#dep)
-  - [`ans`](#ans)
-  - [`estr`](#estr)
-  - [`suic`](#suic)
-  - [`calvida`](#calvida)
-- [Migraciones de la Base de Datos](#migraciones-de-la-base-de-datos)
-- [Instalación y Configuración](#instalación-y-configuración)
-- [Variables de Entorno](#variables-de-entorno)
-- [Ejecución del Servidor](#ejecución-del-servidor)
-- [Próximos Pasos](#próximos-pasos)
-- [Consideraciones Adicionales](#consideraciones-adicionales)
-- [Licencia](#licencia)
+## ✨ Características
 
-## Descripción General
+### Para Usuarios
+- **🔐 Registro inteligente multietapa** - Formulario intuitivo de datos demográficos, vivienda, educación, situación laboral y salud
+- **💬 Chatbot psicológico avanzado** - Asistente IA especializado en apoyo emocional y escucha activa
+- **📊 Tests psicológicos interactivos** - Evaluaciones estructuradas (GHQ-12, DEPS, ANS, ESTR, SUIC, CALVIDA) con análisis automático
+- **🔊 Interfaz conversacional por voz** - Respuestas por texto a voz para mayor accesibilidad
+- **📱 Diseño adaptable** - Experiencia óptima en dispositivos móviles y de escritorio
+- **📜 Historial completo** - Acceso y gestión de conversaciones anteriores
 
-El backend de esta aplicación se fundamenta en una arquitectura RESTful, utilizando Node.js con el framework Express para la construcción de las APIs. La persistencia de los datos se logra mediante una base de datos MySQL, cuya interacción se gestiona de manera eficiente y segura a través del ORM Prisma. El uso de CORS permite la comunicación fluida con el frontend, que podría estar alojado en un dominio diferente.
+### Para Administradores
+- **🔍 Panel de control** - Búsqueda y monitoreo de usuarios registrados
+- **👁️ Consulta detallada** - Visualización completa de información de usuarios
+- **🔒 Acceso seguro** - Sistema de permisos basado en roles
 
-Este backend proporciona las funcionalidades esenciales para la gestión de usuarios (registro, inicio de sesión, actualización), la interacción con un sistema de chat inteligente (envío y recepción de mensajes, almacenamiento del historial), la recopilación y el almacenamiento de datos sociodemográficos relevantes para el contexto psicológico, y la administración de la aplicación de cuestionarios psicológicos estandarizados, junto con el almacenamiento de sus resultados. Adicionalmente, se incluye una funcionalidad para la conversión de texto a voz, lo que podría mejorar la accesibilidad de la aplicación. La lógica de cada una de las rutas de la API se encuentra implementada en los archivos dentro del directorio `Backend/controllers/`. La lógica específica del asistente de inteligencia artificial se encuentra en `Backend/controllersAI/ChatAI.js`.
+## 🔍 Vista Previa
 
-## Tecnologías Utilizadas
+<div align="center">
+  <img src="https://placehold.co/800x400?text=Captura+de+pantalla+1" width="45%" alt="Captura 1"/>
+  <img src="https://placehold.co/800x400?text=Captura+de+pantalla+2" width="45%" alt="Captura 2"/>
+</div>
 
-- **Node.js:** El entorno de ejecución del lado del servidor que permite la ejecución de código JavaScript.
-- **Express:** Un framework web minimalista y flexible para Node.js, utilizado para construir la API RESTful.
-- **CORS (Cross-Origin Resource Sharing):** Un mecanismo basado en encabezados HTTP que permite a un servidor indicar cualquier origen (dominio, esquema o puerto) distinto de su propio origen desde el que un navegador debe permitir la carga de recursos.
-- **Prisma:** Un ORM de nueva generación para Node.js y TypeScript que facilita la interacción con la base de datos de manera intuitiva y segura, ofreciendo autocompletado, seguridad de tipos y una API clara.
-- **MySQL:** Un sistema de gestión de bases de datos relacional (RDBMS) ampliamente utilizado para el almacenamiento y la gestión de los datos de la aplicación.
+<details>
+<summary>Ver más capturas</summary>
+<div align="center">
+  <img src="https://placehold.co/800x400?text=Captura+de+pantalla+3" width="30%" alt="Captura 3"/>
+  <img src="https://placehold.co/800x400?text=Captura+de+pantalla+4" width="30%" alt="Captura 4"/>
+  <img src="https://placehold.co/800x400?text=Captura+de+pantalla+5" width="30%" alt="Captura 5"/>
+</div>
+</details>
 
-## Estructura del Proyecto
+## 🏗️ Arquitectura del Sistema
 
-```
-backend/
-├── app.js             # Configuración principal de la aplicación Express
-├── controllers/       # Contiene la lógica de las rutas de la API
-│   ├── AdminConsultaUser.js
-│   ├── AllChats.js
-│   ├── CargarChat.js
-│   ├── DeleteChat.js
-│   ├── Login.js
-│   ├── RegistroUser.js
-│   ├── StringToMp3.js
-│   └── UpdateUser.js
-├── controllersAI/     # Contiene la lógica del asistente de IA
-│   └── ChatAI.js
-├── prisma/            # Configuración y archivos relacionados con Prisma
-│   ├── schema.prisma    # Definición del esquema de la base de datos
-│   └── migrations/    # Contiene los archivos de migración de la base de datos
-│       └── 20250430192443_init/
-│           └── migration.sql
-├── Router/            # Contiene las definiciones de las rutas de la API
-│   ├── Routes.js
-│   ├── AdminConsultasUserRouter.js
-│   ├── AllChatsRouter.js
-│   ├── CargarChatRouter.js
-│   ├── ChatAIRouter.js
-│   ├── chatsaveRouter.js
-│   ├── DeleteChatRouter.js
-│   ├── LoginRouter.js
-│   ├── RegistroUserRouter.js
-│   ├── StringToMp3Router.js
-│   └── UpdateUserRouter.js
-├── server.js          # Punto de entrada para iniciar el servidor
-├── package.json       # Archivo de metadatos del proyecto y dependencias
-├── package-lock.json  # Registro exacto de las dependencias instaladas
-└── .env               # Archivo para variables de entorno (ej. URL de la base de datos)
+PsicoVirtualAI está construido siguiendo una arquitectura cliente-servidor moderna con una clara separación entre el frontend y el backend:
+
+```mermaid
+graph TD
+    A[Usuario] --> B[Frontend: React]
+    B <--> C[Backend: Node.js + Express]
+    C <--> D[(Base de Datos: MySQL)]
+    C <--> E[Servicios de IA]
+    C <--> F[Servicios de TTS]
+    
+    subgraph "Cliente"
+    B --- B1[Páginas]
+    B1 --- B2[Componentes]
+    end
+    
+    subgraph "Servidor"
+    C --- C1[API REST]
+    C1 --- C2[Controladores]
+    C1 --- C3[Prisma ORM]
+    end
 ```
 
-## Configuración del Servidor
+### Tecnologías Utilizadas
 
-### Archivo `server.js`
+| Frontend | Backend | Base de Datos | Desarrollo |
+|----------|---------|--------------|------------|
+| React | Node.js | MySQL | Vite |
+| React Router DOM v6 | Express | Prisma ORM | ESLint |
+| Axios | CORS | Migraciones | Git |
+| js-cookie | API REST | | npm/yarn |
+| Tailwind CSS | | | PostCSS |
+| Lucide Icons | | | |
 
-Este archivo es el punto de entrada principal para iniciar el servidor backend. Importa la aplicación Express configurada en `app.js` y la pone a escuchar en un puerto específico.
+## 📚 Estructura del Proyecto
 
-```javascript
-import app from "./app.js";
-const PORT = process.env.PORT || 5000;
+El proyecto está organizado en dos directorios principales: `frontend` y `backend`:
 
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-});
+### Frontend
+
+```
+📦 frontend
+ ┣ 📂 public
+ ┃ ┣ 📜 BotIcon.png
+ ┃ ┣ 📜 FlechaDerecha.png
+ ┃ ┣ 📜 FlechaIzquierda.png
+ ┃ ┣ 📜 NuevoChat.png
+ ┃ ┣ 📜 NuevoChatAzul.png
+ ┃ ┣ 📜 iconEnviar.png
+ ┃ ┗ 📜 basura.png
+ ┣ 📂 src
+ ┃ ┣ 📂 components
+ ┃ ┃ ┣ 📜 Css.css
+ ┃ ┃ ┣ 📜 ChatContainer.js
+ ┃ ┃ ┣ 📜 MsgIA.js
+ ┃ ┃ ┣ 📜 MsgUser.js
+ ┃ ┃ ┣ 📜 Prompts.js
+ ┃ ┃ ┗ 📜 steps.js
+ ┃ ┣ 📂 pages
+ ┃ ┃ ┣ 📜 Admin.jsx
+ ┃ ┃ ┣ 📜 Chat.jsx
+ ┃ ┃ ┣ 📜 EditDatos.jsx
+ ┃ ┃ ┣ 📜 Register.jsx
+ ┃ ┃ ┗ 📜 Start.jsx
+ ┃ ┣ 📂 routes
+ ┃ ┃ ┗ 📜 AppRouter.jsx
+ ┃ ┣ 📜 App.jsx
+ ┃ ┗ 📜 index.css
+ ┣ 📜 .env
+ ┣ 📜 .gitignore
+ ┣ 📜 eslint.config.js
+ ┣ 📜 package.json
+ ┣ 📜 postcss.config.js
+ ┣ 📜 tailwind.config.js
+ ┗ 📜 vite.config.js
 ```
 
-### Archivo `app.js`
+### Backend
 
-Este archivo configura la aplicación Express, estableciendo middlewares como CORS, parsers para JSON y datos codificados en URL, y definiendo las rutas principales de la API.
-
-```javascript
-import express from "express";
-import cors from "cors";
-import routes from "./Router/Routes.js";
-
-const app = express();
-
-// Configuración de middlewares
-app.use(cors());
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-
-// Configuración de rutas
-app.use("/psicologia", routes);
-
-export default app;
+```
+📦 backend
+ ┣ 📂 controllers
+ ┃ ┣ 📜 AdminConsultaUser.js
+ ┃ ┣ 📜 AllChats.js
+ ┃ ┣ 📜 CargarChat.js
+ ┃ ┣ 📜 DeleteChat.js
+ ┃ ┣ 📜 Login.js
+ ┃ ┣ 📜 RegistroUser.js
+ ┃ ┣ 📜 StringToMp3.js
+ ┃ ┗ 📜 UpdateUser.js
+ ┣ 📂 controllersAI
+ ┃ ┗ 📜 ChatAI.js
+ ┣ 📂 prisma
+ ┃ ┣ 📂 migrations
+ ┃ ┃ ┗ 📂 20250430192443_init
+ ┃ ┃   ┗ 📜 migration.sql
+ ┃ ┗ 📜 schema.prisma
+ ┣ 📂 Router
+ ┃ ┣ 📜 AdminConsultasUserRouter.js
+ ┃ ┣ 📜 AllChatsRouter.js
+ ┃ ┣ 📜 CargarChatRouter.js
+ ┃ ┣ 📜 ChatAIRouter.js
+ ┃ ┣ 📜 chatsaveRouter.js
+ ┃ ┣ 📜 DeleteChatRouter.js
+ ┃ ┣ 📜 LoginRouter.js
+ ┃ ┣ 📜 RegistroUserRouter.js
+ ┃ ┣ 📜 Routes.js
+ ┃ ┣ 📜 StringToMp3Router.js
+ ┃ ┗ 📜 UpdateUserRouter.js
+ ┣ 📜 .env
+ ┣ 📜 app.js
+ ┣ 📜 package.json
+ ┗ 📜 server.js
 ```
 
-## Rutas de la API (`/psicologia/`)
+## 🚀 Instalación y Configuración
 
-Las rutas API del backend están definidas en el archivo `Router/Routes.js` y son accesibles mediante el prefijo `/psicologia/`. A continuación se detallan las principales rutas:
+### Prerrequisitos
 
-| Método | Ruta                   | Descripción                                |
-| ------ | ---------------------- | ------------------------------------------ |
-| POST   | `/login`               | Autenticación de usuarios                  |
-| POST   | `/registro`            | Registro de nuevos usuarios                |
-| PUT    | `/updateuser`          | Actualización de información de usuarios   |
-| GET    | `/admin/users`         | Consulta de usuarios (admin)               |
-| POST   | `/chat/ai`             | Interacción con el asistente de IA         |
-| GET    | `/chat/all/:userId`    | Obtención de todos los chats de un usuario |
-| GET    | `/chat/load/:chatId`   | Carga de un chat específico                |
-| DELETE | `/chat/delete/:chatId` | Eliminación de un chat                     |
-| POST   | `/tts`                 | Conversión de texto a voz                  |
+- Node.js (v16.0.0 o superior)
+- npm o yarn
+- MySQL Server
 
-## Controladores
+### Configuración de la Base de Datos
 
-### Controladores Principales
+1. Crea una base de datos MySQL para el proyecto:
 
-Los controladores en la carpeta `controllers/` manejan la lógica de negocio para cada ruta de la API:
-
-- **AdminConsultaUser.js**: Gestiona las consultas administrativas sobre usuarios.
-- **AllChats.js**: Recupera todos los chats asociados a un usuario.
-- **CargarChat.js**: Carga un chat específico con su historial de mensajes.
-- **DeleteChat.js**: Elimina un chat y sus mensajes asociados.
-- **Login.js**: Maneja la autenticación de usuarios.
-- **RegistroUser.js**: Procesa el registro de nuevos usuarios.
-- **StringToMp3.js**: Convierte texto a formato de audio.
-- **UpdateUser.js**: Actualiza la información de un usuario existente.
-
-### Controladores de IA
-
-La carpeta `controllersAI/` contiene los controladores relacionados con la funcionalidad de inteligencia artificial:
-
-- **ChatAI.js**: Implementa la lógica del asistente de psicología basado en IA, procesando las entradas del usuario y generando respuestas apropiadas.
-
-## Modelo de Datos (Esquema de Prisma)
-
-El esquema de Prisma define la estructura de la base de datos. A continuación se detallan las principales entidades:
-
-### `informacionUsuario`
-
-Almacena la información básica de los usuarios registrados en la plataforma.
-
-```prisma
-model informacionUsuario {
-  id        Int      @id @default(autoincrement())
-  nombre    String
-  apellido  String
-  email     String   @unique
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  // Relaciones
-  credencial credencial?
-  chats      chats[]
-  // Otras relaciones con tablas de información sociodemográfica y cuestionarios
-}
+```sql
+CREATE DATABASE psicovirtual_db;
 ```
 
-### `chats`
+2. Configura las credenciales de acceso en el archivo `.env` del backend.
 
-Registra los chats entre los usuarios y el asistente de IA.
+### Instalación del Backend
 
-```prisma
-model chats {
-  id            Int      @id @default(autoincrement())
-  nombreChat    String
-  fechaCreacion DateTime @default(now())
-  historial     Json     // Almacena el historial de mensajes en formato JSON
-  userId        Int      // Referencia al usuario propietario del chat
+1. **Clonar el repositorio**
 
-  // Relación con el usuario
-  usuario       informacionUsuario @relation(fields: [userId], references: [id])
-}
+```bash
+git clone https://github.com/yourusername/psicovirtualai.git
+cd psicovirtualai/backend
 ```
 
-### `credencial`
+2. **Instalar dependencias**
 
-Almacena las credenciales de autenticación de los usuarios.
-
-```prisma
-model credencial {
-  id       Int    @id @default(autoincrement())
-  username String @unique
-  password String // Almacenada con hash
-  userId   Int    @unique
-
-  // Relación con el usuario
-  usuario  informacionUsuario @relation(fields: [userId], references: [id])
-}
+```bash
+npm install
 ```
 
-### `informacionPersonal`
+3. **Configurar variables de entorno**
 
-Contiene información personal detallada del usuario.
+Crea un archivo `.env` en la raíz del directorio backend:
 
-```prisma
-model informacionPersonal {
-  id           Int      @id @default(autoincrement())
-  userId       Int      @unique
-  fechaNac     DateTime
-  genero       String
-  estadoCivil  String
-  hijos        Boolean
-  numeroHijos  Int?
-  // Otros campos de información personal
-
-  // Relación con el usuario
-  usuario      informacionUsuario @relation(fields: [userId], references: [id])
-}
+```env
+DATABASE_URL="mysql://usuario:contraseña@localhost:3306/psicovirtual_db"
+PORT=5000
+# Otras variables específicas para servicios de IA o texto a voz
 ```
 
-### `condicionesvivienda`
+4. **Ejecutar migraciones de Prisma**
 
-Almacena información sobre las condiciones de vivienda del usuario.
-
-```prisma
-model condicionesvivienda {
-  id              Int     @id @default(autoincrement())
-  userId          Int     @unique
-  tipoVivienda    String
-  propietario     Boolean
-  compartida      Boolean
-  personasHogar   Int
-  // Otros campos relacionados con la vivienda
-
-  // Relación con el usuario
-  usuario         informacionUsuario @relation(fields: [userId], references: [id])
-}
+```bash
+npx prisma migrate dev
 ```
 
-### `educacion`
-
-Registra el nivel educativo y formación del usuario.
-
-```prisma
-model educacion {
-  id               Int     @id @default(autoincrement())
-  userId           Int     @unique
-  nivelEducativo   String
-  formacionCurso   Boolean
-  tipoFormacion    String?
-  // Otros campos educativos
-
-  // Relación con el usuario
-  usuario          informacionUsuario @relation(fields: [userId], references: [id])
-}
-```
-
-### `situacionlaboral`
-
-Contiene información sobre la situación laboral del usuario.
-
-```prisma
-model situacionlaboral {
-  id              Int     @id @default(autoincrement())
-  userId          Int     @unique
-  situacion       String
-  sector          String?
-  contrato        String?
-  jornada         String?
-  // Otros campos laborales
-
-  // Relación con el usuario
-  usuario         informacionUsuario @relation(fields: [userId], references: [id])
-}
-```
-
-### `salud`
-
-Almacena información relacionada con la salud del usuario.
-
-```prisma
-model salud {
-  id                 Int     @id @default(autoincrement())
-  userId             Int     @unique
-  problemaSalud      Boolean
-  tipoProblema       String?
-  tratamiento        Boolean
-  tipoTratamiento    String?
-  // Otros campos de salud
-
-  // Relación con el usuario
-  usuario            informacionUsuario @relation(fields: [userId], references: [id])
-}
-```
-
-### `ghq12`
-
-Almacena los resultados del cuestionario GHQ-12 (General Health Questionnaire).
-
-```prisma
-model ghq12 {
-  id           Int      @id @default(autoincrement())
-  userId       Int
-  fechaTest    DateTime @default(now())
-  pregunta1    Int
-  pregunta2    Int
-  // ... más preguntas
-  puntuacion   Int
-
-  // Relación con el usuario
-  usuario      informacionUsuario @relation(fields: [userId], references: [id])
-}
-```
-
-### `dep`
-
-Registra los resultados de un test de depresión.
-
-```prisma
-model dep {
-  id           Int      @id @default(autoincrement())
-  userId       Int
-  fechaTest    DateTime @default(now())
-  pregunta1    Int
-  pregunta2    Int
-  // ... más preguntas
-  puntuacion   Int
-
-  // Relación con el usuario
-  usuario      informacionUsuario @relation(fields: [userId], references: [id])
-}
-```
-
-### `ans`
-
-Almacena los resultados de un test de ansiedad.
-
-```prisma
-model ans {
-  id           Int      @id @default(autoincrement())
-  userId       Int
-  fechaTest    DateTime @default(now())
-  pregunta1    Int
-  pregunta2    Int
-  // ... más preguntas
-  puntuacion   Int
-
-  // Relación con el usuario
-  usuario      informacionUsuario @relation(fields: [userId], references: [id])
-}
-```
-
-### `estr`
-
-Contiene los resultados de un test de estrés.
-
-```prisma
-model estr {
-  id           Int      @id @default(autoincrement())
-  userId       Int
-  fechaTest    DateTime @default(now())
-  pregunta1    Int
-  pregunta2    Int
-  // ... más preguntas
-  puntuacion   Int
-
-  // Relación con el usuario
-  usuario      informacionUsuario @relation(fields: [userId], references: [id])
-}
-```
-
-### `suic`
-
-Registra los resultados de un test de riesgo suicida.
-
-```prisma
-model suic {
-  id           Int      @id @default(autoincrement())
-  userId       Int
-  fechaTest    DateTime @default(now())
-  pregunta1    Int
-  pregunta2    Int
-  // ... más preguntas
-  puntuacion   Int
-
-  // Relación con el usuario
-  usuario      informacionUsuario @relation(fields: [userId], references: [id])
-}
-```
-
-### `calvida`
-
-Almacena los resultados de un test de calidad de vida.
-
-```prisma
-model calvida {
-  id           Int      @id @default(autoincrement())
-  userId       Int
-  fechaTest    DateTime @default(now())
-  pregunta1    Int
-  pregunta2    Int
-  // ... más preguntas
-  puntuacion   Int
-
-  // Relación con el usuario
-  usuario      informacionUsuario @relation(fields: [userId], references: [id])
-}
-```
-
-## Migraciones de la Base de Datos
-
-Las migraciones de Prisma se encuentran en el directorio `prisma/migrations/`. La migración inicial (`20250430192443_init`) establece el esquema base de la base de datos.
-
-## Instalación y Configuración
-
-1. Clona este repositorio:
-
-   ```bash
-   git clone https://your-repository-url.git
-   cd backend
-   ```
-
-2. Instala las dependencias:
-
-   ```bash
-   npm install
-   ```
-
-3. Configura las variables de entorno creando un archivo `.env` con el siguiente contenido:
-
-   ```
-   DATABASE_URL="mysql://usuario:contraseña@localhost:3306/nombre_basedatos"
-   PORT=5000
-   ```
-
-4. Ejecuta las migraciones de Prisma:
-   ```bash
-   npx prisma migrate dev
-   ```
-
-## Variables de Entorno
-
-El archivo `.env` debe contener las siguientes variables:
-
-- `DATABASE_URL`: URL de conexión a la base de datos MySQL.
-- `PORT`: Puerto en el que se ejecutará el servidor (por defecto: 5000).
-- Otras variables específicas para servicios de IA o texto a voz.
-
-## Ejecución del Servidor
-
-Para iniciar el servidor en modo desarrollo:
+5. **Iniciar el servidor backend**
 
 ```bash
 npm run dev
 ```
 
-Para iniciar el servidor en modo producción:
+🌐 El servidor backend estará disponible en [http://localhost:5000](http://localhost:5000)
+
+### Instalación del Frontend
+
+1. **Navegar al directorio del frontend**
 
 ```bash
-npm start
+cd ../frontend
 ```
 
-## Próximos Pasos
+2. **Instalar dependencias**
 
-- Implementación de autenticación mediante JWT.
-- Mejoras en la seguridad de la API.
-- Expansión de las capacidades del asistente de IA.
-- Desarrollo de endpoints adicionales para análisis de datos.
-- Implementación de reportes estadísticos.
+```bash
+npm install
+```
 
-## Consideraciones Adicionales
+3. **Configurar variables de entorno**
 
-- Asegurarse de configurar correctamente la base de datos antes de iniciar el servidor.
-- Los datos sensibles como contraseñas deben ser hasheados antes de almacenarse.
-- Considerar la implementación de validación de datos en todas las rutas de la API.
-- Es recomendable configurar un sistema de logging para monitorear el comportamiento del servidor.
+Crea un archivo `.env` en la raíz del directorio frontend:
 
-## Licencia
+```env
+VITE_URL=http://localhost:5000
+```
 
-Este proyecto está licenciado bajo [insertar licencia]. Consulta el archivo LICENSE para más detalles.
+4. **Iniciar el servidor de desarrollo**
+
+```bash
+npm run dev
+```
+
+🌐 La aplicación estará disponible en [http://localhost:5173](http://localhost:5173)
+
+## 🛠️ Uso
+
+### Flujos de Usuario
+
+#### 👤 Usuario Regular
+
+1. **Registro**: Completa el formulario multietapa con datos personales, vivienda, educación, situación laboral y salud
+2. **Iniciar sesión**: Accede con tus credenciales
+3. **Chat**: Interactúa con el asistente virtual para obtener apoyo psicológico
+4. **Tests**: Realiza evaluaciones psicológicas guiadas por el asistente
+5. **Gestión de datos**: Actualiza tu información personal cuando sea necesario
+
+#### 👑 Administrador
+
+1. **Acceso al panel**: Ingresa con credenciales de administrador
+2. **Búsqueda de usuarios**: Localiza usuarios por ID, correo o documento
+3. **Consulta de datos**: Visualiza información detallada de los usuarios
+
+### Comandos Disponibles
+
+#### Frontend
+
+```bash
+# Desarrollo con recarga en caliente
+npm run dev
+
+# Compilar para producción
+npm run build
+
+# Vista previa de la versión de producción
+npm run preview
+
+# Ejecutar linter
+npm run lint
+```
+
+#### Backend
+
+```bash
+# Desarrollo con nodemon
+npm run dev
+
+# Iniciar en modo producción
+npm start
+
+# Generar nuevas migraciones de Prisma
+npx prisma migrate dev --name nombre_migracion
+```
+
+## 💾 Modelo de Datos
+
+La aplicación utiliza varias entidades para almacenar la información de usuarios y sus interacciones:
+
+### Principales Entidades
+
+- **Información de Usuario**: Datos básicos del usuario registrado
+- **Credenciales**: Información de autenticación
+- **Chats**: Historial de conversaciones con el asistente
+- **Información Sociodemográfica**: Dividida en varias tablas:
+  - Información Personal
+  - Condiciones de Vivienda
+  - Educación
+  - Situación Laboral
+  - Salud
+- **Tests Psicológicos**: Resultados de los diferentes cuestionarios:
+  - GHQ-12 (Cuestionario de Salud General)
+  - DEP (Depresión)
+  - ANS (Ansiedad)
+  - ESTR (Estrés)
+  - SUIC (Riesgo Suicida)
+  - CALVIDA (Calidad de Vida)
+
+### Diagrama Simplificado
+
+```mermaid
+erDiagram
+    informacionUsuario ||--o{ chats : tiene
+    informacionUsuario ||--|| credencial : posee
+    informacionUsuario ||--|| informacionPersonal : contiene
+    informacionUsuario ||--|| condicionesvivienda : registra
+    informacionUsuario ||--|| educacion : tiene
+    informacionUsuario ||--|| situacionlaboral : documenta
+    informacionUsuario ||--|| salud : incluye
+    informacionUsuario ||--o{ ghq12 : evalua
+    informacionUsuario ||--o{ dep : evalua
+    informacionUsuario ||--o{ ans : evalua
+    informacionUsuario ||--o{ estr : evalua
+    informacionUsuario ||--o{ suic : evalua
+    informacionUsuario ||--o{ calvida : evalua
+```
+
+## 🔌 API Endpoints
+
+| Método | Ruta                     | Descripción                                 |
+|--------|--------------------------|---------------------------------------------|
+| POST   | `/psicologia/login`      | Autenticación de usuarios                   |
+| POST   | `/psicologia/RegistroUser` | Registro de nuevos usuarios                 |
+| PUT    | `/psicologia/updateUser` | Actualización de información de usuarios    |
+| GET    | `/psicologia/ConsultaUser` | Consulta de datos de un usuario específico |
+| POST   | `/psicologia/ChatAI`     | Interacción con el asistente de IA          |
+| POST   | `/psicologia/AllChats`   | Obtención de todos los chats de un usuario  |
+| POST   | `/psicologia/CargarChat` | Carga de un chat específico                 |
+| POST   | `/psicologia/ChatSave`   | Guardar una conversación de chat            |
+| DELETE | `/psicologia/delete-chat` | Eliminación de un chat                      |
+| POST   | `/psicologia/StrToMp3`   | Conversión de texto a voz                   |
+
+## 👥 Equipo
+
+Desarrollado con ❤️ por el grupo **Valle del Software** de la **Universitaria de Colombia**
+
+<div align="center">
+  <table>
+    <tr>
+      <td align="center"><a href="#"><img src="https://placehold.co/150x150?text=Dev+1" width="100px"><br><sub><b>Nombre Dev 1</b></sub></a></td>
+      <td align="center"><a href="#"><img src="https://placehold.co/150x150?text=Dev+2" width="100px"><br><sub><b>Nombre Dev 2</b></sub></a></td>
+      <td align="center"><a href="#"><img src="https://placehold.co/150x150?text=Dev+3" width="100px"><br><sub><b>Nombre Dev 3</b></sub></a></td>
+    </tr>
+  </table>
+</div>
+
+## 🔮 Próximos Pasos
+
+- **Seguridad**
+  - Implementación de autenticación JWT
+  - Mejoras en la seguridad y validación de la API
+  
+- **Funcionalidades**
+  - Ampliación de las capacidades del asistente de IA
+  - Implementación de reportes estadísticos para administradores
+  - Mejoras en la accesibilidad de la interfaz
+  
+- **Infraestructura**
+  - Configuración para despliegue en producción
+  - Sistema de logging para monitorización
+  - Pruebas automatizadas
+
+## 🤝 Contribución
+
+¡Nos encantaría recibir tu ayuda para mejorar PsicoVirtualAI! Para contribuir:
+
+1. Haz fork del repositorio
+2. Crea una rama para tu función: `git checkout -b feature/nueva-funcion`
+3. Realiza tus cambios y haz commit: `git commit -m 'Añadir nueva función'`
+4. Sube tus cambios: `git push origin feature/nueva-funcion`
+5. Envía un Pull Request
+
+Por favor, asegúrate de seguir nuestras [pautas de contribución](CONTRIBUTING.md) y el [código de conducta](CODE_OF_CONDUCT.md).
+
+## 📝 Licencia
+
+Este proyecto está bajo la Licencia MIT - consulta el archivo [LICENSE](LICENSE) para más detalles.
+
+---
+
+<div align="center">
+  <p>
+    <a href="https://github.com/yourusername/psicovirtualai/issues">Reportar un problema</a> •
+    <a href="https://github.com/yourusername/psicovirtualai/discussions">Discusiones</a> •
+    <a href="mailto:contacto@ejemplo.com">Contacto</a>
+  </p>
+  
+  <p>© 2025 Valle del Software - Universitaria de Colombia</p>
+</div>
