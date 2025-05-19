@@ -58,7 +58,6 @@ export const ChatAI = async (req, res) => {
         let logInfo
         let assistantMessage
         let nameFunction;
-        console.log(token)
         if (!token) {
             response = await openai.chat.completions.create({
                 model: 'gpt-4o-mini',
@@ -75,25 +74,36 @@ export const ChatAI = async (req, res) => {
             if (nameFunction == "tokenGHQ12responses" || token == "tokenGHQ12responses") {
                 if (counter == cuestionariosConfig.ghq12.preguntas.length) {
                     let scorecount = 0;
+                    let resultadoenv1 = "";
                     let resultadoenv = "";
                     for (let i = 0; i < array.length; i++) {
                         scorecount += parseInt(array[i], 10);
                     }
                     if (scorecount <= 10) {
-                        resultadoenv = "No hay presencia de síntomas significativos de malestar psicológico 🟢";
+                        resultadoenv1 = "No hay presencia de síntomas significativos de malestar psicológico 🟢";
                     } else if (scorecount >= 11 && scorecount <= 17) {
-                        resultadoenv = "Hay cierto grado de preocupación emocional 🟡";
+                        resultadoenv1 = "Hay cierto grado de preocupación emocional 🟡";
                     } else {
-                        resultadoenv = "Hay un indicador de malestar psicológico significativo 🔴";
+                        resultadoenv1 = "Hay un indicador de malestar psicológico significativo 🔴";
                     }
+                    const analisisghq12 = await openai.chat.completions.create({
+                        model: 'gpt-4o-mini',
+                        messages: [
+                          {
+                            role: 'user',
+                            content: `Analiza al paciente en maximo un parrafo corto que ha respondido el test GHQ-12 que es: ${cuestionariosConfig.ghq12.preguntas}; sus respuestas son: ${array}; lo que indica que ${resultadoenv1}. ¿Qué recomendaciones puedes darle al paciente de forma gentil? preguntale amablemente si desea seguir hablando hacerca de eso`
+                          }
+                        ]
+                      });
+                    resultadoenv = analisisghq12.choices[0].message.content; 
                     await prisma.ghq12.create({
                         data: {
                             idUsuario: idUser,
-                            respuestas: JSON.stringify(array),
+                            respuestas: array,
                             resultado: resultadoenv,
                         }
                     });
-                    return res.json({ assistantMessage: "Gracias por responder el Test GHQ12 sus datos seran guardados y tratados para uso educativo y de investigación" + resultadoenv, logInfo: [{ function: { name: "liberartoken" } }] })
+                    return res.json({ assistantMessage: "Gracias por responder el Test GHQ12 sus datos seran guardados y tratados para uso educativo y de investigación " + resultadoenv, logInfo: [{ function: { name: "liberartoken" } }] })
                 }
                 const assistantPregunta = cuestionariosConfig.ghq12.preguntas[counter]
                 return res.json({ assistantMessage: assistantPregunta, logInfo: logInfo || [{ function: { name: token } }] });
@@ -101,22 +111,33 @@ export const ChatAI = async (req, res) => {
             else if (nameFunction == "tokenDEPresponses" || token == "tokenDEPresponses") {
                 if (counter == cuestionariosConfig.dep.preguntas.length) {
                     let scorecount = 0;
+                    let resultadoenv1 = "";
                     let resultadoenv = "";
                     for (let i = 0; i < array.length; i++) {
                         scorecount += parseInt(array[i], 10);
                     }
                     if (scorecount <= 4) {
-                        resultadoenv = "Estado emocional saludable 🟢";
+                        resultadoenv1 = "Estado emocional saludable 🟢";
                     } else if (scorecount >= 5 && scorecount <= 9) {
-                        resultadoenv = "Posible depresión leve 🟡";
+                        resultadoenv1 = "Posible depresión leve 🟡";
                     } else {
-                        resultadoenv = "Posible depresión grave 🔴";
+                        resultadoenv1 = "Posible depresión grave 🔴";
                     }
-                    
+                    const analisisdep = await openai.chat.completions.create({
+                        model: 'gpt-4o-mini',
+                        messages: [
+                          {
+                            role: 'user',
+                            content: `Analiza al paciente en maximo un parrafo corto que ha respondido el test de Depresion que es: ${cuestionariosConfig.dep.preguntas}; sus respuestas son: ${array}; lo que indica que ${resultadoenv1}. ¿Qué recomendaciones puedes darle al paciente de forma gentil? preguntale amablemente si desea seguir hablando hacerca de eso`
+                          }
+                        ]
+                      });
+                    resultadoenv = analisisdep.choices[0].message.content;
+
                     await prisma.dep.create({
                         data: {
                             idUsuario: idUser,
-                            respuestas: JSON.stringify(array),
+                            respuestas: array,
                             resultado: resultadoenv,
                         }
                     });
@@ -128,21 +149,33 @@ export const ChatAI = async (req, res) => {
             else if (nameFunction == "tokenANSresponses" || token == "tokenANSresponses") {
                 if (counter == cuestionariosConfig.ans.preguntas.length) {
                     let scorecount = 0;
+                    let resultadoenv1 = "";
                     let resultadoenv = "";
                     for (let i = 0; i < array.length; i++) {
                         scorecount += parseInt(array[i], 10);
                     }
                     if (scorecount <= 20) {
-                        resultadoenv = "Ansiedad saludable 🟢";
+                        resultadoenv1 = "Ansiedad saludable 🟢";
                     } else if (scorecount >= 21 && scorecount <= 34) {
-                        resultadoenv = "Ansiedad moderada  🟡";
+                        resultadoenv1 = "Ansiedad moderada  🟡";
                     } else {
-                        resultadoenv = "Ansiedad severa 🔴";
+                        resultadoenv1 = "Ansiedad severa 🔴";
                     }
+                    const analisisans = await openai.chat.completions.create({
+                        model: 'gpt-4o-mini',
+                        messages: [
+                          {
+                            role: 'user',
+                            content: `Analiza al paciente en maximo un parrafo corto que ha respondido el test de Ansiedad que es: ${cuestionariosConfig.ans.preguntas}; sus respuestas son: ${array}; lo que indica que ${resultadoenv1}. ¿Qué recomendaciones puedes darle al paciente de forma gentil? preguntale amablemente si desea seguir hablando hacerca de eso`
+                          }
+                        ]
+                      });
+                    resultadoenv = analisisans.choices[0].message.content;
+
                     await prisma.ans.create({
                         data: {
                             idUsuario: idUser,
-                            respuestas: JSON.stringify(array),
+                            respuestas: array,
                             resultado: resultadoenv,
                         }
                     });
@@ -154,21 +187,34 @@ export const ChatAI = async (req, res) => {
             else if (nameFunction == "tokenESTRresponses" || token == "tokenESTRresponses") {
                 if (counter == cuestionariosConfig.estr.preguntas.length) {
                     let scorecount = 0;
+                    let resultadoenv1 = "";
                     let resultadoenv = "";
+
                     for (let i = 0; i < array.length; i++) {
                         scorecount += parseInt(array[i], 10);
                     }
                     if (scorecount <= 18) {
-                        resultadoenv = "Estres saludable 🟢";
+                        resultadoenv1 = "Estres saludable 🟢";
                     } else if (scorecount >= 19 && scorecount <= 24) {
-                        resultadoenv = "Estres moderado 🟡";
+                        resultadoenv1 = "Estres moderado 🟡";
                     } else {
-                        resultadoenv = "Estres severo 🔴";
+                        resultadoenv1 = "Estres severo 🔴";
                     }
+                    const analisisestr = await openai.chat.completions.create({
+                        model: 'gpt-4o-mini',
+                        messages: [
+                          {
+                            role: 'user',
+                            content: `Analiza al paciente en maximo un parrafo corto que ha respondido el test de Estres que es: ${cuestionariosConfig.estr.preguntas}; sus respuestas son: ${array}; lo que indica que ${resultadoenv1}. ¿Qué recomendaciones puedes darle al paciente de forma gentil? preguntale amablemente si desea seguir hablando hacerca de eso`
+                          }
+                        ]
+                      });
+                    resultadoenv = analisisestr.choices[0].message.content;
+
                     await prisma.estr.create({
                         data: {
                             idUsuario: idUser,
-                            respuestas: JSON.stringify(array),
+                            respuestas: array,
                             resultado: resultadoenv,
                         }
                     });
@@ -180,21 +226,34 @@ export const ChatAI = async (req, res) => {
             else if (nameFunction == "tokenSUICresponses" || token == "tokenSUICresponses") {
                 if (counter == cuestionariosConfig.suic.preguntas.length) {
                     let scorecount = 0;
+                    let resultadoenv1 = "";
                     let resultadoenv = "";
+
                     for (let i = 0; i < array.length; i++) {
                         scorecount += parseInt(array[i], 10);
                     }
                     if (scorecount <= 0) {
-                        resultadoenv = "Sin indicativo de suicido 🟢";
+                        resultadoenv1 = "Sin indicativo de suicido 🟢";
                     } else if (scorecount >= 1 && scorecount <= 36) {
-                        resultadoenv = "Alto riesgo de suicido 🔴";
+                        resultadoenv1 = "Alto riesgo de suicido 🔴";
                     } else {
-                        resultadoenv = "Alto riesgo de suicido 🔴";
+                        resultadoenv1 = "Alto riesgo de suicido 🔴";
                     }
+                    const analisisuic = await openai.chat.completions.create({
+                        model: 'gpt-4o-mini',
+                        messages: [
+                          {
+                            role: 'user',
+                            content: `Analiza al paciente en maximo un parrafo corto que ha respondido el test Ideacion Suicida que es: ${cuestionariosConfig.suic.preguntas}; sus respuestas son: ${array}; lo que indica que ${resultadoenv1}. ¿Qué recomendaciones puedes darle al paciente de forma gentil? preguntale amablemente si desea seguir hablando hacerca de eso`
+                          }
+                        ]
+                      });
+                    resultadoenv = analisisuic.choices[0].message.content;
+
                     await prisma.suic.create({
                         data: {
                             idUsuario: idUser,
-                            respuestas: JSON.stringify(array),
+                            respuestas: array,
                             resultado: resultadoenv,
                         }
                     });
@@ -206,21 +265,34 @@ export const ChatAI = async (req, res) => {
             else if (nameFunction == "tokenCALVIDAresponses" || token == "tokenCALVIDAresponses") {
                 if (counter == cuestionariosConfig.calvida.preguntas.length) {
                     let scorecount = 0;
+                    let resultadoenv1 = "";
                     let resultadoenv = "";
+
                     for (let i = 0; i < array.length; i++) {
                         scorecount += parseInt(array[i], 10);
                     }
                     if (scorecount <= 32) {
-                        resultadoenv = "Calidad de vida excelente 🟢";
+                        resultadoenv1 = "Calidad de vida excelente 🟢";
                     } else if (scorecount >= 33 && scorecount <= 67) {
-                        resultadoenv = "Calidad de vida establel 🟡";
+                        resultadoenv1 = "Calidad de vida establel 🟡";
                     } else {
-                        resultadoenv = "Calidad de vida baja 🔴";
+                        resultadoenv1 = "Calidad de vida baja 🔴";
                     }
+                    const analisiscalvida = await openai.chat.completions.create({
+                        model: 'gpt-4o-mini',
+                        messages: [
+                          {
+                            role: 'user',
+                            content: `Analiza al paciente en maximo un parrafo corto que ha respondido el test Calidad de Vida que es: ${cuestionariosConfig.calvida.preguntas}; sus respuestas son: ${array}; lo que indica que ${resultadoenv1}. ¿Qué recomendaciones puedes darle al paciente de forma gentil? preguntale amablemente si desea seguir hablando hacerca de eso`
+                          }
+                        ]
+                      });
+                    resultadoenv = analisiscalvida.choices[0].message.content;
+
                     await prisma.calvida.create({
                         data: {
                             idUsuario: idUser,
-                            respuestas: JSON.stringify(array),
+                            respuestas: array,
                             resultado: resultadoenv,
                         }
                     });
