@@ -273,6 +273,7 @@ model ghq12 {
   idUsuario       String     
   respuestas      Json
   resultado       String @db.Text
+  scoreCount      Int
   @@map("ghq12")
 
   usuarioGHQ12 informacionUsuario @relation(fields: [idUsuario], references: [idUsuario], name: "conexionGHQ12")

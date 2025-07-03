@@ -79,28 +79,29 @@ export const ChatAI = async (req, res) => {
                     for (let i = 0; i < array.length; i++) {
                         scorecount += parseInt(array[i], 10);
                     }
-                    if (scorecount <= 10) {
-                        resultadoenv1 = "No hay presencia de síntomas significativos de malestar psicológico 🟢";
-                    } else if (scorecount >= 11 && scorecount <= 17) {
-                        resultadoenv1 = "Hay cierto grado de preocupación emocional 🟡";
+                    if (scorecount <= 11) {
+                        resultadoenv1 = "No hay presencia de malestar psicológico 🟢";
+                    } else if (scorecount >= 12 && scorecount <= 23) {
+                        resultadoenv1 = "Hay cierto grado de malestar psicológico 🟡";
                     } else {
-                        resultadoenv1 = "Hay un indicador de malestar psicológico significativo 🔴";
+                        resultadoenv1 = "Hay un indicador alto de malestar psicológico 🔴";
                     }
                     const analisisghq12 = await openai.chat.completions.create({
                         model: 'gpt-4o-mini',
                         messages: [
                           {
                             role: 'user',
-                            content: `Analiza al paciente en maximo un parrafo corto que ha respondido el test GHQ-12 que es: ${cuestionariosConfig.ghq12.preguntas}; sus respuestas son: ${array}; lo que indica que ${resultadoenv1}. ¿Qué recomendaciones puedes darle al paciente de forma gentil? preguntale amablemente si desea seguir hablando hacerca de eso`
+                            content: `Analiza a la persona en maximo un parrafo corto que ha respondido el test GHQ-12 que es: ${cuestionariosConfig.ghq12.preguntas}; sus respuestas son: ${array}; lo que indica que ${resultadoenv1}. ¿Qué recomendaciones puedes dar?`
                           }
                         ]
                       });
-                    resultadoenv = analisisghq12.choices[0].message.content; 
+                    resultadoenv = analisisghq12.choices[0].message.content + " " + resultadoenv1; 
                     await prisma.ghq12.create({
                         data: {
                             idUsuario: idUser,
                             respuestas: array,
                             resultado: resultadoenv,
+                            scoreCount: scorecount,
                         }
                     });
                     return res.json({ assistantMessage: "Gracias por responder el Test GHQ12 sus datos seran guardados y tratados para uso educativo y de investigación " + resultadoenv, logInfo: [{ function: { name: "liberartoken" } }] })
